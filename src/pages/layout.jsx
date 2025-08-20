@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/header";
 import Login from "../components/login";
+import Footer from "../components/footer";
 
 const Layout = () => {
     return (
@@ -10,9 +11,7 @@ const Layout = () => {
             <main>
                 <Outlet />
             </main>
-            <footer>
-                <p className="text-black">© 2023 My App</p>
-            </footer>
+            <Footer />
         </div>
     );
 };

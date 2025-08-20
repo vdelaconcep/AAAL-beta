@@ -6,7 +6,7 @@ import jotabe from '../assets/img/auspiciantes/jotabe.jpg';
 
 const Auspiciantes = () => {
     return (
-        <section className='bg-sky-600 my-3'>
+        <section className='bg-sky-600 my-6'>
             <p className='text-center font-semibold p-0 py-2'>Nos acompañan:</p>
             <div className='flex flex-wrap justify-center py-2'>
                 <img src={roher} className='h-20 m-1 rounded-xl' alt="Roher materiales eléctricos" />
