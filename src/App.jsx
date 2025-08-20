@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './pages/layout';
 import Bienvenidos from './pages/bienvenidos';
+import { ToastContainer, Slide } from 'react-toastify';
 import './style.css';
 
 function App() {
@@ -24,6 +25,17 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        closeOnClick
+        hideProgressBar={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        transition={Slide}
+        transitionDuration={800}
+        theme="light" />
     </>
   )
 }

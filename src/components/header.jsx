@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
     return (
         <header className='flex text-white justify-center mb-4 mt-1'>
-            <section className='flex flex-col justify-center text-center mr-3'>
+            <section className='flex flex-col justify-center text-center mr-5'>
                 <h5 className='text-center mb-2 text-sky-500 font-medium'>
                     BIENVENIDOS A
                 </h5>
@@ -14,7 +14,7 @@ const Header = () => {
                 <h5 className='text-center italic text-2xl mt-1'>25 años</h5>
             </section>
             <Link to="/">
-                <img className="h-35 ml-3" src={logo} alt="Logo Asociacion Automoviles Antiguos de Lanus" />
+                <img className="h-35 ml-5" src={logo} alt="Logo Asociacion Automoviles Antiguos de Lanus" />
             </Link>
         </header>
     );

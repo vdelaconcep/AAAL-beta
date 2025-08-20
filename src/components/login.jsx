@@ -9,7 +9,7 @@ const Login = () => {
 
     return (
         <section>
-            <article className="flex justify-start mr-3 mt-1">
+            <article className="flex justify-start ml-3 mt-1">
                 <button
                     className="border-none text-gray-500 hover:underline cursor-pointer"
                     onClick={() => setAbrirModal(true)}>
