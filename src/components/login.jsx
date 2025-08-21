@@ -1,4 +1,4 @@
-import userIcon from '../assets/icons/user.svg';
+
 import { useState } from 'react';
 import BotonPrimario from './botones/primario';
 import BotonSecundario from './botones/secundario';
@@ -9,12 +9,12 @@ const Login = () => {
 
     return (
         <section>
-            <article className="flex justify-start ml-3 mt-1">
+            <article className="flex mr-2 justify-end">
                 <button
                     className="border-none text-gray-500 hover:underline cursor-pointer"
                     onClick={() => setAbrirModal(true)}>
-                    <img src={userIcon} alt="User Icon" className="inline-block ml-1" />
-                    Ingresar
+                    <i class="fa-solid fa-wrench"></i>
+                    <span> Ingresar</span>
                 </button>
             </article>
             {abrirModal &&

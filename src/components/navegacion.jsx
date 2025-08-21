@@ -17,14 +17,14 @@ const Navegacion = () => {
     };
 
     return (
-        <nav className="bg-sky-500/50 text-gray-300 text-xl border-b-[1px] border-sky-400">
-            <ul className="flex">
+        <nav className="bg-orange-900/50 text-gray-200 text-xl border-b-[1px] border-red-900">
+            <ul className="flex justify-end">
                 {menu.map(item =>
                     <li
                         key={item.nombre}
                         className="relative cursor-pointer font-medium">
                         <button
-                            className="cursor-pointer hover:text-white rounded p-2 px-3"
+                            className="cursor-pointer text-shadow-xs text-shadow-black hover:text-white rounded p-2 px-3"
                             onClick={() => toggleDesplegado(item.nombre)}>
                             {item.nombre}
                         </button>

@@ -5,7 +5,7 @@ import Footer from "../components/footer";
 
 const Layout = () => {
     return (
-        <div className="bg-gradient-to-t from-sky-900 from-40% to-black to-120% flex flex-col justify-between" style={{ minHeight: '100dvh' }}>
+        <div className="flex flex-col justify-between bg-amber-50" style={{ minHeight: '100dvh' }}>
             <Login />
             <Header />
             <main>

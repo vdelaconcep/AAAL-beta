@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@font-face {
+    font-family: "zeit";
+    src: url(./assets/fonts/Zeit-Light.otf);
+}
+
+.zeit {
+    font-family: "zeit";
+}

@@ -2,7 +2,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination, EffectFade } from 'swiper/modules';
+import 'swiper/css/effect-fade';
 import slide1 from '../assets/img/carousel/slide1.jpg';
 import slide2 from '../assets/img/carousel/slide2.jpg';
 import slide3 from '../assets/img/carousel/slide3.jpg';
@@ -26,7 +27,9 @@ const Carousel = () => {
 
     return (
         <Swiper
-            modules={[Autoplay, Navigation, Pagination]}
+            modules={[Autoplay, Navigation, Pagination, EffectFade]}
+            effect="fade"
+            fadeEffect={{ crossFade: true }}
             spaceBetween={0}
             slidesPerView={1}
             loop={true}
@@ -35,7 +38,7 @@ const Carousel = () => {
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
             }}
-            speed={1500}
+            speed={2000}
             navigation={true}
             pagination={{ clickable: true }}
         >
