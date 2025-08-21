@@ -5,7 +5,7 @@ const Header = () => {
     return (
         <header className='bg-red-950 flex text-white justify-center p-3 pt-4 h-50'>
             <Link to="/">
-                <img className="relative h-52 mr-5 z-50" src={logo} alt="Logo Asociacion Automoviles Antiguos de Lanus" />
+                <img className="relative h-52 mr-5 z-50 aspect-ratio:1/1" src={logo} alt="Logo Asociacion Automoviles Antiguos de Lanus" />
             </Link>
             <section className='flex flex-col justify-center text-center ml-5'>
                 <h2 className='text-3xl font-bold zeit text-shadow-lg text-shadow-black'>
