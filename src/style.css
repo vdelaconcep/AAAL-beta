@@ -8,3 +8,34 @@
 .zeit {
     font-family: "zeit";
 }
+
+.texto-granate {
+    color: #6E1538;
+}
+.texto-marron {
+    color: #8C7C62;
+}
+.texto-celeste {
+    color: #6B9795;
+}
+.texto-verde {
+    color: #B5CEA4;
+}
+.texto-crema {
+    color: #D3D5B0;
+}
+.fondo-granate {
+    background-color: #6E1538;
+}
+.fondo-marron {
+    background-color: #8C7C62;
+}
+.fondo-celeste {
+    background-color: #6B9795;
+}
+.fondo-verde {
+    background-color: #B5CEA4;
+}
+.fondo-crema {
+    background-color: #D3D5B0;
+}

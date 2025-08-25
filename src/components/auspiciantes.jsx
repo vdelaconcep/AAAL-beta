@@ -18,7 +18,7 @@ const Auspiciantes = () => {
     ];
 
     return (
-        <section className="bg-red-900 my-6 p-2">
+        <section className="fondo-granate my-6 p-2">
             <p className="text-center text-lg text-white font-semibold pb-1">Nos acompañan:</p>
             <div className="bg-white py-3 rounded-xl">
                 <Swiper
@@ -32,9 +32,8 @@ const Auspiciantes = () => {
                         pauseOnMouseEnter: true,
                     }}
                     speed={5000}
-                    freeMode={true}
-                    freeModeMomentum={false}
                     className="py-4"
+                    slidesOffsetBefore={500}
                 >
                     {slides.concat(slides).map((slide, i) => (
                         <SwiperSlide key={i} className="flex justify-center">

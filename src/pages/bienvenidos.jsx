@@ -19,7 +19,7 @@ const Bienvenidos = () => {
         <div>
             <Navegacion />
 
-            <article className="my-4">
+            <article className="mb-4">
                 <Carousel />
             </article>
             <Historia />

@@ -1,6 +1,6 @@
 const Historia = () => {
     return (
-        <section className= "bg-orange-200 w-full text-black py-3">
+        <section className= "fondo-celeste w-full text-black py-3">
             <h1 className="pl-6 mb-5 pt-4 font-bold text-xl italic">Nuestra historia</h1>
 
             <article className="columns-2 gap-8 px-6">
