@@ -4,6 +4,7 @@ import Auspiciantes from "../components/auspiciantes";
 import Carousel from "../components/carousel";
 import Navegacion from "../components/navegacion";
 import Historia from "../components/textos/historia";
+import Ubicacion from '../components/ubicacion';
 
 const Bienvenidos = () => {
 
@@ -23,6 +24,7 @@ const Bienvenidos = () => {
                 <Carousel />
             </article>
             <Historia />
+            <Ubicacion />
             <Auspiciantes />
             {abrirModal && /* mensaje && */
                 <Importante

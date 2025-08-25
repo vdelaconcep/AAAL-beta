@@ -13,7 +13,7 @@ const Login = () => {
                 <button
                     className="border-none text-gray-500 hover:underline cursor-pointer"
                     onClick={() => setAbrirModal(true)}>
-                    <i class="fa-solid fa-wrench"></i>
+                    <i className="fa-solid fa-wrench"></i>
                     <span> Ingresar</span>
                 </button>
             </article>
