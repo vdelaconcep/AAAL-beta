@@ -14,7 +14,6 @@ const Auspiciantes = () => {
         { id: 5, src: jotabe, alt: "Creaciones Jotabe", link: null },
     ];
 
-    // duplicamos para continuidad
     const logos = [...slides, ...slides];
 
     return (
@@ -27,7 +26,7 @@ const Auspiciantes = () => {
                     {logos.map((slide, i) =>
                         slide.link ? (
                             <a key={i} href={slide.link} target="_blank" rel="noopener noreferrer">
-                                <img src={slide.src} alt={slide.alt} className="h-20 mx-20 rounded-xl" />
+                                <img src={slide.src} alt={slide.alt} className="h-20 mx-20 rounded-xl cursor-pointer" />
                             </a>
                         ) : (
                             <img key={i} src={slide.src} alt={slide.alt} className="h-20 mx-20 rounded-xl" />
