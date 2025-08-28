@@ -58,6 +58,10 @@
     background-color: #DECBA0;
 }
 
+.borde-inferior-crema-oscuro {
+    border-bottom: 2px solid #bdad89;
+}
+
 .hover-granateOscuro:hover {
     background-color: #4e0e28;
 }

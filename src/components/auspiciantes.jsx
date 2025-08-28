@@ -18,7 +18,7 @@ const Auspiciantes = () => {
     ];
 
     return (
-        <section className="fondo-granate my-6 p-2">
+        <section className="fondo-granate p-2">
             <p className="text-center text-lg text-white font-semibold pb-1">Nos acompañan:</p>
             <div className="bg-white py-3 rounded-xl">
                 <Swiper

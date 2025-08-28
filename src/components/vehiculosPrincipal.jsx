@@ -2,7 +2,7 @@ import BotonPrimario from "./botones/primario";
 
 const VehiculosPrincipal = () => {
     return (
-        <section className="fondo-marron borde-inferior-marron-oscuro py-3 pt-4">
+        <section className="fondo-crema borde-inferior-crema-oscuro py-3 pt-4">
             <h1 className="pl-6 mb-5 pt-4 font-bold text-xl italic">Nuestros vehículos</h1>
             <article className="flex justify-center">
                 <BotonPrimario

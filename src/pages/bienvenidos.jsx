@@ -7,6 +7,7 @@ import Historia from "../components/textos/historia";
 import Ubicacion from '../components/ubicacion';
 import VehiculosPrincipal from '../components/vehiculosPrincipal';
 import NovedadesPrincipal from '../components/novedadesPrincipal';
+import Facah from '../components/facah';
 
 const Bienvenidos = () => {
 
@@ -29,6 +30,7 @@ const Bienvenidos = () => {
             <Ubicacion />
             <VehiculosPrincipal />
             <NovedadesPrincipal />
+            <Facah />
             <Auspiciantes />
             {abrirModal && /* mensaje && */
                 <Importante
