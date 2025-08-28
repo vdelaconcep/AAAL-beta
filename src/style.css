@@ -1,12 +1,16 @@
 @import "tailwindcss";
 
 @font-face {
-    font-family: "zeit";
-    src: url(./assets/fonts/Zeit-Light.otf);
+    font-family: "Alex";
+    src: url(./assets/fonts/MrAlex-Bold.ttf);
 }
 
-.zeit {
-    font-family: "zeit";
+.mrAlex {
+    font-family: "Alex";
+}
+
+.primera-letra-titulo {
+    font-size: 3.25rem;
 }
 
 .texto-granate {
@@ -30,11 +34,25 @@
 .fondo-marron {
     background-color: #8C7C62;
 }
+
+.borde-inferior-marron-oscuro {
+    border-bottom: 2px solid #746650;
+}
+
 .fondo-celeste {
     background-color: #6B9795;
 }
+
+.borde-inferior-celeste-oscuro {
+    border-bottom: 2px solid #5b817f;
+}
+
 .fondo-verde {
     background-color: #A0AB94;
+}
+
+.borde-inferior-verde-oscuro {
+    border-bottom: 2px solid #858f7b;
 }
 .fondo-crema {
     background-color: #DECBA0;

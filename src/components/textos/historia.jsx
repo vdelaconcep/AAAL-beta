@@ -1,19 +1,18 @@
 const Historia = () => {
     return (
-        <section className= "fondo-celeste w-full text-black py-3">
+        <section className= "fondo-celeste borde-inferior-celeste-oscuro w-full text-black pt-5">
             <h1 className="pl-6 mb-5 pt-4 font-bold text-xl italic">Nuestra historia</h1>
 
             <article className="columns-2 gap-8 px-6">
                 <div>
                     <p className='pb-4'>
-                        Teodoro Hunko y Jorge Enrique Schneebeli fundaron el{" "}
-                        <b>Club Asociación de Automóviles Antiguos de Lanús</b> el{" "}
-                        <b>24 de septiembre del 2000</b>.
+                        Teodoro Hunko y Jorge Enrique Schneebeli fundaron el
+                        <b>Club Asociación de Automóviles Antiguos de Lanús</b> el <b>24 de septiembre del 2000</b>.
                     </p>
 
                     <p className='pb-4'>
                         En el pasado nuestro Club tenia el nombre de Automoto Club y luego tomó
-                        el nombre actual, que hoy en día es{" "}
+                        el nombre actual, que hoy en día es
                         <b>Automóviles Antiguos de Lanús</b>.
                     </p>
 
@@ -25,7 +24,7 @@ const Historia = () => {
 
                 <div>
                     <p className='pb-4'>
-                        Estamos al servicio de los socios y de la comunidad y somos convocados a
+                        Estamos <b>al servicio de los socios y de la comunidad</b> y somos convocados a
                         eventos ya sea en entidades educativas o salas de primeros auxilios,
                         entre otras.
                     </p>

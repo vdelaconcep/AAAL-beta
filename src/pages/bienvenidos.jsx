@@ -5,6 +5,8 @@ import Carousel from "../components/carousel";
 import Navegacion from "../components/navegacion";
 import Historia from "../components/textos/historia";
 import Ubicacion from '../components/ubicacion';
+import VehiculosPrincipal from '../components/vehiculosPrincipal';
+import NovedadesPrincipal from '../components/novedadesPrincipal';
 
 const Bienvenidos = () => {
 
@@ -20,11 +22,13 @@ const Bienvenidos = () => {
         <div>
             <Navegacion />
 
-            <article className="mb-4">
+            <article>
                 <Carousel />
             </article>
             <Historia />
             <Ubicacion />
+            <VehiculosPrincipal />
+            <NovedadesPrincipal />
             <Auspiciantes />
             {abrirModal && /* mensaje && */
                 <Importante

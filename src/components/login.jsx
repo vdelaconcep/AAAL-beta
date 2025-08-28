@@ -11,7 +11,7 @@ const Login = () => {
         <section>
             <article className="flex mr-3 mt-1 justify-end">
                 <button
-                    className="border-none text-gray-500 hover:underline cursor-pointer"
+                    className="border-none text-red-200 hover:underline cursor-pointer"
                     onClick={() => setAbrirModal(true)}>
                     <i className="fa-solid fa-wrench"></i>
                     <span> Ingresar</span>

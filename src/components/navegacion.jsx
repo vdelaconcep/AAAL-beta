@@ -17,7 +17,7 @@ const Navegacion = () => {
     };
 
     return (
-        <nav className="fondo-celeste text-gray-200 text-xl">
+        <nav className="fondo-celeste borde-inferior-celeste-oscuro text-gray-200 text-xl">
             <ul className="flex justify-end">
                 {menu.map(item =>
                     <li
