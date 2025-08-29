@@ -18,7 +18,7 @@ const Auspiciantes = () => {
 
     return (
         <section className="fondo-granate p-2">
-            <p className="text-center text-lg text-white font-medium italic pb-1 text-shadow-gray-900 text-shadow-2xs">
+            <p className="text-center text-md md:text-lg text-white font-medium italic pb-1 text-shadow-gray-900 text-shadow-2xs">
                 Nos acompañan:
             </p>
             <div className="bg-white py-3 rounded-xl overflow-hidden">
@@ -26,10 +26,10 @@ const Auspiciantes = () => {
                     {logos.map((slide, i) =>
                         slide.link ? (
                             <a key={i} href={slide.link} target="_blank" rel="noopener noreferrer">
-                                <img src={slide.src} alt={slide.alt} className="h-20 mx-20 rounded-xl cursor-pointer" />
+                                <img src={slide.src} alt={slide.alt} className="h-15 md:h-20 mx-10 md:mx-20 rounded-xl cursor-pointer" />
                             </a>
                         ) : (
-                            <img key={i} src={slide.src} alt={slide.alt} className="h-20 mx-20 rounded-xl" />
+                                <img key={i} src={slide.src} alt={slide.alt} className="h-15 md:h-20 mx-10 md:mx-20 rounded-xl" />
                         )
                     )}
                 </div>

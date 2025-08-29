@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Banner del header */
 @font-face {
     font-family: "Alex";
     src: url(./assets/fonts/MrAlex-Bold.ttf);
@@ -9,10 +10,7 @@
     font-family: "Alex";
 }
 
-.primera-letra-titulo {
-    font-size: 3.25rem;
-}
-
+/*Colores personalizados */
 .texto-granate {
     color: #6E1538;
 }
@@ -31,6 +29,11 @@
 .fondo-granate {
     background-color: #6E1538;
 }
+
+.hover-granateOscuro:hover {
+    background-color: #4e0e28;
+}
+
 .fondo-marron {
     background-color: #8C7C62;
 }
@@ -62,10 +65,7 @@
     border-bottom: 2px solid #bdad89;
 }
 
-.hover-granateOscuro:hover {
-    background-color: #4e0e28;
-}
-
+/* Marquesina de auspiciantes */
 .marquee {
     display: flex;
     width: max-content;
@@ -82,6 +82,7 @@
     }
 }
 
+/* Botón de whatsapp */
 .fondo-whatsapp {
     background-color: #36BB68;
 }
