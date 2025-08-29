@@ -81,3 +81,11 @@
         transform: translateX(-50%);
     }
 }
+
+.fondo-whatsapp {
+    background-color: #36BB68;
+}
+
+.fondo-whatsapp:hover {
+    background-color:#30a15b;
+}
