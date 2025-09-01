@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import Importante from '../components/notificaciones/importante';
 import Auspiciantes from "../components/auspiciantes";
 import Carousel from "../components/carousel";
@@ -27,15 +28,17 @@ const Bienvenidos = () => {
                 <Carousel />
             </article>
             <Historia />
-            <Ubicacion />
-            <VehiculosPrincipal />
             <NovedadesPrincipal />
+            <VehiculosPrincipal />
+            <Ubicacion />
             <Facah />
             <Auspiciantes />
+            <AnimatePresence>
             {abrirModal && /* mensaje && */
                 <Importante
                 mensaje='Atencion!!! a partir del mes de Junio de 2025 nos reuniremos los dias Viernes a partir de las 18:00 Hs.'
-                setAbrirModal={setAbrirModal} />}
+                        setAbrirModal={setAbrirModal} />}
+            </AnimatePresence>
         </div>
     );
 };

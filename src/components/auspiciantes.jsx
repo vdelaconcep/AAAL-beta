@@ -25,8 +25,10 @@ const Auspiciantes = () => {
                 <div className="marquee flex">
                     {logos.map((slide, i) =>
                         slide.link ? (
-                            <a key={i} href={slide.link} target="_blank" rel="noopener noreferrer">
-                                <img src={slide.src} alt={slide.alt} className="h-15 md:h-20 mx-10 md:mx-20 rounded-xl cursor-pointer" />
+                            <a
+                                key={i}
+                                href={slide.link} target="_blank" rel="noopener noreferrer">
+                                <img src={slide.src} alt={slide.alt} className="h-15 md:h-20 mx-10 md:mx-20 rounded-xl cursor-pointer transition-transform duration-300 ease-in-out hover:scale-108" />
                             </a>
                         ) : (
                                 <img key={i} src={slide.src} alt={slide.alt} className="h-15 md:h-20 mx-10 md:mx-20 rounded-xl" />
