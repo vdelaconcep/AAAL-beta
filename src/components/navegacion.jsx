@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
 
 const Navegacion = () => {
     const menu = [
@@ -31,25 +32,53 @@ const Navegacion = () => {
     return (
         <nav
             ref={navRef}
-            className="fondo-celeste borde-inferior-celeste-oscuro text-gray-200 text-xl relative"
+            className="bg-[#6B9795] border-b-[2px] border-b-[#5b807e] text-[#d3fffd] text-xl relative"
         >
-            <div className="flex justify-end md:hidden py-1 pr-2">
-                <button
+            <div className="flex justify-end md:hidden py-1 pr-4">
+                <motion.button
                     onClick={() => setMenuAbierto(!menuAbierto)}
-                    className="text-white focus:outline-none text-xl z-30"
+                    className="relative w-8 h-8 flex flex-col justify-center items-center cursor-pointer"
+                    initial={false}
+                    animate={menuAbierto ? "open" : "closed"}
                 >
-                    {menuAbierto ? "✕" : "☰"}
-                </button>
+                    <motion.span
+                        className="absolute h-[2px] w-6 bg-white rounded"
+                        variants={{
+                            closed: { rotate: 0, y: -6 },
+                            open: { rotate: 45, y: 0 },
+                        }}
+                        transition={{ duration: 0.3 }}
+                    />
+                    <motion.span
+                        className="absolute h-[2px] w-6 bg-white rounded"
+                        variants={{
+                            closed: { opacity: 1 },
+                            open: { opacity: 0 },
+                        }}
+                        transition={{ duration: 0.3 }}
+                    />
+                    <motion.span
+                        className="absolute h-[2px] w-6 bg-white rounded"
+                        variants={{
+                            closed: { rotate: 0, y: 6 },
+                            open: { rotate: -45, y: 0 },
+                        }}
+                        transition={{ duration: 0.3 }}
+                    />
+                </motion.button>
             </div>
 
             <ul
-                className={`flex-col md:flex md:flex-row justify-end md:space-x-2 transition-all duration-300 ${menuAbierto ? "absolute top-full left-0 w-full bg-sky-200 z-20 md:static md:bg-transparent md:w-auto md:z-auto flex" : "md:flex hidden"}`}
+                className={`flex-col md:flex md:flex-row justify-end md:space-x-2 transition-all duration-300 ${menuAbierto ? "absolute top-full left-0 w-full bg-[#6B9795] z-20 md:static md:bg-transparent md:w-auto md:z-auto flex" : "md:flex hidden"}`}
             >
                 {menu.map((item) => (
-                    <li key={item.nombre} className="relative cursor-pointer font-medium w-full md:w-auto border-b md:border-none border-sky-300">
+                    <li key={item.nombre} className="relative cursor-pointer font-medium w-full md:w-auto md:border-none">
                         <button
                             className="cursor-pointer text-shadow-xs text-shadow-black hover:text-white rounded p-2 px-3 w-full text-left md:text-center"
-                            onClick={() => toggleDesplegado(item.nombre)}
+                            onClick={() => {
+                                toggleDesplegado(item.nombre);
+                                if (item.submenu.length === 0) setMenuAbierto(false)
+                            }}
                         >
                             {item.nombre}
                         </button>
@@ -57,10 +86,13 @@ const Navegacion = () => {
                         {item.submenu.length > 0 && (
                             <>
                                 <ul
-                                    className={`hidden md:block md:absolute md:bg-sky-200 md:text-lg md:rounded md:border md:border-sky-400 md:shadow-xl md:shadow-black md:w-40 md:transform md:transition-all md:duration-300 md:origin-top md:z-20 ${desplegado === item.nombre ? "md:opacity-100 md:scale-y-100" : "md:opacity-0 md:scale-y-0 md:pointer-events-none"}`}
+                                    className={`hidden md:block md:absolute md:bg-[#DECBA0] md:text-lg md:rounded md:border md:border-[#5b807e] md:shadow-xl md:shadow-black md:w-40 md:transform md:transition-all md:duration-300 md:origin-top md:z-20 ${desplegado === item.nombre ? "md:opacity-100 md:scale-y-100" : "md:opacity-0 md:scale-y-0 md:pointer-events-none"}`}
                                 >
                                     {item.submenu.map((i) => (
-                                        <li key={i} className="p-2 pl-3 text-black hover:bg-white rounded">
+                                        <li
+                                            key={i}
+                                            className="p-2 pl-3 text-black hover:bg-[#6E1538] hover:text-white rounded"
+                                            onClick={() => setDesplegado(null)}>
                                             {i}
                                         </li>
                                     ))}
@@ -78,7 +110,13 @@ const Navegacion = () => {
                                     }}
                                 >
                                     {item.submenu.map((i) => (
-                                        <li key={i} className="pl-6 py-2">
+                                        <li
+                                            key={i}
+                                            className="pl-6 py-2"
+                                            onClick={() => {
+                                                setMenuAbierto(false);
+                                                setDesplegado(null);
+                                            }}>
                                             {i}
                                         </li>
                                     ))}

@@ -1,14 +1,36 @@
 import BotonPrimario from "./botones/primario";
+import imagen1 from '../assets/img/vehiculos/foto1.jpg'
+import imagen2 from '../assets/img/vehiculos/foto2.jpg'
+import imagen3 from '../assets/img/vehiculos/foto-3.jpg'
+import imagen4 from '../assets/img/vehiculos/foto-4.jpg'
+import imagen5 from '../assets/img/vehiculos/foto-5.jpg'
+import imagen6 from '../assets/img/vehiculos/foto-6-2.jpg'
 
 const VehiculosPrincipal = () => {
+
+    const vehiculos = [imagen1, imagen2, imagen3, imagen4, imagen5, imagen6]
+
     return (
-        <section className="fondo-crema borde-inferior-crema-oscuro py-3 pt-4">
-            <h1 className="pl-6 mb-5 pt-4 font-bold text-xl italic">Nuestros vehículos</h1>
+        <section className="bg-[#DECBA0] border-b-[2px] border-b-[#bdad89] pt-1 w-full md:pt-3 pb-4 md:pb-5">
+            <h1 className="pl-4 mb-2 md:mb-5 pt-3 md:pt-4 font-bold text-lg md:text-xl italic text-gray-900">Nuestros vehículos</h1>
+            
+                <div className="flex flex-wrap">
+                {vehiculos.map((n, i) => (
+                    <article className="w-1/2 py-1 px-4 even:pl-1 odd:pr-1">
+                        <img
+                            key={i}
+                            src={n}
+                            alt={`foto-${i + 1}`}
+                            className="rounded-xl shadow-sm shadow-gray-900"
+                        />
+                        </article>
+                    ))}
+            </div>
             <article className="flex justify-center">
                 <BotonPrimario
                     tipo='button'
                     texto='ver más'
-                    clase='px-5'/>
+                    clase='px-6 mt-4'/>
             </article>
         </section>
     )

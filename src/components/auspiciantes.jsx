@@ -17,7 +17,7 @@ const Auspiciantes = () => {
     const logos = [...slides, ...slides];
 
     return (
-        <section className="fondo-granate p-2">
+        <section className="fondo-granate p-2 px-4">
             <p className="text-center text-md md:text-lg text-white font-medium italic pb-1 text-shadow-gray-900 text-shadow-2xs">
                 Nos acompañan:
             </p>

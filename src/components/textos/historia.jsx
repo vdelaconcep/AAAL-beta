@@ -7,7 +7,7 @@ const Historia = () => {
 
     return (
         <section
-            className="fondo-celeste borde-inferior-celeste-oscuro w-full pt-1 md:pt-5 md:pb-3">
+            className="fondo-celeste borde-inferior-celeste-oscuro w-full pt-1 md:pt-4 md:pb-3">
             
             <motion.div
                 initial={{ y: 30, opacity: 0 }}
@@ -15,11 +15,11 @@ const Historia = () => {
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true, amount: 0.2 }}
                 >
-                <h1 className="pl-6 mb-2 md:mb-5 pt-3 md:pt-4 font-bold text-lg md:text-xl italic text-white text-shadow-gray-900 text-shadow-2xs">
+                <h1 className="pl-4 mb-2 md:mb-5 pt-3 md:pt-4 font-bold text-lg md:text-xl italic text-white text-shadow-gray-900 text-shadow-2xs">
                     Nuestra historia
                 </h1>
                 <article
-                    className={`relative md:columns-2 md:gap-8 px-6 text-gray-200 text-sm md:text-md ${verMas ? "" : "max-h-48 overflow-hidden md:max-h-none md:overflow-visible"}`}>
+                    className={`relative md:columns-2 md:gap-8 px-4 text-gray-200 text-sm md:text-md ${verMas ? "" : "max-h-48 overflow-hidden md:max-h-none md:overflow-visible"}`}>
                     <div>
                         <p className="pb-4">
                             Teodoro Hunko y Jorge Enrique Schneebeli fundaron el{" "}

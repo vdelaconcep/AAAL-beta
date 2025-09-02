@@ -42,6 +42,7 @@ const Whatsapp = () => {
         <section>
             <button
                 className="fixed bottom-4 right-5 bg-[#36BB68] text-white px-3 pt-[10px] pb-[7px] rounded-full shadow-md shadow-gray-900 z-40 cursor-pointer transition-transform duration-300 ease-in-out hover:scale-108"
+                title="Contactar por whatsapp"
                 ref={btnRef}
                 onClick={() => setMostrarContactos(true)}>
                     <i className="fa-brands fa-whatsapp text-4xl"></i>

@@ -81,3 +81,13 @@
         transform: translateX(-50%);
     }
 }
+
+/* Controles Carousel*/
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    @apply text-lg text-gray-300;
+}
+
+.swiper-pagination-bullet-active {
+    @apply bg-gray-300 opacity-100;
+}

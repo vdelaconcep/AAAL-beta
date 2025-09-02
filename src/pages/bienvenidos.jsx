@@ -27,10 +27,16 @@ const Bienvenidos = () => {
             <article>
                 <Carousel />
             </article>
+
             <Historia />
-            <NovedadesPrincipal />
+
+            <article className='md:flex'>
+                <NovedadesPrincipal />
+                <Ubicacion />
+            </article>
+            
             <VehiculosPrincipal />
-            <Ubicacion />
+            
             <Facah />
             <Auspiciantes />
             <AnimatePresence>
