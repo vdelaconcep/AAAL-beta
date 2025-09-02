@@ -5,7 +5,7 @@ const Ubicacion = () => {
         <section className="fondo-verde borde-inferior-verde-oscuro w-full pt-1 md:pt-3 pb-4 md:pb-5">
             <h1 className="pl-4 mb-2 md:mb-5 pt-3 md:pt-4 font-bold text-lg md:text-xl italic text-gray-900">Dónde estamos</h1>
             <article className="px-4 flex flex-col items-center">
-                <p className="text-sm mb-3">Nuestra sede se encuentra en la <span className="font-bold">Avenida Viamonte 2615</span> (Frente al Parque Gral. San Martin) en Lanús Oeste, Provincia de Buenos Aires</p>
+                <p className="text-sm mb-3">Nuestra sede se encuentra en la <span className="font-bold">Avenida Viamonte 2615</span> (junto al Parque Gral. San Martin) en Lanús Oeste, Provincia de Buenos Aires</p>
                 <motion.div
                     initial={{ y: 30, opacity: 0 }}
                     transition={{ duration: 0.8 }}
