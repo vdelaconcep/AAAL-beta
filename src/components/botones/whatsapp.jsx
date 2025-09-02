@@ -41,7 +41,7 @@ const Whatsapp = () => {
     return (
         <section>
             <button
-                className="fixed bottom-5 right-4 bg-[#36BB68] text-white px-3 pt-[10px] pb-[7px] rounded-full shadow-md shadow-gray-900 z-40 cursor-pointer transition-transform duration-300 ease-in-out hover:scale-108"
+                className="fixed bottom-5 right-5 bg-[#36BB68] text-white px-3 pt-[10px] pb-[7px] rounded-full shadow-md shadow-gray-900 z-40 cursor-pointer transition-transform duration-300 ease-in-out hover:scale-108"
                 title="Contactar por whatsapp"
                 ref={btnRef}
                 onClick={() => setMostrarContactos(true)}>
@@ -50,7 +50,7 @@ const Whatsapp = () => {
             {mostrarContactos &&
                 <div className='fixed inset-0 bg-black/70 backdrop-blur-sm z-60 flex items-center justify-center'>
                     <motion.div
-                        className="bg-[#DECBA0] border-2 border-[#6E1538] mx-2 px-2 md:px-6 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative"
+                        className="bg-[#DECBA0] border-2 border-[#6E1538] px-2 md:px-6 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative"
                         ref={modalRef}
                         initial={{ scale: 0.8 }}
                         animate={{ scale: 1, transition: { duration: 0.4 } }}>
