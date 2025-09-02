@@ -16,9 +16,10 @@ const VehiculosPrincipal = () => {
             
                 <div className="flex flex-wrap">
                 {vehiculos.map((n, i) => (
-                    <article className="w-1/2 py-1 px-4 even:pl-1 odd:pr-1">
+                    <article
+                        className="w-1/2 py-1 px-4 even:pl-1 odd:pr-1"
+                        key={i}>
                         <img
-                            key={i}
                             src={n}
                             alt={`foto-${i + 1}`}
                             className="rounded-xl shadow-sm shadow-gray-900"

@@ -11,7 +11,7 @@ const Facah = () => {
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true, amount: 0.2 }}
                 className='flex items-center justify-center'>
-                <h1 className="mr-1 md:mr-7 font-bold text-sm md:text-xl text-white italic text-shadow-gray-900 text-shadow-2xs w-80">La Asociación de Autos Antiguos de Lanús es una asociación miembro de <a href="https://facah.com.ar/" title='Ir a página de FACAH' target="_blank" rel="noopener noreferrer">FACAH</a></h1>
+                <h1 className="mr-2 md:mr-7 font-bold text-sm md:text-xl text-white italic text-shadow-gray-900 text-shadow-2xs w-80">La Asociación de Autos Antiguos de Lanús es una asociación miembro de <a href="https://facah.com.ar/" title='Ir a página de FACAH' target="_blank" rel="noopener noreferrer">FACAH</a></h1>
                 <a
                     href="https://facah.com.ar/"
                     target="_blank"
