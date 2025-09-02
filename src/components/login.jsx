@@ -18,19 +18,19 @@ const Login = () => {
                 </button>
             </article>
             {abrirModal &&
-                <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center'>
-                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative">
-                        <h2 className="text-xl font-bold mb-4">Inicie sesión como administrador</h2>
+                <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-60 flex items-center justify-center'>
+                    <div className="bg-[#DECBA0] p-4 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative">
+                        <h2 className="text-xl text-center text-gray-900 font-bold mb-4">Inicie sesión como administrador</h2>
                         <form className='flex flex-col align-middle'>
                             <label className='block'>Usuario:</label>
                             <input
-                                className='block border-[1px] border-black rounded'
+                                className='block border-b-[1px] border-black'
                                 type="text" />
-                            <label className='block'>Contraseña:</label>
+                            <label className='block mt-3'>Contraseña:</label>
                             <input
-                                className='block border-[1px] border-black rounded'
+                                className='block border-b-[1px] border-black'
                                 type="text" />
-                            <div className='flex justify-center mt-5'>
+                            <div className='flex justify-center mt-6'>
                                 <BotonSecundario
                                     tipo='reset'
                                     texto='Cancelar'
@@ -39,7 +39,7 @@ const Login = () => {
                                 <BotonPrimario
                                     tipo='submit'
                                     texto='Acceder'
-                                    clase='ml-2'
+                                    clase='ml-2 px-4'
                                     accion={() => setAbrirModal(false)}/>
                             </div>
                             
