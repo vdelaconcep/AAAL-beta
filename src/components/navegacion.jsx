@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navegacion = () => {
     const menu = [
@@ -32,7 +32,7 @@ const Navegacion = () => {
     return (
         <nav
             ref={navRef}
-            className="bg-[#6B9795] border-b-[2px] border-b-[#5b807e] text-[#d3fffd] text-xl relative"
+            className="bg-[#6B9795] border-b-[2px] border-b-[#5b807e] md:text-[#d3fffd] md:text-xl relative"
         >
             <div className="flex justify-end md:hidden py-1 pr-4">
                 <motion.button
@@ -69,12 +69,12 @@ const Navegacion = () => {
             </div>
 
             <ul
-                className={`flex-col md:flex md:flex-row justify-end md:space-x-2 transition-all duration-300 ${menuAbierto ? "absolute top-full left-0 w-full bg-[#6B9795] z-20 md:static md:bg-transparent md:w-auto md:z-auto flex" : "md:flex hidden"}`}
+                className={`flex-col md:flex md:flex-row justify-end md:space-x-2 transition-all duration-300 ${menuAbierto ? "absolute top-full left-0 w-full bg-[#DECBA0] border-b-[3px] border-b-[#bdad89] md:border-none shadow-lg shadow-gray-800 z-20 md:static md:bg-transparent md:w-auto md:z-auto flex" : "md:flex hidden"}`}
             >
                 {menu.map((item) => (
                     <li key={item.nombre} className="relative cursor-pointer font-medium w-full md:w-auto md:border-none">
                         <button
-                            className="cursor-pointer text-shadow-xs text-shadow-black hover:text-white rounded p-2 px-3 w-full text-left md:text-center"
+                            className="cursor-pointer md:text-shadow-xs md:text-shadow-black hover:text-white rounded p-2 px-4 w-full text-left md:text-center text-lg font-bold md:text-xl md:font-medium"
                             onClick={() => {
                                 toggleDesplegado(item.nombre);
                                 if (item.submenu.length === 0) setMenuAbierto(false)
@@ -91,7 +91,7 @@ const Navegacion = () => {
                                     {item.submenu.map((i) => (
                                         <li
                                             key={i}
-                                            className="p-2 pl-3 text-black hover:bg-[#6E1538] hover:text-white rounded"
+                                            className="p-2 pl-3 text-gray-900 hover:bg-[#6E1538] hover:text-white rounded"
                                             onClick={() => setDesplegado(null)}>
                                             {i}
                                         </li>
@@ -100,7 +100,7 @@ const Navegacion = () => {
 
                                 <ul
                                     ref={(el) => (submenuRefs.current[item.nombre] = el)}
-                                    className="flex flex-col md:hidden overflow-hidden transition-[height,opacity] duration-300"
+                                    className="flex flex-col md:hidden overflow-hidden transition-[height,opacity] duration-300 bg-[#bdad89]"
                                     style={{
                                         height:
                                             desplegado === item.nombre
