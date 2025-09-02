@@ -9,7 +9,7 @@ const Header = () => {
     const primeraLetraTitulo = 'text-[22px] sm:text-[2.5rem] md:text-[3.25rem] xl:text-[3.75rem]'
 
     return (
-        <header className='fondo-granate pl-2 pr-3 pb-2'>
+        <header className='fondo-granate px-3 pb-2'>
             <Login />
             <div className='flex text-white justify-center'>
                 <article className='flex justify-center w-1/3 md:w-1/4 mr-1'>
