@@ -6,7 +6,7 @@ const NovedadesPrincipal = () => {
     return (
         <section className="bg-[#DECBA0] border-b-[2px] border-b-[#bdad89] md:bg-[#A0AB94] md:border-b-[#858f7b] w-full pt-1 md:pt-3 pb-4 md:pb-5">
 
-            <h1 className="pl-4 md:pl-8 mb-3 md:mb-5 pt-3 md:pt-4 font-bold text-lg md:text-xl italic text-gray-900">Novedades</h1>
+            <h1 className="pl-4 md:pl-8 mb-2 md:mb-5 pt-3 md:pt-4 font-bold text-lg md:text-xl italic text-gray-900">Novedades</h1>
             <article className="flex flex-col items-center px-4 md:pl-8">
                 <motion.div
                     initial={{ y: 30, opacity: 0 }}
