@@ -1,5 +1,5 @@
-import BotonPrimario from "./botones/primario";
-import aniversario from '../assets/img/novedades_25aniversario.jpg';
+import BotonPrimario from "../botones/primario";
+import aniversario from '../../assets/img/novedades_25aniversario.jpg';
 import { motion } from "framer-motion";
 
 const NovedadesPrincipal = () => {
@@ -12,7 +12,7 @@ const NovedadesPrincipal = () => {
                     initial={{ y: 30, opacity: 0 }}
                     transition={{ duration: 0.8 }}
                     whileInView={{ y: 0, opacity: 1 }}
-                    viewport={{ once: true, amount: 0.4 }}>
+                    viewport={{ once: true, amount: 0.3 }}>
                     <img src={aniversario} alt="25 aniversario" className="w-full rounded-lg shadow-sm shadow-gray-900" />
                 </motion.div>
                 <BotonPrimario

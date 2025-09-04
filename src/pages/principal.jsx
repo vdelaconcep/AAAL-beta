@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
 import Importante from '../components/notificaciones/importante';
-import Auspiciantes from "../components/auspiciantes";
-import Carousel from "../components/carousel";
-import Navegacion from "../components/navegacion";
-import Historia from "../components/textos/historia";
-import Ubicacion from '../components/ubicacion';
-import VehiculosPrincipal from '../components/vehiculosPrincipal';
-import NovedadesPrincipal from '../components/novedadesPrincipal';
-import Facah from '../components/facah';
+import Auspiciantes from "../components/principal/auspiciantes";
+import Carousel from "../components/principal/carousel";
+import Historia from "../components/principal/historia";
+import Ubicacion from '../components/principal/ubicacion';
+import VehiculosPrincipal from '../components/principal/vehiculosPrincipal';
+import NovedadesPrincipal from '../components/principal/novedadesPrincipal';
+import Facah from '../components/principal/facah';
 
 const Bienvenidos = () => {
 
@@ -22,8 +20,6 @@ const Bienvenidos = () => {
 
     return (
         <div>
-            <Navegacion />
-
             <article>
                 <Carousel />
             </article>
@@ -39,12 +35,10 @@ const Bienvenidos = () => {
             
             <Facah />
             <Auspiciantes />
-            <AnimatePresence>
             {abrirModal && /* mensaje && */
                 <Importante
-                mensaje='Atencion!!! a partir del mes de Junio de 2025 nos reuniremos los dias Viernes a partir de las 18:00 Hs.'
-                        setAbrirModal={setAbrirModal} />}
-            </AnimatePresence>
+                mensaje='Atención!!! a partir del mes de Junio de 2025 nos reuniremos los días Viernes a partir de las 18:00 hs.'
+                setAbrirModal={setAbrirModal} />}
         </div>
     );
 };

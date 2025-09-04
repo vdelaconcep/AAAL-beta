@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import logo_facah from '../assets/img/logo-facah.png';
+import logo_facah from '../../assets/img/logo-facah.png';
 
 
 const Facah = () => {

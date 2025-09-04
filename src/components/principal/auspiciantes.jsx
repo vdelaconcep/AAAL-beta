@@ -1,9 +1,9 @@
 
-import roher from "../assets/img/auspiciantes/roher.jpg";
-import abcelectro from "../assets/img/auspiciantes/abcelectro.jpg";
-import gvelectro from "../assets/img/auspiciantes/gvelectro.jpg";
-import madersul from "../assets/img/auspiciantes/mader_sul.jpg";
-import jotabe from "../assets/img/auspiciantes/jotabe.jpg";
+import roher from "../../assets/img/auspiciantes/roher.jpg";
+import abcelectro from "../../assets/img/auspiciantes/abcelectro.jpg";
+import gvelectro from "../../assets/img/auspiciantes/gvelectro.jpg";
+import madersul from "../../assets/img/auspiciantes/mader_sul.jpg";
+import jotabe from "../../assets/img/auspiciantes/jotabe.jpg";
 
 const Auspiciantes = () => {
     const slides = [
@@ -17,7 +17,7 @@ const Auspiciantes = () => {
     const logos = [...slides, ...slides];
 
     return (
-        <section className="fondo-granate p-2 px-4">
+        <section className="fondo-granate p-2 px-4 md:px-8 pb-3 md:pb-4">
             <p className="text-center text-md md:text-lg text-white font-medium italic pb-1 text-shadow-gray-900 text-shadow-2xs">
                 Nos acompañan:
             </p>

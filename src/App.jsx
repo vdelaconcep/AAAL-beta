@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './pages/layout';
-import Bienvenidos from './pages/bienvenidos';
+import Bienvenidos from './pages/principal';
 import './style.css';
 
 function App() {

@@ -1,4 +1,4 @@
-import logo from '../assets/img/logo-asociacion-automoviles-antiguos-lanus-e1536856848852-transformed.png';
+import logo from '../../assets/img/logo-asociacion-automoviles-antiguos-lanus-e1536856848852-transformed.png';
 import Login from './login';
 import { Link } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const Header = () => {
     const primeraLetraTitulo = 'text-[22px] sm:text-[2.5rem] md:text-[3.25rem] xl:text-[3.75rem]'
 
     return (
-        <header className='fondo-granate px-3 pb-2'>
+        <header className='bg-[#6E1538] px-3 pb-2'>
             <Login />
             <div className='flex text-white justify-center'>
                 <article className='flex justify-center w-1/3 md:w-1/4 mr-1'>
@@ -22,7 +22,7 @@ const Header = () => {
                     <h2 className={`${textoTitulo} font-medium mrAlex text-shadow-lg text-shadow-black`}>
                         <span className={primeraLetraTitulo}>A</span>SOCIACION DE <span className={primeraLetraTitulo}>A</span>UTOMOVILES <span className={primeraLetraTitulo}>A</span>NTIGUOS DE <span className={primeraLetraTitulo}>L</span>ANUS
                     </h2>
-                    <h5 className='text-center italic text-[11.8px] sm:text-sm md:text-md lg:text-lg mt-1 texto-crema'>Fundada el 24 de septiembre del 2000</h5>
+                    <h5 className='text-center italic text-[11.8px] sm:text-sm md:text-md lg:text-lg mt-1 text-[#DECBA0] md:mt-2'>Fundada el 24 de septiembre del 2000</h5>
                 </section>
             </div>
         </header>
