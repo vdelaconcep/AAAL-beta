@@ -1,0 +1,24 @@
+{
+  "name": "aaal-beta",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/vdelaconcep/AAAL-beta#readme",
+  "bugs": {
+    "url": "https://github.com/vdelaconcep/AAAL-beta/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vdelaconcep/AAAL-beta.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd Back &&npm run dev\" \"cd Front &&npm run dev\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
