@@ -8,24 +8,25 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const getConnection = async () => {
-    try {
-        const connection = await mysql.createConnection({
-            host: process.env.DB_HOST,
-            port: process.env.DB_PORT,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
-            ssl: {
-                ca: fs.readFileSync(path.join(__dirname, 'ca.pem'))
-            }
-        });
+let connection;
 
-        console.log("✅ Conexión exitosa a la base de datos");
-        return connection;
+try {
+    connection = await mysql.createConnection({
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        ssl: {
+            ca: fs.readFileSync(path.join(__dirname, 'ca.pem'))
+        }
+    });
 
-    } catch (err) {
-        console.error('❌ Error al conectar a la base de datos:', err.message);
-        throw err;
-    }
+    console.log("✅ Conexión exitosa a la base de datos");
+    
+} catch (err) {
+    console.error('❌ Error al conectar a la base de datos:', err.message);
+    throw err;
 }
+
+export default connection;

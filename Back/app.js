@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 
-/* import mensajesRouter from ... */
+import comisionRouter from './routes/comisionRouter.js';
 
 // Servidor
 const app = express();
@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Rutas
-/* app.use('api/mensajes', mensajesRouter) */
+app.use('/api/comision', comisionRouter);
 
 export default app;
 
