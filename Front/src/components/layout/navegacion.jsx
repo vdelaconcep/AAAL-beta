@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Navegacion = () => {
     const menu = [
@@ -17,6 +18,17 @@ const Navegacion = () => {
     const toggleDesplegado = (menu) => {
         setDesplegado(desplegado === menu ? null : menu);
     };
+
+    const limpiarString = (string) => {
+        return (
+            string
+                .toLowerCase()
+                .trim()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/\s+/g, '')
+        )
+    }
 
     useEffect(() => {
         const cerrar = (e) => {
@@ -75,12 +87,13 @@ const Navegacion = () => {
                     <li key={item.nombre} className="relative cursor-pointer font-medium w-full md:w-auto md:border-none">
                         <button
                             className="cursor-pointer md:text-shadow-xs md:text-shadow-black hover:text-white rounded p-2 px-4 w-full text-left md:text-center text-lg font-bold md:text-xl md:font-medium"
-                            onClick={() => {
+                            onMouseOver={() => {
                                 toggleDesplegado(item.nombre);
                                 if (item.submenu.length === 0) setMenuAbierto(false)
                             }}
                         >
-                            {item.nombre}
+                            {item.submenu.length > 0 ? item.nombre : 
+                            <Link to={`/${item.nombre.toLowerCase()}`}>{item.nombre}</Link>}
                         </button>
 
                         {item.submenu.length > 0 && (
@@ -93,7 +106,7 @@ const Navegacion = () => {
                                             key={i}
                                             className="p-2 pl-3 text-gray-900 hover:bg-[#6E1538] hover:text-white rounded"
                                             onClick={() => setDesplegado(null)}>
-                                            {i}
+                                            <Link to={`/${limpiarString(i)}`}>{i}</Link>
                                         </li>
                                     ))}
                                 </ul>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Importante from '../components/notificaciones/importante';
+import Alert from '../components/otros/alert';
 import Auspiciantes from "../components/principal/auspiciantes";
 import Carousel from "../components/principal/carousel";
 import Historia from "../components/principal/historia";
@@ -36,9 +36,10 @@ const Bienvenidos = () => {
             <Facah />
             <Auspiciantes />
             {abrirModal && /* mensaje && */
-                <Importante
+                <Alert
                 mensaje='Atención!!! a partir del mes de Junio de 2025 nos reuniremos los días Viernes a partir de las 18:00 hs.'
-                setAbrirModal={setAbrirModal} />}
+                setAbrirModal={setAbrirModal}
+                importante={true} />}
         </div>
     );
 };

@@ -3,14 +3,8 @@ import Comision from "../models/comisionDirectiva.js";
 export const obtenerComision = async (req, res) => {
     try {
         const comision = await Comision.getAll();
-        res.json({
-            success: true,
-            data: comision
-        });
+        res.json(comision);
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
+        res.status(500).json({error: error.message});
     }
 };

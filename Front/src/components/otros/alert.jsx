@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import BotonPrimario from "../botones/primario";
 
-const Importante = ({ mensaje, setAbrirModal }) => {
+const Alert = ({ mensaje, setAbrirModal, importante, accionAdicional }) => {
     return (
         <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center'>
             
@@ -9,7 +9,7 @@ const Importante = ({ mensaje, setAbrirModal }) => {
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1, transition: {duration: 0.4} }}
             >
-                <h2 className="text-xl font-bold mb-4 text-center">IMPORTANTE</h2>
+                {importante && <h2 className="text-xl font-bold mb-4 text-center">IMPORTANTE</h2>}
                 <p>{mensaje}</p>
 
                 <div className='flex justify-center mt-5'>
@@ -17,11 +17,14 @@ const Importante = ({ mensaje, setAbrirModal }) => {
                         tipo='button'
                         texto='OK'
                         clase='px-6'
-                        accion={() => setAbrirModal(false)} />
+                        accion={() => {
+                            setAbrirModal(false);
+                            if (accionAdicional) accionAdicional
+                        }} />
                 </div>
                 </motion.div>
             </article>
     );
 };
 
-export default Importante;
+export default Alert;
