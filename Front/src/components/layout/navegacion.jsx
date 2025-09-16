@@ -84,12 +84,29 @@ const Navegacion = () => {
                 className={`flex-col md:flex md:flex-row justify-end md:space-x-2 transition-all duration-300 ${menuAbierto ? "absolute top-full left-0 w-full bg-[#DECBA0] border-b-[3px] border-b-[#bdad89] md:border-none shadow-lg shadow-gray-800 z-20 md:static md:bg-transparent md:w-auto md:z-auto flex" : "md:flex hidden"}`}
             >
                 {menu.map((item) => (
-                    <li key={item.nombre} className="relative cursor-pointer font-medium w-full md:w-auto md:border-none">
+                    <li
+                        key={item.nombre}
+                        className="relative cursor-pointer font-medium w-full md:w-auto md:border-none"
+                        onMouseLeave={() => {
+                            if (window.innerWidth >= 768) {
+                                setDesplegado(null);
+                            }
+                        }}>
                         <button
-                            className="cursor-pointer md:text-shadow-xs md:text-shadow-black hover:text-white rounded p-2 px-4 w-full text-left md:text-center text-lg font-bold md:text-xl md:font-medium"
+                            className="cursor-pointer md:text-shadow-xs md:text-shadow-gray-800 hover:text-white rounded p-2 px-4 w-full text-left md:text-center text-lg font-bold md:text-xl md:font-medium"
+                            aria-expanded={desplegado === item.nombre}
+                            aria-haspopup={item.submenu.length > 0}
                             onMouseOver={() => {
-                                toggleDesplegado(item.nombre);
-                                if (item.submenu.length === 0) setMenuAbierto(false)
+                                if (window.innerWidth >= 768) {
+                                    toggleDesplegado(item.nombre);
+                                    if (item.submenu.length === 0) setMenuAbierto(false)
+                                }
+                            }}
+                            onClick={() => {
+                                if (window.innerWidth < 768) {
+                                    toggleDesplegado(item.nombre);
+                                    if (item.submenu.length === 0) setMenuAbierto(false)
+                                }
                             }}
                         >
                             {item.submenu.length > 0 ? item.nombre : 
@@ -101,9 +118,9 @@ const Navegacion = () => {
                                 <ul
                                     className={`hidden md:block md:absolute md:bg-[#DECBA0] md:text-lg md:rounded md:border md:border-[#5b807e] md:shadow-xl md:shadow-black md:w-40 md:transform md:transition-all md:duration-300 md:origin-top md:z-20 ${desplegado === item.nombre ? "md:opacity-100 md:scale-y-100" : "md:opacity-0 md:scale-y-0 md:pointer-events-none"}`}
                                 >
-                                    {item.submenu.map((i) => (
+                                    {item.submenu.map((i, index) => (
                                         <li
-                                            key={i}
+                                            key={`${item.nombre}-${index}`}
                                             className="p-2 pl-3 text-gray-900 hover:bg-[#6E1538] hover:text-white rounded"
                                             onClick={() => setDesplegado(null)}>
                                             <Link to={`/${limpiarString(i)}`}>{i}</Link>
@@ -113,7 +130,7 @@ const Navegacion = () => {
 
                                 <ul
                                     ref={(el) => (submenuRefs.current[item.nombre] = el)}
-                                    className="flex flex-col md:hidden overflow-hidden transition-[height,opacity] duration-300 bg-[#bdad89]"
+                                    className="flex flex-col md:hidden overflow-hidden transition-[height,opacity] duration-300 bg-[#bdad89] active:bg-[#6E1538] active:text-white"
                                     style={{
                                         height:
                                             desplegado === item.nombre
@@ -122,15 +139,15 @@ const Navegacion = () => {
                                         opacity: desplegado === item.nombre ? 1 : 0,
                                     }}
                                 >
-                                    {item.submenu.map((i) => (
+                                    {item.submenu.map((i, index) => (
                                         <li
-                                            key={i}
-                                            className="pl-6 py-2"
+                                            key={`${item.nombre}-${index}`}
+                                            className="pl-6 py-2 active:bg-[#6E1538] active:text-white"
                                             onClick={() => {
                                                 setMenuAbierto(false);
                                                 setDesplegado(null);
                                             }}>
-                                            {i}
+                                            <Link to={`/${limpiarString(i)}`}>{i}</Link>
                                         </li>
                                     ))}
                                 </ul>
