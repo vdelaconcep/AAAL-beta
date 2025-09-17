@@ -20,7 +20,7 @@ const Login = () => {
 
     return (
         <section>
-            <article className="flex mt-1 justify-end text-xs md:text-s lg:text-sm">
+            <article className="flex pt-1 justify-end text-xs md:text-s lg:text-sm">
                 <button
                     className="border-none text-red-200 hover:underline cursor-pointer"
                     onClick={() => setAbrirModal(true)}>
