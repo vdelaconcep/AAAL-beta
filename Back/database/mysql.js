@@ -23,10 +23,7 @@ try {
             rejectUnauthorized: true,
             ca: process.env.DB_CA_CERT.replace(/\\n/g, '\n')
         },
-        connectTimeout: 60000,
-        acquireTimeout: 60000,
-        timeout: 60000,
-        reconnect: true
+        connectTimeout: 60000
     });
 
     console.log("✅ Conexión exitosa a la base de datos");
