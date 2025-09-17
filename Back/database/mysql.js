@@ -10,6 +10,8 @@ const __dirname = path.dirname(__filename);
 
 let connection;
 
+console.log(process.env.DB_CA_CERT)
+
 try {
     connection = await mysql.createConnection({
         host: process.env.DB_HOST,
@@ -18,8 +20,13 @@ try {
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
         ssl: {
-            ca: fs.readFileSync(path.join(__dirname, 'ca.pem'))
-        }
+            rejectUnauthorized: true,
+            ca: process.env.DB_CA_CERT.replace(/\\n/g, '\n')
+        },
+        connectTimeout: 60000,
+        acquireTimeout: 60000,
+        timeout: 60000,
+        reconnect: true
     });
 
     console.log("✅ Conexión exitosa a la base de datos");
