@@ -14,6 +14,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Rutas
+app.use('/', (req, res) => {
+    res.send('API en desarrollo')
+})
 app.use('/api/comision', comisionRouter);
 
 export default app;
