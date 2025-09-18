@@ -36,7 +36,7 @@ const Comision = () => {
     return (
         <section className="bg-amber-100 py-5 md:py-10 flex flex-col items-center">
             <div className="text-gray-900 text-center font-bold italic pb-5">
-                <h1 className="text-lg md:text-2xl">Comisión directiva</h1>
+                <h1 className="text-xl md:text-2xl">Comisión directiva</h1>
                 {(Object.keys(comision).length > 0) && <h3 className="text-s md:text-lg">{`Período ${comision.periodo} - ${comision.periodo + 1}`}</h3>}
             </div>
             

@@ -10,8 +10,6 @@ const __dirname = path.dirname(__filename);
 
 let connection;
 
-console.log(process.env.DB_CA_CERT)
-
 try {
     connection = await mysql.createConnection({
         host: process.env.DB_HOST,
