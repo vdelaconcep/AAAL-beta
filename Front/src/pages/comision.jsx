@@ -1,5 +1,6 @@
 import { obtenerComision } from "../services/comisionServices";
 import { useState, useEffect } from 'react';
+import { motion } from "framer-motion";
 import Alert from '../components/otros/alert'
 
 const Comision = () => {
@@ -45,7 +46,12 @@ const Comision = () => {
 
             {(Object.keys(comision).length > 0) ? (
                 
-                <div className="flex flex-col w-full md:max-w-[450px] items-center text-[13px] md:text-[16px]">
+                <motion.div
+                    initial={{ y: 30, opacity: 0 }}
+                    transition={{ duration: 0.8 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    className="flex flex-col w-full md:max-w-[450px] items-center text-[13px] md:text-[16px]">
                     <article className="bg-[#DECBA0] w-full rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mb-4">
                         <p className="bg-[#6E1538] text-white text-center text-shadow-xs text-shadow-gray-800">Presidente</p>
                         <p className="py-1 text-center">{comision.presidente}</p>
@@ -94,7 +100,7 @@ const Comision = () => {
                         <p className="text-center">{comision.revisordecuentas2}</p>
                         <p className="pb-1 text-center">{comision.revisordecuentas3}</p>
                     </article>
-                </div>
+                </motion.div>
             ) : (
                 !cargando && <p>No hay datos de comisión disponibles</p>
             )}
