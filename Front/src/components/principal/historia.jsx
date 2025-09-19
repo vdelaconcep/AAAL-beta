@@ -7,7 +7,7 @@ const Historia = () => {
 
     return (
         <section
-            className="fondo-celeste borde-inferior-celeste-oscuro w-full pt-1 md:pt-4 md:pb-3 px-4 md:px-8">
+            className="bg-[#6B9795] borde-inferior-celeste-oscuro w-full pt-1 md:pt-4 md:pb-3 px-4 md:px-8">
             
             <motion.div
                 initial={{ y: 30, opacity: 0 }}

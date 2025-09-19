@@ -10,7 +10,7 @@ const Contacto = () => {
                 <h6 className="text-sm md:text-md">Escribinos un mensaje y te responderemos a la brevedad</h6>
             </div>
 
-            <form className="bg-[#A0AB94] px-2 py-3 rounded-xl shadow-md shadow-gray-800 text-md md:max-w-[300px]">
+            <form className="bg-[#A0AB94] px-2 py-3 rounded-xl shadow-md shadow-gray-800 text-md w-full md:max-w-[400px]">
                 <article className="flex flex-col mb-2">
                     <label
                         className="font-medium"

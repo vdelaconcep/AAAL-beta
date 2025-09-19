@@ -4,7 +4,7 @@ import logo_facah from '../../assets/img/logo-facah.png';
 
 const Facah = () => {
     return (
-        <section className="fondo-celeste borde-inferior-celeste-oscuro py-5 px-4">
+        <section className="bg-[#6B9795] borde-inferior-celeste-oscuro py-5 px-4">
             <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 transition={{ duration: 0.8 }}
