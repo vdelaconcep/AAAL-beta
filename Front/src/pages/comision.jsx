@@ -34,7 +34,7 @@ const Comision = () => {
     
 
     return (
-        <section className="bg-amber-100 py-5 md:py-10 flex flex-col items-center">
+        <section className="bg-amber-100 py-5 md:py-10 flex flex-col items-center px-4">
             <div className="text-gray-900 text-center font-bold italic pb-5">
                 <h1 className="text-xl md:text-2xl">Comisión directiva</h1>
                 {(Object.keys(comision).length > 0) && <h3 className="text-s md:text-lg">{`Período ${comision.periodo} - ${comision.periodo + 1}`}</h3>}
@@ -45,54 +45,54 @@ const Comision = () => {
 
             {(Object.keys(comision).length > 0) ? (
                 
-                <div className="flex flex-col items-center text-[13px] md:text-[16px]">
-                    <article className="bg-[#DECBA0] w-[200px] rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mb-6">
-                        <p className="bg-[#6E1538] text-white text-center px-4 text-shadow-xs text-shadow-gray-800">Presidente</p>
-                        <p className="px-4 py-1 text-center">{comision.presidente}</p>
+                <div className="flex flex-col w-full md:max-w-[450px] items-center text-[13px] md:text-[16px]">
+                    <article className="bg-[#DECBA0] w-full rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mb-4">
+                        <p className="bg-[#6E1538] text-white text-center text-shadow-xs text-shadow-gray-800">Presidente</p>
+                        <p className="py-1 text-center">{comision.presidente}</p>
                     </article>
-                    <article className="bg-[#DECBA0] w-[200px] rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mb-6">
-                        <p className="bg-[#6B9795] text-white text-center px-4 text-shadow-xs text-shadow-gray-800">Vicepresidente</p>
-                        <p className="px-4 py-1 text-center">{comision.vicepresidente}</p>
+                    <article className="bg-[#DECBA0] w-full rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mb-4">
+                        <p className="bg-[#6B9795] text-white text-center text-shadow-xs text-shadow-gray-800">Vicepresidente</p>
+                        <p className="py-1 text-center">{comision.vicepresidente}</p>
                     </article>
-                    <div className="flex mb-6">
-                        <article className="bg-[#DECBA0] w-[150px] md:w-[200px] rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mr-1 md:mr-3">
-                            <p className="bg-[#A0AB94] text-white text-center px-4 text-shadow-xs text-shadow-gray-800">Secretario</p>
-                            <p className="px-4 py-1 text-center">{comision.secretario}</p>
+                    <div className="flex gap-2 mb-4 w-full">
+                        <article className="bg-[#DECBA0] flex-1 rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium">
+                            <p className="bg-[#A0AB94] text-white text-center text-shadow-xs text-shadow-gray-800">Secretario</p>
+                            <p className="py-1 text-center">{comision.secretario}</p>
                         </article>
-                        <article className="bg-[#DECBA0] w-[150px] md:w-[200px] rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium ml-1 md:ml-3">
-                            <p className="bg-[#A0AB94] text-white text-center px-4 text-shadow-xs text-shadow-gray-800">Prosecretario</p>
-                            <p className="px-4 py-1 text-center">{comision.prosecretario}</p>
-                        </article>
-                    </div>
-                    <div className="flex mb-6">
-                        <article className="bg-[#DECBA0] w-[150px] md:w-[200px] rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mr-1 md:mr-3">
-                            <p className="bg-[#6B9795] text-white text-center px-4 text-shadow-xs text-shadow-gray-800">Tesorero</p>
-                            <p className="px-4 py-1 text-center">{comision.tesorero}</p>
-                        </article>
-                        <article className="bg-[#DECBA0] w-[150px] md:w-[200px] rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium ml-1 md:ml-3">
-                            <p className="bg-[#6B9795] text-white text-center px-4 text-shadow-xs text-shadow-gray-800">Protesorero</p>
-                            <p className="px-4 py-1 text-center">{comision.protesorero}</p>
+                        <article className="bg-[#DECBA0] flex-1 rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium">
+                            <p className="bg-[#A0AB94] text-white text-center text-shadow-xs text-shadow-gray-800">Prosecretario</p>
+                            <p className="py-1 text-center">{comision.prosecretario}</p>
                         </article>
                     </div>
-                    <div className="flex mb-6">
-                        <article className="bg-[#DECBA0] w-[150px] md:w-[200px] rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mr-1 md:mr-3">
-                            <p className="bg-[#A0AB94] text-white text-center px-4 text-shadow-xs text-shadow-gray-800">Vocales titulares</p>
-                            <p className="px-4 pt-1 text-center">{comision.vocaltitular1}</p>
-                            <p className="px-4 text-center">{comision.vocaltitular2}</p>
-                            <p className="px-4 pb-1 text-center">{comision.vocaltitular3}</p>
+                    <div className="flex gap-2 mb-4 w-full">
+                        <article className="bg-[#DECBA0] flex-1 rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium">
+                            <p className="bg-[#6B9795] text-white text-center text-shadow-xs text-shadow-gray-800">Tesorero</p>
+                            <p className="py-1 text-center">{comision.tesorero}</p>
                         </article>
-                        <article className="bg-[#DECBA0] w-[150px] md:w-[200px] rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium ml-1 md:ml-3">
-                            <p className="bg-[#A0AB94] text-white text-center px-4 text-shadow-xs text-shadow-gray-800">Vocales suplentes</p>
-                            <p className="px-4 pt-1 text-center">{comision.vocalsuplente1}</p>
-                            <p className="px-4 text-center">{comision.vocalsuplente2}</p>
-                            <p className="px-4 pb-1 text-center">{comision.vocalsuplente3}</p>
+                        <article className="bg-[#DECBA0] flex-1 rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium">
+                            <p className="bg-[#6B9795] text-white text-center text-shadow-xs text-shadow-gray-800">Protesorero</p>
+                            <p className="py-1 text-center">{comision.protesorero}</p>
                         </article>
                     </div>
-                    <article className="bg-[#DECBA0] w-[200px] rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mb-6">
-                        <p className="bg-[#6B9795] text-white text-center px-4 text-shadow-xs text-shadow-gray-800">Revisores de cuentas</p>
-                        <p className="px-4 pt-1 text-center">{comision.revisordecuentas1}</p>
-                        <p className="px-4 text-center">{comision.revisordecuentas2}</p>
-                        <p className="px-4 pb-1 text-center">{comision.revisordecuentas3}</p>
+                    <div className="flex gap-2 mb-4 w-full">
+                        <article className="bg-[#DECBA0] flex-1 rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium">
+                            <p className="bg-[#A0AB94] text-white text-center text-shadow-xs text-shadow-gray-800">Vocales titulares</p>
+                            <p className="pt-1 text-center">{comision.vocaltitular1}</p>
+                            <p className="text-center">{comision.vocaltitular2}</p>
+                            <p className="pb-1 text-center">{comision.vocaltitular3}</p>
+                        </article>
+                        <article className="bg-[#DECBA0] flex-1 rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium">
+                            <p className="bg-[#A0AB94] text-white text-center text-shadow-xs text-shadow-gray-800">Vocales suplentes</p>
+                            <p className="pt-1 text-center">{comision.vocalsuplente1}</p>
+                            <p className="text-center">{comision.vocalsuplente2}</p>
+                            <p className="pb-1 text-center">{comision.vocalsuplente3}</p>
+                        </article>
+                    </div>
+                    <article className="bg-[#DECBA0] w-full rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mb-4">
+                        <p className="bg-[#6B9795] text-white text-center text-shadow-xs text-shadow-gray-800">Revisores de cuentas</p>
+                        <p className="pt-1 text-center">{comision.revisordecuentas1}</p>
+                        <p className="text-center">{comision.revisordecuentas2}</p>
+                        <p className="pb-1 text-center">{comision.revisordecuentas3}</p>
                     </article>
                 </div>
             ) : (

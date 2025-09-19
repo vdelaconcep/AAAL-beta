@@ -3,7 +3,7 @@ import BotonSecundario from "../components/botones/secundario";
 
 const Contacto = () => {
     return (
-        <section className="bg-amber-100 py-5 md:py-10 px-4 text-gray-900">
+        <section className="flex flex-col items-center bg-amber-100 py-5 md:py-10 px-4 text-gray-900">
 
             <div className="flex flex-col items-center mb-4">
                 <h1 className="text-xl md:text-2xl font-bold italic">Contacto</h1>

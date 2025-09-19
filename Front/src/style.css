@@ -10,61 +10,6 @@
     font-family: "Alex";
 }
 
-/*Colores personalizados */
-.texto-granate {
-    color: #6E1538;
-}
-.texto-marron {
-    color: #8C7C62;
-}
-.texto-celeste {
-    color: #6B9795;
-}
-.texto-verde {
-    color: #A0AB94;
-}
-.texto-crema {
-    color: #DECBA0;
-}
-.fondo-granate {
-    background-color: #6E1538;
-}
-
-.hover-granateOscuro:hover {
-    background-color: #4e0e28;
-}
-
-.fondo-marron {
-    background-color: #8C7C62;
-}
-
-.borde-inferior-marron-oscuro {
-    border-bottom: 2px solid #746650;
-}
-
-.fondo-celeste {
-    background-color: #6B9795;
-}
-
-.borde-inferior-celeste-oscuro {
-    border-bottom: 2px solid #5b817f;
-}
-
-.fondo-verde {
-    background-color: #A0AB94;
-}
-
-.borde-inferior-verde-oscuro {
-    border-bottom: 2px solid #858f7b;
-}
-.fondo-crema {
-    background-color: #DECBA0;
-}
-
-.borde-inferior-crema-oscuro {
-    border-bottom: 2px solid #bdad89;
-}
-
 /* Marquesina de auspiciantes */
 .marquee {
     display: flex;
