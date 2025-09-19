@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 
 import comisionRouter from './routes/comisionRouter.js';
+import mensajesRouter from './routes/mensajesRouter.js'
 
 // Servidor
 const app = express();
@@ -18,6 +19,8 @@ app.get('/', (req, res) => {
     res.send('API en desarrollo')
 })
 app.use('/api/comision', comisionRouter);
+app.use('/api/mensajes', mensajesRouter)
+
 
 export default app;
 
