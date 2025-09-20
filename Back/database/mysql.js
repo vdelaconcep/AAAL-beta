@@ -7,16 +7,15 @@ import path from 'path';
 let connection;
 
 try {
-    const isLocal = process.env.NODE_ENV !== 'production';
+    const isLocal = process.env.NODE_ENV === 'desarrollo';
 
-    let sslOptions = undefined;
+    let sslOptions
     if (isLocal) {
-        const certPath = path.resolve('./ca.pem');
-        if (fs.existsSync(certPath)) {
-            sslOptions = { ca: fs.readFileSync(certPath) };
-            console.log('🔑 Usando certificado local para conexión SSL');
-        } else {
-            console.warn('⚠️ Certificado local no encontrado, se conectará sin SSL');
+        sslOptions = undefined
+    } else {
+        sslOptions = {
+            rejectUnauthorized: true,
+            ca: process.env.DB_CA_CERT.replace(/\\n/g, '\n')
         }
     }
 
