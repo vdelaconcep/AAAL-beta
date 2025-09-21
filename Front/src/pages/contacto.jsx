@@ -4,8 +4,21 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { enviarMensaje } from "../services/mensajesServices";
+import Toast from "../components/otros/toast";
+import Alert from "../components/otros/alert";
+import { useState } from "react";
 
 const Contacto = () => {
+
+    // Control de toast
+    const [mostrarToast, setMostrarToast] = useState(false);
+
+    // Control de alert
+    const [mostrarAlert, setMostrarAlert] = useState(false);
+    const [mensajeAlert, setMensajeAlert] = useState('');
+
+    const [enviando, setEnviando] = useState(false);
 
     // Esquema de validación con Yup
     const validationSchema = Yup.object({
@@ -34,12 +47,29 @@ const Contacto = () => {
             .required("El mensaje no puede quedar vacío")
     });
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(validationSchema)
     });
 
-    const onSubmit = (data) => {
-        console.log("Datos enviados:", data);
+    // Al enviar datos al formulario...
+    const onSubmit = async (data) => {
+        console.log(data)
+        try {
+            setEnviando(true);
+            const res = await enviarMensaje(data);
+            if (res.status !== 200) {
+                setMensajeAlert(`Error al enviar tu mensaje: ${res.statusText}`);
+                return setMostrarAlert(true);
+            }
+
+            return setMostrarToast(true);
+
+        } catch (err) {
+            setMensajeAlert(`Error al enviar tu mensaje: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
+            return setMostrarAlert(true);
+        } finally {
+            setEnviando(false)
+        }
     };
 
     return (
@@ -86,7 +116,7 @@ const Contacto = () => {
                     <input
                         {...register("telefono")}
                         className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.telefono ? 'border-red-600' : 'border-[#858f7b]'}`}
-                        type="text" />
+                        type="tel" />
                     {errors.telefono &&
                         <span className="text-xs text-amber-50 bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded shadow w-full mt-1"><i className="fa-solid fa-triangle-exclamation"></i> {errors.telefono.message}</span>}
                 </article>
@@ -115,16 +145,27 @@ const Contacto = () => {
                     <BotonSecundario
                         tipo='reset'
                         texto='Cancelar'
-                        clase='w-1/2'/>
+                        clase='w-1/2'
+                        accion={() => reset()}/>
                     <BotonPrimario
                         tipo='submit'
-                        texto='Enviar'
-                        clase='w-1/2 shadow-[inset_0_2px_6px_rgba(256,256,256,0.8)]'/>
+                        texto={enviando ? <><span>Enviando </span><i className="fa-solid fa-spinner fa-spin"></i></> : 'Enviar'}
+                        clase='w-1/2'
+                        deshabilitado={enviando ? true : false} />
                 </article>
             </motion.form>
-            
-            
-            
+            {mostrarToast &&
+                <Toast
+                    mensaje='Tu mensaje ha sido enviado'
+                    setMostrarToast={setMostrarToast}
+                    success={true}
+                    accionAdicional={() => reset()} />}
+            {mostrarAlert &&
+                <Alert
+                    mensaje={mensajeAlert}
+                    setAbrirModal={setMostrarAlert}
+                    importante={false}
+                    accionAdicional={() => setMensajeAlert('')} />}
 
         </section>
         

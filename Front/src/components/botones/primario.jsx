@@ -1,7 +1,7 @@
-const BotonPrimario = ({tipo, texto, accion, clase}) => {
+const BotonPrimario = ({tipo, texto, accion, clase, deshabilitado}) => {
     return (
         <button
-            className={`bg-[#6E1538] hover:bg-[#4e0e28] text-white font-medium cursor-pointer p-2 px-3 rounded-xl shadow-gray-900 shadow-sm ${clase && clase}`}
+            className={`${deshabilitado ? 'bg-[#4e0e28] text-[#704858]' : 'bg-[#6E1538] text-white'}  hover:bg-[#4e0e28] font-medium cursor-pointer p-2 px-3 rounded-xl shadow-gray-900 shadow-sm ${clase && clase}`}
             type={tipo}
             onClick={accion && accion}
         >
