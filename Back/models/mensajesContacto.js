@@ -37,6 +37,14 @@ class Mensajes {
             throw new Error('Error al guardar mensaje en base de datos: ' + error.message);
         }
     }
+    
+    static async enviarCorreoRespuesta(data) {
+    try {
+        
+    } catch (error) {
+        
+    }
+    }
 }
 
 export default Mensajes;

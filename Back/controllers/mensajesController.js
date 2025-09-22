@@ -1,4 +1,5 @@
 import Mensajes from "../models/mensajesContacto.js";
+import { enviarCorreoRespuesta } from "../utils/mailRespuesta.js";
 
 const enviarMensaje = async (req, res) => {
 
@@ -23,6 +24,22 @@ const enviarMensaje = async (req, res) => {
     }
 };
 
+const enviarRespuesta = async (req, res) => {
+
+    const { email, asunto, respuesta } = req.body;
+
+    if (!email || !asunto || !respuesta) return res.status(400).json({ error: "email, asunto y respuesta son obligatorios" });
+
+    try {
+        const envioRespuesta = await enviarCorreoRespuesta(email, asunto, respuesta);
+
+        res.status(200).json(envioRespuesta);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 export {
-    enviarMensaje
+    enviarMensaje,
+    enviarRespuesta
 }
