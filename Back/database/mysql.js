@@ -6,7 +6,11 @@ import path from 'path';
 
 let connection;
 
-const caCert = fs.readFileSync(path.resolve('./database/ca.pem'));
+let caCert = fs.readFileSync(path.resolve('./database/ca.pem'));
+
+if (process.env.NODE_ENV !== 'desarrollo') {
+    caCert = process.env.DB_CA_CERT.replace(/\\n/g, '\n');
+} else caCert = fs.readFileSync(path.resolve('./database/ca.pem'));
 
 try {
     connection = await mysql.createConnection({
