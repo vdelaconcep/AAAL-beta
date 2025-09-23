@@ -6,19 +6,9 @@ import path from 'path';
 
 let connection;
 
+const caCert = fs.readFileSync(path.resolve('./database/ca.pem'));
+
 try {
-    const isLocal = process.env.NODE_ENV === 'desarrollo';
-
-    let sslOptions
-    if (isLocal) {
-        sslOptions = undefined
-    } else {
-        sslOptions = {
-            rejectUnauthorized: true,
-            ca: process.env.DB_CA_CERT.replace(/\\n/g, '\n')
-        }
-    }
-
     connection = await mysql.createConnection({
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
@@ -26,7 +16,10 @@ try {
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
         timezone: '-03:00',
-        ssl: sslOptions,
+        ssl: {
+            rejectUnauthorized: true,
+            ca: caCert
+        },
         connectTimeout: 60000
     });
 
