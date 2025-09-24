@@ -4,7 +4,7 @@ import fs from 'fs';
 import mysql from 'mysql2/promise';
 import path from 'path';
 
-let connection;
+let pool;
 
 let caCert = fs.readFileSync(path.resolve('./database/ca.pem'));
 
@@ -13,18 +13,20 @@ if (process.env.NODE_ENV !== 'desarrollo') {
 } else caCert = fs.readFileSync(path.resolve('./database/ca.pem'));
 
 try {
-    connection = await mysql.createConnection({
+    pool = mysql.createPool({
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
         timezone: '-03:00',
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 0,
         ssl: {
             rejectUnauthorized: true,
             ca: caCert
-        },
-        connectTimeout: 60000
+        }
     });
 
     console.log("✅ Conexión exitosa a la base de datos");
@@ -34,4 +36,4 @@ try {
     throw err;
 }
 
-export default connection;
+export default pool;

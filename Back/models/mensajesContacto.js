@@ -1,11 +1,11 @@
-import connection from '../database/mysql.js';
+import pool from '../database/mysql.js';
 
 class Mensajes {
     static async enviarMensaje(data) {
         try {
 
             // Verificar si existe la tabla
-            const [rows] = await connection.query("SHOW TABLES LIKE 'mensajesContacto'");
+            const [rows] = await pool.query("SHOW TABLES LIKE 'mensajesContacto'");
 
             // Si no existe, crearla
             if (rows.length === 0) {
@@ -19,7 +19,7 @@ class Mensajes {
                     mensaje VARCHAR(500),
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )`;
-                await connection.query(createQuery);
+                await pool.query(createQuery);
                 console.log("Tabla 'mensajesContacto' creada ✅");
             }
 
@@ -29,7 +29,7 @@ class Mensajes {
                 VALUES(?, ?, ?, ?, ?)
             `;
             const values = [data.nombre, data.email, data.telefono, data.asunto, data.mensaje];
-            const [result] = await connection.query(insertQuery, values);
+            const [result] = await pool.query(insertQuery, values);
             
             return { id: result.insertId, ...data };
 
