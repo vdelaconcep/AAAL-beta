@@ -4,7 +4,7 @@ import Bienvenidos from './pages/principal';
 import QuienesSomos from './pages/quienesSomos';
 import Historia from './pages/historia';
 import Comision from './pages/comision';
-import MensajesSocios from './pages/mensajesSocios';
+import MensajesComunidad from './pages/mensajesComunidad';
 import Institucional from './pages/institucional';
 import ProximosEventos from './pages/proximosEventos';
 import Clasificados from './pages/clasificados';
@@ -26,7 +26,7 @@ function App() {
             <Route path='/quienessomos' element={<QuienesSomos />} />
             <Route path='/historia' element={<Historia />} />
             <Route path='/comisiondirectiva' element={<Comision />} />
-            <Route path='/mensajesdesocios' element={<MensajesSocios />} />
+            <Route path='/mensajesdelacomunidad' element={<MensajesComunidad />} />
             <Route path='/institucional' element={<Institucional />} />
             <Route path='/proximoseventos' element={<ProximosEventos />} />
             <Route path='/clasificados' element={<Clasificados />} />

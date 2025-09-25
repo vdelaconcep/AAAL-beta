@@ -53,7 +53,6 @@ const Contacto = () => {
 
     // Al enviar datos al formulario...
     const onSubmit = async (data) => {
-        console.log(data)
         try {
             setEnviando(true);
             const res = await enviarMensaje(data);
