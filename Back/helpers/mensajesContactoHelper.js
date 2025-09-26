@@ -1,6 +1,6 @@
 import { check } from 'express-validator';
 
-export const validacionMensajes = [
+export const validacionMensajesContacto = [
     check("nombre")
         .trim()
         .escape()

@@ -3,7 +3,8 @@ import morgan from "morgan";
 import cors from "cors";
 
 import comisionRouter from './routes/comisionRouter.js';
-import mensajesRouter from './routes/mensajesRouter.js'
+import contactoRouter from './routes/contactoRouter.js';
+import comunidadRouter from './routes/comunidadRouter.js'
 
 // Servidor
 const app = express();
@@ -19,7 +20,8 @@ app.get('/', (req, res) => {
     res.send('API en desarrollo')
 })
 app.use('/api/comision', comisionRouter);
-app.use('/api/mensajes', mensajesRouter)
+app.use('/api/contacto', contactoRouter);
+app.use('/api/comunidad', comunidadRouter)
 
 
 export default app;

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { enviarMensaje } from "../services/mensajesServices";
+import { enviarMensaje } from "../services/contactoServices";
 import Toast from "../components/otros/toast";
 import Alert from "../components/otros/alert";
 import { useState } from "react";

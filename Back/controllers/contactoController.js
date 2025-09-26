@@ -1,6 +1,6 @@
-import Mensajes from "../models/mensajesContacto.js";
+import MensajesContacto from "../models/mensajesContacto.js";
 
-const enviarMensaje = async (req, res) => {
+const enviarMensajeContacto = async (req, res) => {
 
     const { nombre, email, telefono, asunto, mensaje } = req.body;
 
@@ -15,7 +15,7 @@ const enviarMensaje = async (req, res) => {
     };
 
     try {
-        const mensajeGuardado = await Mensajes.enviarMensaje(mensajeNuevo);
+        const mensajeGuardado = await MensajesContacto.enviarMensaje(mensajeNuevo);
 
         res.status(200).json(mensajeGuardado);
     } catch (err) {
@@ -24,5 +24,5 @@ const enviarMensaje = async (req, res) => {
 };
 
 export {
-    enviarMensaje
+    enviarMensajeContacto
 }
