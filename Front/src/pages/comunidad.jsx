@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import BotonSecundario from '../components/botones/secundario';
-import FormComunidad from '../components/mensajesComunidad/formComunidad';
+import FormComunidad from '../components/comunidad/formComunidad';
 
-const MensajesComunidad = () => {
+const Comunidad = () => {
 
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
@@ -19,4 +19,4 @@ const MensajesComunidad = () => {
     );
 };
 
-export default MensajesComunidad;
+export default Comunidad;
