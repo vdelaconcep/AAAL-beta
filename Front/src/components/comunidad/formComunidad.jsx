@@ -1,14 +1,18 @@
 import BotonPrimario from "../botones/primario";
 import BotonSecundario from "../botones/secundario";
+import Alert from "../otros/alert";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useState, useEffect } from "react";
+import { enviarMensajeComunidad } from "../../services/comunidadService";
 
 const FormComunidad = ({setMostrarFormulario}) => {
 
     const [enviando, setEnviando] = useState(false);
+    const [mensajeAlert, setMensajeAlert] = useState('');
+    const [mostrarAlert, setMostrarAlert] = useState(false)
 
     // Previsualización de imagen enviada
     const [preview, setPreview] = useState(null);
@@ -50,7 +54,25 @@ const FormComunidad = ({setMostrarFormulario}) => {
         resolver: yupResolver(validationSchema)
     });
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
+
+        const dataAEnviar = {... data, imagen: data.imagen[0]}
+        try {
+            setEnviando(true);
+            const res = await enviarMensajeComunidad(dataAEnviar);
+            if (res.status !== 200) {
+                setMensajeAlert(`Error al enviar tu mensaje: ${res.statusText}`);
+                return setMostrarAlert(true);
+            }
+    
+            return setMostrarToast(true);
+    
+        } catch (err) {
+            setMensajeAlert(`Error al enviar tu mensaje: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
+            return setMostrarAlert(true);
+        } finally {
+            setEnviando(false)
+        }
         console.log(data);
         setMostrarFormulario(false);
     };
@@ -68,6 +90,7 @@ const FormComunidad = ({setMostrarFormulario}) => {
     }, [fotoSeleccionada]);
 
     return (
+        <>
         <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center'>
 
             <motion.div className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 md:p-6 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative text-gray-900"
@@ -169,7 +192,15 @@ const FormComunidad = ({setMostrarFormulario}) => {
                     </article>
                 </form>
             </motion.div>
-        </article>
+            </article>
+
+            {mostrarAlert &&
+                <Alert
+                    mensaje={mensajeAlert}
+                    setAbrirModal={setMostrarAlert}
+                    importante={false}
+                    accionAdicional={() => setMensajeAlert('')} />}
+        </>
     );
 };
 
