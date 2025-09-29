@@ -1,5 +1,5 @@
-import logo from '../../assets/img/logo-asociacion-automoviles-antiguos-lanus-e1536856848852-transformed.png';
-import Login from './login';
+import logo from '@/assets/img/logo-asociacion-automoviles-antiguos-lanus-e1536856848852-transformed.png';
+import Login from '@/components/layout/login';
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -14,7 +14,7 @@ const Header = () => {
             <div className='flex text-white justify-center'>
                 <article className='flex justify-center w-1/3 md:w-1/4 mr-1'>
                     <Link to="/">
-                        <img className="relative z-50 aspect-ratio:1/1 max-h-[220px]" src={logo} alt="Logo Asociacion Automoviles Antiguos de Lanus" />
+                        <img className="relative z-30 aspect-ratio:1/1 max-h-[220px]" src={logo} alt="Logo Asociacion Automoviles Antiguos de Lanus" />
                     </Link>
                 </article>
                 

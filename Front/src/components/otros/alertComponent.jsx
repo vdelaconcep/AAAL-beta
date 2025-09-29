@@ -1,7 +1,13 @@
+import { useAlert } from "@/context/alertContext";
 import { motion } from "framer-motion";
-import BotonPrimario from "../botones/primario";
+import BotonPrimario from "@/components/botones/primario";
 
-const Alert = ({ mensaje, setAbrirModal, importante, accionAdicional }) => {
+const AlertComponent = () => {
+
+    const { visible, textoAlert, importante, ocultarAlert } = useAlert();
+
+    if (!visible) return null;
+
     return (
         <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center'>
             
@@ -10,7 +16,7 @@ const Alert = ({ mensaje, setAbrirModal, importante, accionAdicional }) => {
                 animate={{ scale: 1, transition: {duration: 0.4} }}
             >
                 {importante && <h2 className="text-xl font-bold mb-4 text-center">IMPORTANTE</h2>}
-                <p>{mensaje}</p>
+                <p>{textoAlert}</p>
 
                 <div className='flex justify-center mt-5'>
                     <BotonPrimario
@@ -18,8 +24,7 @@ const Alert = ({ mensaje, setAbrirModal, importante, accionAdicional }) => {
                         texto='OK'
                         clase='px-6'
                         accion={() => {
-                            setAbrirModal(false);
-                            if (accionAdicional) accionAdicional
+                            ocultarAlert();
                         }} />
                 </div>
                 </motion.div>
@@ -27,4 +32,4 @@ const Alert = ({ mensaje, setAbrirModal, importante, accionAdicional }) => {
     );
 };
 
-export default Alert;
+export default AlertComponent;

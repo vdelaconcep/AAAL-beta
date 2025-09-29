@@ -1,16 +1,20 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
+import { useToast } from "@/context/toastContext";
 
-const Toast = ({ mensaje, setMostrarToast, accionAdicional, success }) => {
+const ToastComponent = () => {
+
+    const { visible, textoToast, success, ocultarToast } = useToast();
+
+    if (!visible) return null;
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setMostrarToast(false);
-            if (accionAdicional) accionAdicional();
-        }, 2300);
+            ocultarToast()
+        }, 2500);
 
         return () => clearTimeout(timer)
-    }, [setMostrarToast, accionAdicional])
+    }, [visible])
 
     return (
         <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center'>
@@ -19,7 +23,7 @@ const Toast = ({ mensaje, setMostrarToast, accionAdicional, success }) => {
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1, transition: { duration: 0.4 } }}
             >
-                <p className="text-gray-900">{mensaje}</p>
+                <p className="text-gray-900">{textoToast}</p>
 
                 {success &&
                     <motion.svg
@@ -34,7 +38,7 @@ const Toast = ({ mensaje, setMostrarToast, accionAdicional, success }) => {
                             d="M14 27l7 7 17-17"
                             initial={{ pathLength: 0 }}
                             animate={{ pathLength: 1 }}
-                            transition={{ duration: 0.9, ease: "easeOut" }}
+                            transition={{ duration: 0.7, ease: "easeOut" }}
                         />
                     </motion.svg>
                 }
@@ -44,4 +48,4 @@ const Toast = ({ mensaje, setMostrarToast, accionAdicional, success }) => {
     );
 };
 
-export default Toast;
+export default ToastComponent;

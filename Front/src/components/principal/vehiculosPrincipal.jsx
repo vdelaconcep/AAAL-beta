@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
-import BotonPrimario from "../botones/primario";
-import imagen1 from '../../assets/img/vehiculos/foto1.jpg';
-import imagen2 from '../../assets/img/vehiculos/foto2.jpg';
-import imagen3 from '../../assets/img/vehiculos/foto-3.jpg';
-import imagen4 from '../../assets/img/vehiculos/foto-4.jpg';
-import imagen5 from '../../assets/img/vehiculos/foto-5.jpg';
-import imagen6 from '../../assets/img/vehiculos/foto-6-2.jpg';
+import BotonPrimario from "@/components/botones/primario";
+import imagen1 from '@/assets/img/vehiculos/foto1.jpg';
+import imagen2 from '@/assets/img/vehiculos/foto2.jpg';
+import imagen3 from '@/assets/img/vehiculos/foto-3.jpg';
+import imagen4 from '@/assets/img/vehiculos/foto-4.jpg';
+import imagen5 from '@/assets/img/vehiculos/foto-5.jpg';
+import imagen6 from '@/assets/img/vehiculos/foto-6-2.jpg';
 
 const VehiculosPrincipal = () => {
 

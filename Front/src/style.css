@@ -36,3 +36,13 @@
 .swiper-pagination-bullet-active {
     @apply bg-gray-300 opacity-100;
 }
+
+/* Ocultar scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

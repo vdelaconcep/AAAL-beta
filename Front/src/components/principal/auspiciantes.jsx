@@ -1,9 +1,9 @@
 
-import roher from "../../assets/img/auspiciantes/roher.jpg";
-import abcelectro from "../../assets/img/auspiciantes/abcelectro.jpg";
-import gvelectro from "../../assets/img/auspiciantes/gvelectro.jpg";
-import madersul from "../../assets/img/auspiciantes/mader_sul.jpg";
-import jotabe from "../../assets/img/auspiciantes/jotabe.jpg";
+import roher from "@/assets/img/auspiciantes/roher.jpg";
+import abcelectro from "@/assets/img/auspiciantes/abcelectro.jpg";
+import gvelectro from "@/assets/img/auspiciantes/gvelectro.jpg";
+import madersul from "@/assets/img/auspiciantes/mader_sul.jpg";
+import jotabe from "@/assets/img/auspiciantes/jotabe.jpg";
 
 const Auspiciantes = () => {
     const slides = [

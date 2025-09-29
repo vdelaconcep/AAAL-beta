@@ -1,18 +1,20 @@
-import BotonPrimario from "../botones/primario";
-import BotonSecundario from "../botones/secundario";
-import Alert from "../otros/alert";
+import BotonPrimario from "@/components/botones/primario";
+import BotonSecundario from "@/components/botones/secundario";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useState, useEffect } from "react";
-import { enviarMensajeComunidad } from "../../services/comunidadService";
+import { enviarMensajeComunidad } from "@/services/comunidadService";
+import InputError from '@/components/otros/inputError';
+import BotonTransparente from "@/components/botones/transparente";
+import { useAlert } from '@/context/alertContext';
 
 const FormComunidad = ({setMostrarFormulario}) => {
 
+    const { mostrarAlert } = useAlert();
+    
     const [enviando, setEnviando] = useState(false);
-    const [mensajeAlert, setMensajeAlert] = useState('');
-    const [mostrarAlert, setMostrarAlert] = useState(false)
 
     // Previsualización de imagen enviada
     const [preview, setPreview] = useState(null);
@@ -61,20 +63,22 @@ const FormComunidad = ({setMostrarFormulario}) => {
             setEnviando(true);
             const res = await enviarMensajeComunidad(dataAEnviar);
             if (res.status !== 200) {
-                setMensajeAlert(`Error al enviar tu mensaje: ${res.statusText}`);
-                return setMostrarAlert(true);
+                const mensajeAlert = `Error al enviar tu mensaje: ${res.statusText}`;
+                mostrarAlert(mensajeAlert);
+                return;
             }
-    
-            return setMostrarToast(true);
+            
+            const mensajeAlert = 'Muchas gracias por compartir! Tu historia fue enviada a los administradores del sitio para su publicación';
+            mostrarAlert(mensajeAlert);
+            return;
     
         } catch (err) {
-            setMensajeAlert(`Error al enviar tu mensaje: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
-            return setMostrarAlert(true);
+            const mensajeAlert = `Error al enviar tu mensaje: ${err.response?.data?.error || err.message || 'Error desconocido'}`;
+            mostrarAlert(mensajeAlert);
+            return;
         } finally {
             setEnviando(false)
         }
-        console.log(data);
-        setMostrarFormulario(false);
     };
 
     const fotoSeleccionada = watch("foto");
@@ -91,15 +95,22 @@ const FormComunidad = ({setMostrarFormulario}) => {
 
     return (
         <>
-        <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center'>
+            <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-40 flex flex-col justify-start overflow-y-auto scrollbar-hide'>
+            <div className="flex self-end my-2">
+                    <BotonTransparente
+                        tipo='button'
+                        texto='X'
+                        clase='text-white'
+                        accion={() => {setMostrarFormulario(false)}} />
+            </div>
 
-            <motion.div className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 md:p-6 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative text-gray-900"
+            <motion.div className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative text-gray-900 my-4"
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1, transition: { duration: 0.4 } }}
             >
-                <h1>Compartí tu historia</h1>
+                <h1 className="text-xl italic font-bold mb-3">Compartí tu historia</h1>
 
-                <h6>Dejanos unas palabras sobre tu experiencia en el club: un pensamiento, un recuerdo o una anécdota especial que quieras contar</h6>
+                <h6 className="mb-2">Dejanos unas palabras sobre tu experiencia en el club: un pensamiento, un recuerdo o una anécdota especial que quieras contar</h6>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <article className="flex flex-col mb-2">
@@ -110,8 +121,7 @@ const FormComunidad = ({setMostrarFormulario}) => {
                             {...register("nombre")}
                             className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.nombre ? 'border-red-600' : 'border-[#858f7b]'}`}
                             type="text" />
-                        {errors.nombre &&
-                            <span className="text-xs text-amber-50 bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded shadow w-full mt-1"><i className="fa-solid fa-triangle-exclamation"></i> {errors.nombre.message}</span>}
+                            {errors.nombre && <InputError mensaje={errors.nombre.message} />}
                     </article>
 
                     <article className="flex flex-col mb-2">
@@ -123,8 +133,7 @@ const FormComunidad = ({setMostrarFormulario}) => {
                             className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.relacion ? 'border-red-600' : 'border-[#858f7b]'}`}
                             type="text"
                             placeholder="Socio, amigo, fundador, etc." />
-                        {errors.relacion &&
-                            <span className="text-xs text-amber-50 bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded shadow w-full mt-1"><i className="fa-solid fa-triangle-exclamation"></i> {errors.relacion.message}</span>}
+                            {errors.relacion && <InputError mensaje={errors.relacion.message} />}
                     </article>
 
                     <article className="flex flex-col mb-2">
@@ -136,11 +145,10 @@ const FormComunidad = ({setMostrarFormulario}) => {
                             className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.titulo ? 'border-red-600' : 'border-[#858f7b]'}`}
                             type="text"
                             placeholder="Ej: Historia de [tu nombre]" />
-                        {errors.titulo &&
-                            <span className="text-xs text-amber-50 bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded shadow w-full mt-1"><i className="fa-solid fa-triangle-exclamation"></i> {errors.titulo.message}</span>}
+                            {errors.titulo && <InputError mensaje={errors.titulo.message} />}
                     </article>
 
-                    <article className="flex flex-col mb-4">
+                    <article className="flex flex-col mb-2">
                         <label
                             className="font-medium"
                             htmlFor="mensaje">Mensaje:</label>
@@ -148,21 +156,19 @@ const FormComunidad = ({setMostrarFormulario}) => {
                             {...register("mensaje")}
                             className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 h-[120px] ${errors.mensaje ? 'border-red-600' : 'border-[#858f7b]'}`}
                             placeholder="(Hasta 1000 caracteres)" />
-                        {errors.mensaje &&
-                            <span className="text-xs text-amber-50 bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded shadow w-full mt-1"><i className="fa-solid fa-triangle-exclamation"></i> {errors.mensaje.message}</span>}
+                            {errors.mensaje && <InputError mensaje={errors.mensaje.message} />}
                     </article>
 
-                    <article className="flex flex-col mb-2">
+                    <article className="flex flex-col mb-4">
                         <label
                             className="font-medium"
-                            htmlFor="foto">Foto:</label>
+                            htmlFor="foto">Foto (opcional):</label>
                         <input
                             type="file"
                             accept={admitedFormats.join(",")}
                             {...register("foto")}
                             className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.foto ? 'border-red-600' : 'border-[#858f7b]'}`} />
-                        {errors.foto &&
-                            <span className="text-xs text-amber-50 bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded shadow w-full mt-1"><i className="fa-solid fa-triangle-exclamation"></i> {errors.foto.message}</span>}
+                            {errors.foto && <InputError mensaje={errors.foto.message} />}
                     </article>
 
                     {preview && (
@@ -194,12 +200,6 @@ const FormComunidad = ({setMostrarFormulario}) => {
             </motion.div>
             </article>
 
-            {mostrarAlert &&
-                <Alert
-                    mensaje={mensajeAlert}
-                    setAbrirModal={setMostrarAlert}
-                    importante={false}
-                    accionAdicional={() => setMensajeAlert('')} />}
         </>
     );
 };

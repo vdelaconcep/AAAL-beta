@@ -1,13 +1,14 @@
-import { obtenerComision } from "../services/comisionServices";
+import { obtenerComision } from "@/services/comisionServices";
 import { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
-import Alert from '../components/otros/alert'
+import { useAlert } from "@/context/alertContext";
+import MiembroComision from "@/components/comision/miembroComision";
 
 const Comision = () => {
 
-    const [notificacion, setNotificacion] = useState('');
+    const { mostrarAlert } = useAlert();
+
     const [comision, setComision] = useState({});
-    const [abrirModal, setAbrirModal] = useState(false);
     const [cargando, setCargando] = useState(false);
 
     const obtenerLista = async () => {
@@ -16,14 +17,17 @@ const Comision = () => {
             const res = await obtenerComision();
 
             if (res.status !== 200) {
-                setNotificacion(`Error al obtener los datos: ${res.statusText}`);
-                return (setAbrirModal(true));
+                const mensajeAlert = `Error al obtener los datos: ${res.statusText}`;
+                mostrarAlert(mensajeAlert);
+                return;
             }
 
             setComision(res.data[0]);
+            return;
+
         } catch (err) {
-            setNotificacion(`Error al obtener datos: ${err.response.data.error}`);
-            setAbrirModal(true);
+            const mensajeAlert = `Error al obtener datos: ${err.response?.data?.error || err.message || 'Error desconocido'}`;
+            mostrarAlert(mensajeAlert);
         } finally {
             setCargando(false);
         }
@@ -52,64 +56,58 @@ const Comision = () => {
                     whileInView={{ y: 0, opacity: 1 }}
                     viewport={{ once: true, amount: 0.2 }}
                     className="flex flex-col w-full md:max-w-[450px] items-center text-[13px] md:text-[16px]">
-                    <article className="bg-[#DECBA0] w-full rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mb-4">
-                        <p className="bg-[#6E1538] text-white text-center text-shadow-xs text-shadow-gray-800">Presidente</p>
-                        <p className="py-1 text-center">{comision.presidente}</p>
-                    </article>
-                    <article className="bg-[#DECBA0] w-full rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mb-4">
-                        <p className="bg-[#6B9795] text-white text-center text-shadow-xs text-shadow-gray-800">Vicepresidente</p>
-                        <p className="py-1 text-center">{comision.vicepresidente}</p>
-                    </article>
-                    <div className="flex gap-2 mb-4 w-full">
-                        <article className="bg-[#DECBA0] flex-1 rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium">
-                            <p className="bg-[#A0AB94] text-white text-center text-shadow-xs text-shadow-gray-800">Secretario</p>
-                            <p className="py-1 text-center">{comision.secretario}</p>
-                        </article>
-                        <article className="bg-[#DECBA0] flex-1 rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium">
-                            <p className="bg-[#A0AB94] text-white text-center text-shadow-xs text-shadow-gray-800">Prosecretario</p>
-                            <p className="py-1 text-center">{comision.prosecretario}</p>
-                        </article>
+                    <div className="w-full mb-4">
+                        <MiembroComision
+                            fondo='#6E1538' // Granate
+                            cargo='Presidente'
+                            nombres={[comision.presidente]} />
+                    </div>
+                    <div className="w-full mb-4">
+                        <MiembroComision
+                            fondo='#6B9795' // Celeste
+                            cargo='Vicepresidente'
+                            nombres={[comision.vicepresidente]} />
                     </div>
                     <div className="flex gap-2 mb-4 w-full">
-                        <article className="bg-[#DECBA0] flex-1 rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium">
-                            <p className="bg-[#6B9795] text-white text-center text-shadow-xs text-shadow-gray-800">Tesorero</p>
-                            <p className="py-1 text-center">{comision.tesorero}</p>
-                        </article>
-                        <article className="bg-[#DECBA0] flex-1 rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium">
-                            <p className="bg-[#6B9795] text-white text-center text-shadow-xs text-shadow-gray-800">Protesorero</p>
-                            <p className="py-1 text-center">{comision.protesorero}</p>
-                        </article>
+                        <MiembroComision
+                            fondo='#A0AB94' // Verde
+                            cargo='Secretario'
+                            nombres={[comision.secretario]} />
+                        <MiembroComision
+                            fondo='#A0AB94' // Verde
+                            cargo='Prosecretario'
+                            nombres={[comision.prosecretario]} />
                     </div>
                     <div className="flex gap-2 mb-4 w-full">
-                        <article className="bg-[#DECBA0] flex-1 rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium">
-                            <p className="bg-[#A0AB94] text-white text-center text-shadow-xs text-shadow-gray-800">Vocales titulares</p>
-                            <p className="pt-1 text-center">{comision.vocaltitular1}</p>
-                            <p className="text-center">{comision.vocaltitular2}</p>
-                            <p className="pb-1 text-center">{comision.vocaltitular3}</p>
-                        </article>
-                        <article className="bg-[#DECBA0] flex-1 rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium">
-                            <p className="bg-[#A0AB94] text-white text-center text-shadow-xs text-shadow-gray-800">Vocales suplentes</p>
-                            <p className="pt-1 text-center">{comision.vocalsuplente1}</p>
-                            <p className="text-center">{comision.vocalsuplente2}</p>
-                            <p className="pb-1 text-center">{comision.vocalsuplente3}</p>
-                        </article>
+                        <MiembroComision
+                            fondo='#6B9795' // Celeste
+                            cargo='Tesorero'
+                            nombres={[comision.tesorero]} />
+                        <MiembroComision
+                            fondo='#6B9795' // Celeste
+                            cargo='Protesorero'
+                            nombres={[comision.protesorero]} />
                     </div>
-                    <article className="bg-[#DECBA0] w-full rounded-lg overflow-hidden shadow-xs shadow-gray-800 font-medium mb-4">
-                        <p className="bg-[#6B9795] text-white text-center text-shadow-xs text-shadow-gray-800">Revisores de cuentas</p>
-                        <p className="pt-1 text-center">{comision.revisordecuentas1}</p>
-                        <p className="text-center">{comision.revisordecuentas2}</p>
-                        <p className="pb-1 text-center">{comision.revisordecuentas3}</p>
-                    </article>
+                    <div className="flex gap-2 mb-4 w-full">
+                        <MiembroComision
+                            fondo='#A0AB94' // Verde
+                            cargo='Vocales titulares'
+                            nombres={[comision.vocaltitular1, comision.vocaltitular2, comision.vocaltitular3]} />
+                        <MiembroComision
+                            fondo='#A0AB94' // Verde
+                            cargo='Vocales suplentes'
+                            nombres={[comision.vocalsuplente1, comision.vocalsuplente2, comision.vocalsuplente3]} />
+                    </div>
+                    <div className="flex gap-2 mb-4 w-full">
+                    <MiembroComision
+                        fondo='#6B9795' // Celeste
+                        cargo='Revisores de cuentas'
+                        nombres={[comision.revisordecuentas1, comision.revisordecuentas2, comision.revisordecuentas3]} />
+                    </div>
                 </motion.div>
             ) : (
                 !cargando && <p>No hay datos de comisión disponibles</p>
             )}
-            {abrirModal &&
-                <Alert
-                mensaje={notificacion}
-                setAbrirModal={setAbrirModal}
-                importante={false}
-                accionAdicional={() => setNotificacion('')} />}
         </section>
     )
 };

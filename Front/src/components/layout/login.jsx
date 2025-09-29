@@ -1,7 +1,7 @@
 
 import { useState, useRef, useEffect } from 'react';
-import BotonPrimario from '../botones/primario';
-import BotonSecundario from '../botones/secundario';
+import BotonPrimario from '@/components/botones/primario';
+import BotonSecundario from '@/components/botones/secundario';
 
 const Login = () => {
 

@@ -1,22 +1,19 @@
-import BotonPrimario from "../components/botones/primario";
-import BotonSecundario from "../components/botones/secundario";
+import BotonPrimario from "@/components/botones/primario";
+import BotonSecundario from "@/components/botones/secundario";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { enviarMensaje } from "../services/contactoServices";
-import Toast from "../components/otros/toast";
-import Alert from "../components/otros/alert";
+import { enviarMensaje } from "@/services/contactoServices";
+import { useAlert } from "@/context/alertContext";
+import { useToast } from "@/context/toastContext";
 import { useState } from "react";
+import InputError from "@/components/otros/inputError";
 
 const Contacto = () => {
 
-    // Control de toast
-    const [mostrarToast, setMostrarToast] = useState(false);
-
-    // Control de alert
-    const [mostrarAlert, setMostrarAlert] = useState(false);
-    const [mensajeAlert, setMensajeAlert] = useState('');
+    const { mostrarAlert } = useAlert();
+    const { mostrarToast } = useToast();
 
     const [enviando, setEnviando] = useState(false);
 
@@ -57,15 +54,19 @@ const Contacto = () => {
             setEnviando(true);
             const res = await enviarMensaje(data);
             if (res.status !== 200) {
-                setMensajeAlert(`Error al enviar tu mensaje: ${res.statusText}`);
-                return setMostrarAlert(true);
-            }
+                const mensajeAlert = `Error al enviar tu mensaje: ${res.statusText}`;
+                mostrarAlert(mensajeAlert);
+                return;
+            };
 
-            return setMostrarToast(true);
+            const mensajeToast = 'Mensaje enviado';
+            mostrarToast(mensajeToast, { success: true, accionAdicional: reset });
+            return;
 
         } catch (err) {
-            setMensajeAlert(`Error al enviar tu mensaje: ${err.response?.data?.error || err.message || 'Error desconocido'}`);
-            return setMostrarAlert(true);
+            const mensajeAlert = `Error al enviar tu mensaje: ${err.response?.data?.error || err.message || 'Error desconocido'}`;
+            mostrarAlert(mensajeAlert);
+            return;
         } finally {
             setEnviando(false)
         }
@@ -94,8 +95,7 @@ const Contacto = () => {
                         {...register("nombre")}
                         className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.nombre ? 'border-red-600' : 'border-[#858f7b]'}`}
                         type="text" />
-                    {errors.nombre &&
-                        <span className="text-xs text-amber-50 bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded shadow w-full mt-1"><i className="fa-solid fa-triangle-exclamation"></i> {errors.nombre.message}</span>}
+                    {errors.nombre && <InputError mensaje={errors.nombre.message} />}
                 </article>
                 <article className="flex flex-col mb-2">
                     <label
@@ -105,8 +105,7 @@ const Contacto = () => {
                         {...register("email")}
                         className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.email ? 'border-red-600' : 'border-[#858f7b]'}`}
                         type="email" />
-                    {errors.email &&
-                        <span className="text-xs text-amber-50 bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded shadow w-full mt-1"><i className="fa-solid fa-triangle-exclamation"></i> {errors.email.message}</span>}
+                    {errors.email && <InputError mensaje={errors.email.message} />}
                 </article>
                 <article className="flex flex-col mb-2">
                     <label
@@ -116,8 +115,7 @@ const Contacto = () => {
                         {...register("telefono")}
                         className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.telefono ? 'border-red-600' : 'border-[#858f7b]'}`}
                         type="tel" />
-                    {errors.telefono &&
-                        <span className="text-xs text-amber-50 bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded shadow w-full mt-1"><i className="fa-solid fa-triangle-exclamation"></i> {errors.telefono.message}</span>}
+                    {errors.telefono && <InputError mensaje={errors.telefono.message} />}
                 </article>
                 <article className="flex flex-col mb-2">
                     <label
@@ -127,8 +125,7 @@ const Contacto = () => {
                         {...register("asunto")}
                         className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.asunto ? 'border-red-600' : 'border-[#858f7b]'}`}
                         type="text" />
-                    {errors.asunto &&
-                        <span className="text-xs text-amber-50 bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded shadow w-full mt-1"><i className="fa-solid fa-triangle-exclamation"></i> {errors.asunto.message}</span>}
+                    {errors.asunto && <InputError mensaje={errors.asunto.message} />}
                 </article>
                 <article className="flex flex-col mb-4">
                     <label
@@ -137,8 +134,7 @@ const Contacto = () => {
                     <textarea
                         {...register("mensaje")}
                         className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 h-[120px] ${errors.mensaje ? 'border-red-600' : 'border-[#858f7b]'}`} />
-                    {errors.mensaje &&
-                        <span className="text-xs text-amber-50 bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded shadow w-full mt-1"><i className="fa-solid fa-triangle-exclamation"></i> {errors.mensaje.message}</span>}
+                    {errors.mensaje && <InputError mensaje={errors.mensaje.message} />}
                 </article>
                 <article className="flex gap-2">
                     <BotonSecundario
@@ -153,18 +149,6 @@ const Contacto = () => {
                         deshabilitado={enviando ? true : false} />
                 </article>
             </motion.form>
-            {mostrarToast &&
-                <Toast
-                    mensaje='Tu mensaje ha sido enviado'
-                    setMostrarToast={setMostrarToast}
-                    success={true}
-                    accionAdicional={() => reset()} />}
-            {mostrarAlert &&
-                <Alert
-                    mensaje={mensajeAlert}
-                    setAbrirModal={setMostrarAlert}
-                    importante={false}
-                    accionAdicional={() => setMensajeAlert('')} />}
 
         </section>
         

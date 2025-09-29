@@ -1,5 +1,5 @@
-import BotonPrimario from "../botones/primario";
-import aniversario from '../../assets/img/novedades_25aniversario.jpg';
+import BotonPrimario from "@/components/botones/primario";
+import aniversario from '@/assets/img/novedades_25aniversario.jpg';
 import { motion } from "framer-motion";
 
 const NovedadesPrincipal = () => {

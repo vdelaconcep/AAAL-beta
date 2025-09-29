@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import BotonSecundario from '../components/botones/secundario';
-import FormComunidad from '../components/comunidad/formComunidad';
+import BotonSecundario from '@/components/botones/secundario';
+import FormComunidad from '@/components/comunidad/formComunidad';
 
 const Comunidad = () => {
 
