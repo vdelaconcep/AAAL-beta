@@ -10,7 +10,7 @@ const Header = () => {
 
     return (
         <header className='bg-[#6E1538] pb-3'>
-            <Login clase='pt-2 pr-4 md:pt-4 md:pr-10'/>
+            <Login clase='pt-1 pr-4 md:pr-10'/>
             <div className='flex min-[420px]:gap-1 text-white justify-center items-center w-full'>
                 <article className=''>
                     <Link to="/">
