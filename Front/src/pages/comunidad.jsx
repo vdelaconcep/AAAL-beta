@@ -13,7 +13,7 @@ const Comunidad = () => {
                 tipo='button'
                 texto={<><span>Compartí tu historia </span><i className="fa-solid fa-feather"></i></>}
                 accion={() => setMostrarFormulario(true)}/>
-            {mostrarFormulario && <FormComunidad setMostrarFormulario={setMostrarFormulario}/>}
+            {mostrarFormulario && <FormComunidad mostrarFormulario={mostrarFormulario} setMostrarFormulario={setMostrarFormulario}/>}
         </section>
 
     );

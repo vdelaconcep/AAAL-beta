@@ -33,7 +33,7 @@ const Whatsapp = () => {
 
         return () => {
             document.removeEventListener('click', cerrarModal);
-            document.addEventListener('keydown', cerrarModalEsc);
+            document.removeEventListener('keydown', cerrarModalEsc);
         };
 
     }, [mostrarContactos, setMostrarContactos]);

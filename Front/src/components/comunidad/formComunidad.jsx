@@ -4,13 +4,16 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { enviarMensajeComunidad } from "@/services/comunidadService";
 import InputError from '@/components/otros/inputError';
 import BotonTransparente from "@/components/botones/transparente";
 import { useAlert } from '@/context/alertContext';
 
-const FormComunidad = ({setMostrarFormulario}) => {
+const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
+
+    // Modal de formulario
+    const formRef = useRef()
 
     const { mostrarAlert } = useAlert();
     
@@ -58,7 +61,18 @@ const FormComunidad = ({setMostrarFormulario}) => {
 
     const onSubmit = async (data) => {
 
-        const dataAEnviar = {... data, imagen: data.imagen[0]}
+        const dataAEnviar = new FormData();
+
+        Object.keys(data).forEach(key => {
+            if (key !== 'foto') {
+                dataAEnviar.append(key, data[key]);
+            }
+        });
+
+        if (data.foto && data.foto[0]) {
+            dataAEnviar.append('imagen', data.foto[0]);
+        }
+
         try {
             setEnviando(true);
             const res = await enviarMensajeComunidad(dataAEnviar);
@@ -69,7 +83,7 @@ const FormComunidad = ({setMostrarFormulario}) => {
             }
             
             const mensajeAlert = 'Muchas gracias por compartir! Tu historia fue enviada a los administradores del sitio para su publicación';
-            mostrarAlert(mensajeAlert);
+            mostrarAlert(mensajeAlert, {accionAdicional: () => setMostrarFormulario(false)});
             return;
     
         } catch (err) {
@@ -93,6 +107,26 @@ const FormComunidad = ({setMostrarFormulario}) => {
         setPreview(null);
     }, [fotoSeleccionada]);
 
+    // Detector de clicks fuera del modal
+    useEffect(() => {
+        
+        const cerrarModal = (evento) => {
+            if (mostrarFormulario && (!formRef.current?.contains(evento.target) || evento.key === "Escape")) setMostrarFormulario(false);
+        };
+
+        const timeOut = setTimeout(() => {
+            document.addEventListener('click', cerrarModal);
+            document.addEventListener('keydown', cerrarModal);
+        }, 50);
+        
+
+        return () => {
+            clearTimeout(timeOut);
+            document.removeEventListener('click', cerrarModal);
+            document.removeEventListener('keydown', cerrarModal);
+        };
+    }, [mostrarFormulario])
+
     return (
         <>
             <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-40 flex flex-col justify-start overflow-y-auto scrollbar-hide'>
@@ -104,7 +138,9 @@ const FormComunidad = ({setMostrarFormulario}) => {
                         accion={() => {setMostrarFormulario(false)}} />
             </div>
 
-            <motion.div className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative text-gray-900 my-4"
+            <motion.div
+                ref={formRef}
+                className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative text-gray-900 my-4"
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1, transition: { duration: 0.4 } }}
             >
@@ -172,7 +208,7 @@ const FormComunidad = ({setMostrarFormulario}) => {
                     </article>
 
                     {preview && (
-                        <div className="mt-2">
+                        <div className="mt-2 mb-4">
                             <p className="text-gray-600 text-sm">Vista previa:</p>
                             <img
                                 src={preview}
