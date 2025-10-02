@@ -39,14 +39,17 @@ const Whatsapp = () => {
     }, [mostrarContactos, setMostrarContactos]);
 
     return (
-        <section>
-            <button
-                className="fixed bottom-5 right-5 bg-[#36BB68] text-white px-3 pt-[10px] pb-[7px] rounded-full shadow-md shadow-gray-900 z-40 cursor-pointer transition-transform duration-300 ease-in-out hover:scale-108"
-                title="Contactar por whatsapp"
-                ref={btnRef}
-                onClick={() => setMostrarContactos(true)}>
+        <section className="sticky bottom-0 w-full pointer-events-none z-40">
+            <div className="flex justify-end pr-5 pointer-events-auto">
+                <button
+                    className="absolute bottom-5 right-5 bg-[#36BB68] text-white px-3 pt-[10px] pb-[7px] rounded-full shadow-md shadow-gray-900 z-40 cursor-pointer transition-transform duration-300 ease-in-out hover:scale-108"
+                    title="Contactar por whatsapp"
+                    ref={btnRef}
+                    onClick={() => setMostrarContactos(true)}>
                     <i className="fa-brands fa-whatsapp text-4xl"></i>
-            </button>
+                </button>
+            </div>
+            
             {mostrarContactos &&
                 <div className='fixed inset-0 bg-black/70 backdrop-blur-sm z-60 flex items-center justify-center'>
                     <motion.div
@@ -67,7 +70,7 @@ const Whatsapp = () => {
                                 </p>
                                 <div className="w-1/3 flex justify-end">
                                     <a
-                                        className="rounded-xl text-white font-medium bg-[#36BB68] px-4 py-1 mr-3 hover:bg-[#06a543] shadow-sm shadow-gray-800 transition-colors duration-200"
+                                        className="rounded-xl text-white font-medium bg-[#36BB68] px-4 py-1 mr-3 hover:bg-[#06a543] shadow-sm shadow-gray-800 transition-colors duration-200 cursor-pointer"
                                         href={`https://wa.me/${contacto.telefono}?text=Hola%20mi%20nombre%20es`}
                                         target="_blank"
                                         title="Enviar mensaje por whatsapp"
@@ -81,7 +84,7 @@ const Whatsapp = () => {
                         <div className="flex justify-center my-1">
                             <BotonTransparente
                                 texto={<><i className="fa-solid fa-arrow-left"></i> <span className="ml-1">volver</span></>}
-                                clase='px-4 text-[#6E1538]'
+                                clase='px-4 text-[#6E1538] cursor-pointer'
                                 accion={() => setMostrarContactos(false)} />
                         </div>
                     </motion.div>

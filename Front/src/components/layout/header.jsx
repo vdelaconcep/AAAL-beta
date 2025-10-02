@@ -5,25 +5,25 @@ import { Link } from "react-router-dom";
 const Header = () => {
 
     // Tamaño de letra del título (responsive)
-    const textoTitulo = 'text-[20px] sm:text-4xl md:text-5xl xl:text-[3.5rem]'
-    const primeraLetraTitulo = 'text-[22px] sm:text-[2.5rem] md:text-[3.25rem] xl:text-[3.75rem]'
+    const textoTitulo = 'text-[1.3rem] min-[400px]:text-[1.5rem] min-[500px]:text-[2.2rem] sm:text-5xl lg:text-6xl'
+    const primeraLetraTitulo = 'text-[1.7rem] min-[400px]:text-[2rem] min-[500px]:text-[2.6rem] sm:text-[3.3rem] lg:text-[4.2rem]'
 
     return (
-        <header className='bg-[#6E1538] px-3 pb-2'>
-            <Login />
-            <div className='flex text-white justify-center'>
-                <article className='flex justify-center w-1/3 md:w-1/4 mr-1'>
+        <header className='bg-[#6E1538] pb-3'>
+            <Login clase='pt-2 pr-4 md:pt-4 md:pr-10'/>
+            <div className='flex min-[420px]:gap-1 text-white justify-center items-center w-full'>
+                <article className=''>
                     <Link to="/">
-                        <img className="relative z-30 aspect-ratio:1/1 max-h-[220px]" src={logo} alt="Logo Asociacion Automoviles Antiguos de Lanus" />
+                        <img className="aspect-ratio:1/1 max-h-[90px] min-[370px]:max-h-[120px] sm:max-h-[170px] lg:max-h-[220px]" src={logo} alt="Logo Asociacion Automoviles Antiguos de Lanus" />
                     </Link>
                 </article>
                 
-                <section className='flex flex-col items-center justify-center text-center w-2/3 md:w-3/4'>
-                    <h2 className={`${textoTitulo} font-medium mrAlex text-shadow-lg text-shadow-black`}>
+                <article className='flex-col items-center justify-center text-center'>
+                    <h2 className={`${textoTitulo} font-medium mrAlex text-shadow-lg text-shadow-black max-w-[210px] min-[350px]:max-w-[220px] min-[400px]:max-w-[250px] min-[500px]:max-w-[350px] sm:max-w-[500px] lg:max-w-[720px]`}>
                         <span className={primeraLetraTitulo}>A</span>SOCIACION DE <span className={primeraLetraTitulo}>A</span>UTOMOVILES <span className={primeraLetraTitulo}>A</span>NTIGUOS DE <span className={primeraLetraTitulo}>L</span>ANUS
                     </h2>
-                    <h5 className='text-center italic text-[11.8px] sm:text-sm md:text-md lg:text-lg mt-1 text-[#DECBA0] md:mt-2'>Fundada el 24 de septiembre del 2000</h5>
-                </section>
+                    <h5 className='text-center italic text-[11.8px] sm:text-sm md:text-lg lg:text-xl mt-1 text-[#DECBA0] md:mt-2'>Fundada el 24 de septiembre del 2000</h5>
+                </article>
             </div>
         </header>
     );

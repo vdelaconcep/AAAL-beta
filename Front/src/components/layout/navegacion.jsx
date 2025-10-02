@@ -44,7 +44,7 @@ const Navegacion = () => {
     return (
         <nav
             ref={navRef}
-            className="bg-[#6B9795] border-b-[2px] border-b-[#5b807e] md:text-[#d3fffd] md:text-xl relative"
+            className="bg-[#6B9795] border-b-[2px] border-b-[#5b807e] md:text-[#d3fffd] md:text-xl relative md:pr-6"
         >
             <div className="flex justify-end md:hidden py-1 pr-4">
                 <motion.button

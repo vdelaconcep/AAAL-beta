@@ -12,8 +12,8 @@ const VehiculosPrincipal = () => {
     const vehiculos = [imagen1, imagen2, imagen3, imagen4, imagen5, imagen6];
 
     return (
-        <section className="bg-[#DECBA0] border-b-[2px] border-b-[#bdad89] pt-1 w-full md:pt-3 pb-4 md:pb-5 overflow-hidden">
-            <h1 className="pl-4 md:pl-8 mb-2 md:mb-5 pt-3 md:pt-4 font-bold text-lg md:text-xl italic text-gray-900">Nuestros vehículos</h1>
+        <section className="bg-[#DECBA0] border-b-[2px] border-b-[#bdad89] p-4 w-full md:px-10 md:py-6 overflow-hidden">
+            <h1 className="mb-2 md:mb-5 font-bold text-lg md:text-xl italic text-gray-900">Nuestros vehículos</h1>
 
             <div className="flex flex-wrap">
                 {vehiculos.map((n, i) => {
@@ -22,7 +22,7 @@ const VehiculosPrincipal = () => {
 
                     return (
                         <motion.article
-                            className="w-1/2 py-1 md:pb-7 px-4 md:px-8 even:pl-1 md:even:pl-4 odd:pr-1 md:odd:pr-4"
+                            className="w-1/2 py-1 md:pb-7 even:pl-1 md:even:pl-4 odd:pr-1 md:odd:pr-4"
                             key={i}
                             initial={{ opacity: 0, x: fotoPar ? -30 : 30 }}
                             transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}

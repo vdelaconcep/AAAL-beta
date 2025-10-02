@@ -17,7 +17,7 @@ const Auspiciantes = () => {
     const logos = [...slides, ...slides];
 
     return (
-        <section className="bg-[#6E1538] p-2 px-4 md:px-8 pb-3 md:pb-4">
+        <section className="bg-[#6E1538] p-4 md:px-10 md:py-6">
             <p className="text-center text-md md:text-lg text-white font-medium italic pb-1 text-shadow-gray-900 text-shadow-2xs">
                 Nos acompañan:
             </p>
