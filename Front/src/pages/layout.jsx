@@ -12,9 +12,7 @@ const Layout = () => {
                     <Header />
                     <Navegacion />
                 </div>
-                <main>
                     <Outlet />
-                </main>
                 <Footer />
                 <Whatsapp />
             </div>

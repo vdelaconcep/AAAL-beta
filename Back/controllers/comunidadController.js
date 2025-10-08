@@ -47,6 +47,26 @@ const enviarMensajeComunidad = async (req, res) => {
     }
 };
 
+const obtenerMensajesComunidad = async (req, res) => {
+    try {
+        const mensajes = await MensajesComunidad.getAll();
+        res.json(mensajes);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+const obtenerMensajesAprobados = async (req, res) => {
+    try {
+        const mensajesAprobados = await MensajesComunidad.getAprobados();
+        res.json(mensajesAprobados);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 export {
-    enviarMensajeComunidad
+    enviarMensajeComunidad,
+    obtenerMensajesComunidad,
+    obtenerMensajesAprobados
 };

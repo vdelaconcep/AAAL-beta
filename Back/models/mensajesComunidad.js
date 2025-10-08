@@ -37,6 +37,33 @@ class MensajesComunidad {
             throw new Error('Error al guardar mensaje en base de datos: ' + error.message);
         }
     }
+
+    static async getAll() {
+        try {
+            const [rows] = await pool.query('SELECT * FROM mensajesComunidad');
+            return rows;
+        } catch (error) {
+            throw new Error('Error al obtener mensajes de la comunidad: ' + error.message);
+        }
+    }
+
+    static async getAprobados() {
+        try {
+            const [rows] = await pool.query('SELECT * FROM mensajesComunidad WHERE aprobado=TRUE');
+            return rows;
+        } catch (error) {
+            throw new Error('Error al obtener mensajes de la comunidad: ' + error.message);
+        }
+    }
+
+    static async getPendientes() {
+        try {
+            const [rows] = await pool.query('SELECT * FROM mensajesComunidad WHERE aprobado=FALSE');
+            return rows;
+        } catch (error) {
+            throw new Error('Error al obtener mensajes de la comunidad: ' + error.message);
+        }
+    }
 }
 
 export default MensajesComunidad;
