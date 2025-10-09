@@ -17,7 +17,9 @@ class MensajesComunidad {
                     titulo VARCHAR(50) NOT NULL,
                     mensaje VARCHAR(500) NOT NULL,
                     foto VARCHAR(1000),
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    aprobado BOOLEAN NOT NULL DEFAULT FALSE,
+                    INDEX idx_aprobado (aprobado)
                 )`;
                 await pool.query(createQuery);
                 console.log("Tabla 'mensajesComunidad' creada ✅");
@@ -47,14 +49,32 @@ class MensajesComunidad {
         }
     }
 
-    static async getAprobados() {
+    static async getPaginaAprobados(page, limit) {
+        const offset = (page - 1)*limit
         try {
-            const [rows] = await pool.query('SELECT * FROM mensajesComunidad WHERE aprobado=TRUE');
-            return rows;
+            const [rows] = await pool.query('SELECT * FROM mensajesComunidad WHERE aprobado=TRUE ORDER BY id DESC LIMIT ? OFFSET ?', [limit, offset]);
+
+            const [totalResult] = await pool.query(
+                'SELECT COUNT(*) as total FROM mensajesComunidad WHERE aprobado=TRUE'
+            );
+
+            const total = totalResult[0].total;
+            const totalPages = Math.ceil(total / limit);
+
+            return {
+                rows,
+                paginacion: {
+                    currentPage: page,
+                    totalPages,
+                    totalItems: total,
+                    itemsPerPage: limit
+                }
+            };
+
         } catch (error) {
             throw new Error('Error al obtener mensajes de la comunidad: ' + error.message);
         }
-    }
+    };
 
     static async getPendientes() {
         try {

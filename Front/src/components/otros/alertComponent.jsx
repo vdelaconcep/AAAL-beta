@@ -9,9 +9,13 @@ const AlertComponent = () => {
     if (!visible) return null;
 
     return (
-        <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-60 flex items-center justify-center'>
+        <article
+            className='fixed inset-0 bg-black/70 backdrop-blur-sm z-60 flex items-center justify-center'
+            onClick={(e) => e.stopPropagation()}>
             
-            <motion.div className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 md:p-6 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative"
+            <motion.div 
+                className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 md:p-6 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative"
+                onClick={(e) => e.stopPropagation()}
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1, transition: {duration: 0.4} }}
             >

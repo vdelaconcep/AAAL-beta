@@ -8,6 +8,6 @@ export const obtenerMensajesComunidad = () => {
     return apiClient.get('/api/comunidad/mensajes');
 };
 
-export const obtenerMensajesAprobados = () => {
-    return apiClient.get('/api/comunidad/mensajesAprobados');
+export const obtenerMensajesAprobados = (page=1) => {
+    return apiClient.get(`/api/comunidad/mensajesAprobados?page=${page}`);
 };

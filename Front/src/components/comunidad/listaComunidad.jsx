@@ -1,5 +1,4 @@
 import formatearUTC from '@/utils/formatearUTC.js';
-import BotonTransparente from '@/components/botones/transparente'
 
 const ListaComunidad = ({ mensajes }) => {
     return (

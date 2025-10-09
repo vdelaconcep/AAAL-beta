@@ -12,9 +12,6 @@ import { useAlert } from '@/context/alertContext';
 
 const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
 
-    // Modal de formulario
-    const formRef = useRef()
-
     const { mostrarAlert } = useAlert();
     
     const [enviando, setEnviando] = useState(false);
@@ -111,18 +108,17 @@ const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
     useEffect(() => {
         
         const cerrarModal = (evento) => {
-            if (mostrarFormulario && (!formRef.current?.contains(evento.target) || evento.key === "Escape")) setMostrarFormulario(false);
+            if (enviando) return;
+            if (mostrarFormulario && evento.key === "Escape") setMostrarFormulario(false);
         };
 
         const timeOut = setTimeout(() => {
-            document.addEventListener('click', cerrarModal);
             document.addEventListener('keydown', cerrarModal);
         }, 50);
         
 
         return () => {
             clearTimeout(timeOut);
-            document.removeEventListener('click', cerrarModal);
             document.removeEventListener('keydown', cerrarModal);
         };
     }, [mostrarFormulario])
@@ -139,7 +135,6 @@ const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
             </div>
 
             <motion.div
-                ref={formRef}
                 className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 rounded-lg shadow-md shadow-gray-500 w-full max-w-[400px] md:max-w-md mx-auto relative text-gray-900 mb-4"
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1, transition: { duration: 0.4 } }}
