@@ -1,9 +1,14 @@
 import formatearUTC from '@/utils/formatearUTC.js';
+import { useState } from 'react';
 
 const MensajeComunidad = ({ mensaje }) => {
 
     let fecha = formatearUTC(mensaje.created_at);
     fecha = fecha.split(',')[0];
+
+    const [mostrarMas, setMostrarMas] = useState(false);
+
+    const mensajeEsLargo = (mensaje.mensaje).length > 100;
 
     return (
         <article className='text-gray-900'>
@@ -23,8 +28,18 @@ const MensajeComunidad = ({ mensaje }) => {
                     src={mensaje.foto}
                     alt={`Imagen de "${mensaje.titulo}"`} />
                 }
-                <p className='md:flex-1'>{mensaje.mensaje}</p>
+                <p className='hidden md:block flex-1'>{mensaje.mensaje}</p>
+                <div className='md:hidden'>
+                    <p className='inline'>{!mostrarMas ? (mensajeEsLargo ? mensaje.mensaje.slice(0, 100) : mensaje.mensaje) : mensaje.mensaje}</p>
+                    {!mostrarMas && mensajeEsLargo &&
+                        <button
+                            className='inline underline font-medium ml-1'
+                            onClick={() => setMostrarMas(true)}> mostrar más</button>
+                    }
+                </div>
+                
             </div>
+            
         </article>
     );
 };

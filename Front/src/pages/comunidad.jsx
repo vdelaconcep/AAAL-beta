@@ -39,11 +39,15 @@ const Comunidad = () => {
                             initial: { x: 100, opacity: 0 },
                             transition: { duration: 0.9 },
                             animate: { x: 0, opacity: 1 }
-                        } : (accion === 'anterior' && {
+                        } : (accion === 'anterior' ? {
                             initial: { x: -100, opacity: 0 },
                             transition: { duration: 0.9 },
                             animate: { x: 0, opacity: 1 }
-                        }))}>
+                            } : {
+                                initial: { y: 50, opacity: 0 },
+                                transition: { duration: 0.9 },
+                                animate: { y: 0, opacity: 1 }
+                            }))}>
                         {
                             mensajes.map(mensaje =>
                                 <article
@@ -71,7 +75,7 @@ const Comunidad = () => {
                 tipo='button'
                 texto={<><span>Compartí tu historia </span><i className="fa-solid fa-feather"></i></>}
                 accion={() => setMostrarFormulario(true)}
-                clase={`w-[210px] md:w-[300px] md:mt-4 text-shadow-xs text-shadow-gray-800 left-4 z-40 ${footerVisible ? 'absolute bottom-3 w-[calc(100%-2rem)]' : 'fixed bottom-6'} md:relative md:bottom-auto md:left-auto md:z-auto`}
+                clase={`w-[210px] md:w-[300px] md:mt-4 text-shadow-xs text-shadow-gray-800 left-5 z-40 ${footerVisible ? 'absolute bottom-3 w-[calc(100%-2rem)]' : 'fixed bottom-6'} md:relative md:bottom-auto md:left-auto md:z-auto`}
             />
             {mostrarFormulario && <FormComunidad mostrarFormulario={mostrarFormulario} setMostrarFormulario={setMostrarFormulario}/>}
         </main>

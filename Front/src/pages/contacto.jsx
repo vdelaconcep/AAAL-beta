@@ -73,11 +73,11 @@ const Contacto = () => {
     };
 
     return (
-        <section className="flex flex-col items-center bg-amber-100 py-5 md:py-10 px-4 text-gray-900">
+        <main className="flex flex-col items-center bg-white py-5 md:py-10 px-4 text-gray-900">
 
             <div className="flex flex-col items-center mb-4">
                 <h1 className="text-xl md:text-2xl font-bold italic">Contacto</h1>
-                <h6 className="text-sm md:text-md">Escribinos un mensaje y te responderemos a la brevedad</h6>
+                <h6 className="text-md md:text-lg">Escribinos un mensaje y te responderemos a la brevedad</h6>
             </div>
 
             <motion.form
@@ -86,7 +86,7 @@ const Contacto = () => {
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true, amount: 0.2 }}
                 onSubmit={handleSubmit(onSubmit)}
-                className="bg-[#A0AB94] px-2 py-3 rounded-xl shadow-md shadow-gray-800 text-md w-full md:max-w-[400px]">
+                className="bg-[#A0AB94] px-3 py-3 rounded-xl shadow-md shadow-gray-800 text-md w-full md:max-w-[400px]">
                 <article className="flex flex-col mb-2">
                     <label
                         className="font-medium"
@@ -150,7 +150,7 @@ const Contacto = () => {
                 </article>
             </motion.form>
 
-        </section>
+        </main>
         
     )
 };
