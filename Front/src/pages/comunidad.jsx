@@ -61,15 +61,16 @@ const Comunidad = () => {
                     : <h6>No hay mensajes para mostrar</h6>)}
             </section>
 
-            <div className='pb-10 md:pb-2'>
-                <ControlPagina
-                    pagina={pagina}
-                    setPagina={setPagina}
-                    totalPaginas={totalPaginas}
-                    setAccion={setAccion}
-                    mainRef={mainRef} />
-            </div>
-            
+            {!cargando && mensajes.length > 1 && 
+                <div className='pb-10 md:pb-2'>
+                    <ControlPagina
+                        pagina={pagina}
+                        setPagina={setPagina}
+                        totalPaginas={totalPaginas}
+                        setAccion={setAccion}
+                        mainRef={mainRef} />
+                </div>
+            }
             
             <BotonPrimario
                 tipo='button'
