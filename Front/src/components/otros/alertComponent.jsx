@@ -14,15 +14,15 @@ const AlertComponent = () => {
             onClick={(e) => e.stopPropagation()}>
             
             <motion.div 
-                className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 md:p-6 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative"
+                className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative"
                 onClick={(e) => e.stopPropagation()}
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1, transition: {duration: 0.4} }}
             >
                 {importante && <h2 className="text-xl font-bold mb-4 text-center">IMPORTANTE</h2>}
-                <p>{textoAlert}</p>
+                <p className="text-center">{textoAlert}</p>
 
-                <div className='flex justify-center mt-5'>
+                <div className='flex justify-center mt-3'>
                     <BotonPrimario
                         tipo='button'
                         texto='OK'

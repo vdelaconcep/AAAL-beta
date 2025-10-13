@@ -59,7 +59,7 @@ const obtenerMensajesComunidad = async (req, res) => {
 const obtenerMensajesAprobados = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
-        const limit = 5;
+        const limit = 2;
 
         if (page < 1) {
             return res.status(400).json({ error: 'El número de página debe ser mayor a 0' });
