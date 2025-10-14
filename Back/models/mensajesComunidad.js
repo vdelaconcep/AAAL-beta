@@ -1,4 +1,5 @@
 import pool from '../database/mysql.js';
+import { v4 as uuidv4 } from 'uuid';
 
 class MensajesComunidad {
     static async enviarMensaje(data) {
@@ -11,7 +12,7 @@ class MensajesComunidad {
             if (rows.length === 0) {
                 const createQuery = `
                 CREATE TABLE mensajesComunidad (
-                    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                    id CHAR(36) NOT NULL PRIMARY KEY,
                     nombre VARCHAR(50) NOT NULL,
                     relacion VARCHAR(50) NOT NULL,
                     titulo VARCHAR(50) NOT NULL,
@@ -26,14 +27,28 @@ class MensajesComunidad {
             }
 
             // Insertar datos en la tabla
+            const uuid = uuidv4();
+            const createdAt = new Date();
+
+            const createdAtArg = new Intl.DateTimeFormat('es-AR', {
+                dateStyle: 'short',
+                timeStyle: 'short',
+                timeZone: 'America/Argentina/Buenos_Aires'
+            }).format(createdAt);
+
             const insertQuery = `
-                INSERT INTO mensajesComunidad (nombre, relacion, titulo, mensaje, foto)
-                VALUES(?, ?, ?, ?, ?)
+                INSERT INTO mensajesComunidad (id, nombre, relacion, titulo, mensaje, foto)
+                VALUES(?, ?, ?, ?, ?, ?)
             `;
-            const values = [data.nombre, data.relacion, data.titulo, data.mensaje, data.foto];
+            
+            const values = [uuid, data.nombre, data.relacion, data.titulo, data.mensaje, data.foto];
             const [result] = await pool.query(insertQuery, values);
             
-            return { id: result.insertId, ...data };
+            return {
+                id: uuid,
+                ...data,
+                fechayhora: createdAtArg
+            };
 
         } catch (error) {
             throw new Error('Error al guardar mensaje en base de datos: ' + error.message);

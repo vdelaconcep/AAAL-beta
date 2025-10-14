@@ -4,7 +4,8 @@ import cors from "cors";
 
 import comisionRouter from './routes/comisionRouter.js';
 import contactoRouter from './routes/contactoRouter.js';
-import comunidadRouter from './routes/comunidadRouter.js'
+import comunidadRouter from './routes/comunidadRouter.js';
+import fotosGaleriaRouter from './routes/fotosGaleriaRouter.js'
 
 // Servidor
 const app = express();
@@ -21,7 +22,8 @@ app.get('/', (req, res) => {
 })
 app.use('/api/comision', comisionRouter);
 app.use('/api/contacto', contactoRouter);
-app.use('/api/comunidad', comunidadRouter)
+app.use('/api/comunidad', comunidadRouter);
+app.use('/api/fotosGaleria', fotosGaleriaRouter);
 
 
 export default app;

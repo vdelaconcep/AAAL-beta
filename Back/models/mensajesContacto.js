@@ -1,4 +1,5 @@
 import pool from '../database/mysql.js';
+import { v4 as uuidv4 } from 'uuid';
 
 class MensajesContacto {
     static async enviarMensaje(data) {
@@ -11,7 +12,7 @@ class MensajesContacto {
             if (rows.length === 0) {
                 const createQuery = `
                 CREATE TABLE mensajesContacto (
-                    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                    id CHAR(36) NOT NULL PRIMARY KEY,
                     nombre VARCHAR(50) NOT NULL,
                     email VARCHAR(50) NOT NULL,
                     telefono INT,
@@ -24,14 +25,16 @@ class MensajesContacto {
             }
 
             // Insertar datos en la tabla
+            const uuid = uuidv4();
+
             const insertQuery = `
-                INSERT INTO mensajesContacto (nombre, email, telefono, asunto, mensaje)
-                VALUES(?, ?, ?, ?, ?)
+                INSERT INTO mensajesContacto (id, nombre, email, telefono, asunto, mensaje)
+                VALUES(?, ?, ?, ?, ?, ?)
             `;
-            const values = [data.nombre, data.email, data.telefono, data.asunto, data.mensaje];
+            const values = [uuid, data.nombre, data.email, data.telefono, data.asunto, data.mensaje];
             const [result] = await pool.query(insertQuery, values);
             
-            return { id: result.insertId, ...data };
+            return { id: uuid, ...data };
 
         } catch (error) {
             throw new Error('Error al guardar mensaje en base de datos: ' + error.message);

@@ -62,7 +62,7 @@ const Comunidad = () => {
             </section>
 
             {!cargando && mensajes.length > 1 && 
-                <div className='pb-10 md:pb-2'>
+                <div className='pb-12 md:pb-2'>
                     <ControlPagina
                         pagina={pagina}
                         setPagina={setPagina}
