@@ -146,32 +146,60 @@ const agregarDescripcion = async (req, res) => {
 const obtenerFotos = async (req, res) => {
     
     try {
-        let fotos = [];
 
-        if (req.query.eventoId) {
-            fotos = await FotosGaleria.getFotosDeEvento(req.query.eventoId);
-        } else if (req.query.desde && req.query.hasta) {
-            fotos = await FotosGaleria.getFotosPorFecha(req.query.desde, req.query.hasta);
-        } else {
-            fotos = await FotosGaleria.getFotos();
+        const { fotoId } = req.params;
+
+        const { fechaDesde, fechaHasta } = req.query;
+
+        let resultado;
+
+        try {
+            if (fotoId) {
+                resultado = await FotosGaleria.getFotos(fotoId, null, null);
+            } else if (fechaDesde || fechaHasta) {
+                resultado = await FotosGaleria.getFotos(null, fechaDesde, fechaHasta);
+            } else resultado = await FotosGaleria.getFotos();
+
+            if (!resultado) return res.status(404).json({ error: 'No se encontró información de la/las foto/s solicitada/s' });
+
+            return res.status(200).json(resultado);
+
+        } catch (err) {
+            return res.status(500).json({ error: err.message });
         }
-
-        if (!fotos || fotos.length === 0) return res.status(404).json({ error: 'No se encontraron fotos' });
-
-        return res.status(200).json({
-            success: true,
-            data: fotos
-        });
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
 };
 
+const obtenerEventos = async (req, res) => {
+
+    const { eventoId } = req.params;
+
+    const { fechaDesde, fechaHasta } = req.query;
+
+    let resultado;
+
+    try {
+        if (eventoId) {
+            resultado = await FotosGaleria.getEvento(eventoId);
+        } else if (fechaDesde || fechaHasta) {
+            resultado = await FotosGaleria.getEventos(fechaDesde, fechaHasta);
+        } else resultado = await FotosGaleria.getEventos();
+
+        if (!resultado) return res.status(404).json({ error: 'No se encontró información de el/los evento/s solicitado/s' });
+
+        return res.status(200).json(resultado);
+
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 const eliminarEvento = async (req, res) => {
-    let eventoId = '';
-    if (req.params.eventoId) {
-        eventoId = req.params.eventoId;
-    } else return res.status(400).json({
+    const { eventoId } = req.params;
+
+    if (!eventoId) return res.status(400).json({
         error: "Se debe indicar el id el evento que se desea eliminar de la base de datos"
     });
 
@@ -184,21 +212,15 @@ const eliminarEvento = async (req, res) => {
 }
 
 const eliminarFotos = async (req, res) => {
-    let eventoId = '';
-    if (req.params.eventoId) {
-        eventoId = req.params.eventoId;
-    } else return res.status(400).json({
-        error: "Se debe indicar el id del evento al que pertenecen las fotos que se desean eliminar"
-    });
 
     const { fotos } = req.body;
 
     if (!fotos || fotos.length === 0) {
-        return res.status(400).json({ error: 'No se enviaron fotos para eliminar' });
+        return res.status(400).json({ error: 'No se ingresaron los id de las fotos a eliminar' });
     };
 
     try {
-        const fotosEliminadas = await FotosGaleria.deleteFotosGaleria(eventoId, fotos);
+        const fotosEliminadas = await FotosGaleria.deleteFotosGaleria(fotos);
 
         return res.status(201).json(fotosEliminadas);
 
@@ -212,6 +234,7 @@ export {
     agregarFotos,
     agregarDescripcion,
     obtenerFotos,
+    obtenerEventos,
     eliminarEvento,
     eliminarFotos
 };

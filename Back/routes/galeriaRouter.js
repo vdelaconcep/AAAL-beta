@@ -5,6 +5,7 @@ import {
     agregarFotos,
     agregarDescripcion,
     obtenerFotos,
+    obtenerEventos,
     eliminarEvento,
     eliminarFotos
 } from '../controllers/galeriaController.js';
@@ -27,13 +28,18 @@ router.post('/agregarFotos/:eventoId', upload.array('fotos', 20), agregarFotos);
 // Agregar descripción a foto existente
 router.post('/agregarDescripcion/:fotoId', agregarDescripcion);
 
-// Obtener fotos (query params)
-router.get('/', obtenerFotos);
+// Obtener 1 foto o todas las fotos de la galería (o filtradas por fecha con query params)
+router.get('/fotos', obtenerFotos)
+router.get('/fotos/:fotoId', obtenerFotos);
+
+// Obtener 1 evento con todas sus fotos, o todos los eventos (o filtrados por fecha con query params) con url de la primer foto
+router.get('/eventos', obtenerEventos);
+router.get('/eventos/:eventoId', obtenerEventos);
 
 // Eliminar evento
 router.delete('/eliminarEvento/:eventoId', eliminarEvento);
 
 // Eliminar fotos
-router.delete('/eliminarFotos/:eventoId', eliminarFotos);
+router.delete('/eliminarFotos', eliminarFotos);
 
 export default router;

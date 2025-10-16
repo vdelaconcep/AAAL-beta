@@ -238,40 +238,9 @@ class FotosGaleria {
         };
     }
 
-    static async getFotos() {
-        try {
-            const [rows] = await pool.query('SELECT * FROM fotosGaleria');
-            return rows;
-        } catch (error) {
-            throw new Error('Error al obtener fotos desde la base de datos: '+ error.message)
-        }
-    }
+    static fechasValidas(desde, hasta) {
+        if (!desde || !hasta) throw new Error('Debe ingresar fechas inicial y final del rango de fechas');
 
-    static async getFotosDeEvento(eventoId) {
-
-        // Comprobaciones
-        if (!eventoId) {
-            throw new Error('Se debe indicar el id del evento');
-        }
-        const existe = await this.existeEvento(eventoId);
-        if (!existe) {
-            throw new Error(`El evento con ID ${eventoId} no existe`);
-        }
-
-        try {
-            const [rows] = await pool.query(
-                'SELECT * FROM fotosGaleria WHERE id_evento=?',
-                [eventoId]
-            );
-            return rows;
-        } catch (error) {
-            throw new Error('Error al obtener fotos del evento desde la base de datos: '+ error.message)
-        }
-    }
-
-    static async getFotosPorFecha(desde, hasta) {
-
-        // Comprobaciones
         const fechaDesde = new Date(desde);
         const fechaHasta = new Date(hasta);
 
@@ -284,17 +253,149 @@ class FotosGaleria {
         }
 
         if (fechaDesde > fechaHasta) {
-            throw new Error('La fecha de inicio debe ser anterior a la fecha de finalización');
+            throw new Error('La fecha de inicio debe ser anterior a la fecha de finalización del rango');
+        }
+
+        return true;
+    }
+
+    static async getFotos(fotoId = null, fechaDesde = null, fechaHasta = null) {
+
+        if ((fechaDesde && !fechaHasta) || (!fechaDesde && fechaHasta)) {
+            throw new Error('Debe ingresar ambas fechas (desde y hasta) para filtrar por rango');
+        }
+
+        try {
+            let query = `
+            SELECT 
+                f.id,
+                f.url,
+                f.descripcion,
+                f.orden,
+                f.created_by,
+                f.created_at,
+                f.id_evento,
+                e.nombre as evento,
+                e.fecha as fecha
+            FROM fotosGaleria f
+            INNER JOIN eventosGaleria e ON f.id_evento = e.id
+        `;
+
+            let params = [];
+            let conditions = [];
+
+            if (fotoId) {
+                conditions.push('f.id = ?');
+                params.push(fotoId);
+            }
+
+            if (fechaDesde && fechaHasta) {
+                this.fechasValidas(fechaDesde, fechaHasta);
+
+                conditions.push('e.fecha >= ?');
+                conditions.push('e.fecha <= ?');
+                params.push(fechaDesde, fechaHasta);
+
+            }
+
+            if (conditions.length > 0) query += ' WHERE ' + conditions.join('AND ');
+
+            query += ' ORDER BY e.fecha DESC';
+
+            const [rows] = await pool.query(query, params);
+
+            if (fotoId && rows.length === 0) throw new Error('No se encontró una foto con el id ingresado')
+            
+            if (fechaDesde && fechaHasta && rows.length === 0) throw new Error('No se encontraron fotos para el rango de fechas ingresado')
+
+            return {
+                success: true,
+                data: fotoId ? rows[0] : rows
+            };
+
+        } catch (error) {
+            throw new Error('Error al obtener foto(s): ' + error.message);
+        }
+    }
+
+    static async getEvento(eventoId) {
+
+        // Comprobaciones
+        if (!eventoId) {
+            throw new Error('Se debe indicar el id del evento');
+        }
+        const existe = await this.existeEvento(eventoId);
+        if (!existe) {
+            throw new Error(`El evento con ID ${eventoId} no existe`);
         }
 
         try {
             const [rows] = await pool.query(
-                'SELECT * FROM fotosGaleria WHERE fecha >= ? AND fecha <= ?'
-                [desde, hasta]
+                'SELECT id, url, descripcion, orden, created_by, created_at FROM fotosGaleria WHERE id_evento=?',
+                [eventoId]
             );
-            return rows;
+
+            const [evento] = await pool.query(
+                'SELECT id, nombre, fecha, descripcion, created_by, created_at FROM eventosGaleria WHERE id=?',
+                [eventoId]
+            );
+
+            return {
+                success: true,
+                data: {
+                    ...evento[0],
+                    fotos: rows
+                }
+            }
         } catch (error) {
-            throw new Error('Error al obtener fotos por fecha desde la base de datos: '+ error.message)
+            throw new Error('Error al obtener información del evento desde la base de datos: '+ error.message)
+        }
+    }
+
+    static async getEventos(fechaDesde = null, fechaHasta = null) {
+
+        if ((fechaDesde && !fechaHasta) || (!fechaDesde && fechaHasta)) {
+            throw new Error('Debe ingresar ambas fechas (desde y hasta) para filtrar por rango');
+        }
+
+        try {
+            let query =`
+            SELECT 
+                e.id,
+                e.nombre,
+                e.fecha,
+                e.descripcion,
+                e.created_by,
+                e.created_at,
+                f.url as foto_url
+            FROM eventosGaleria e
+            LEFT JOIN fotosGaleria f ON e.id = f.id_evento AND f.orden = 1
+            
+        `;
+            
+            let params = [];
+            let conditions = '';
+
+            if (fechaDesde && fechaHasta) {
+                if (!this.fechasValidas(fechaDesde, fechaHasta)) throw new Error('Deben ingresarse fechas válidas');
+
+                conditions += 'e.fecha >= ? AND e.fecha <= ?';
+                params.push(fechaDesde, fechaHasta);
+
+                if (conditions.length > 0) query += ' WHERE ' + conditions;
+            }
+
+            query += ' ORDER BY e.fecha DESC';
+
+            const [rows] = await pool.query(query, params);
+            
+            return {
+                success: true,
+                data: rows
+            };
+
+        } catch (error) {
+            throw new Error('Error al obtener eventos: ' + error.message);
         }
     }
 
@@ -313,26 +414,23 @@ class FotosGaleria {
 
             return {
                 success: true,
-                message: `El evento de id ${eventoId} ha sido eliminado de la base de datos`
+                message: 'El evento ha sido eliminado de la base de datos'
             }
         } catch (error) {
             throw new Error('Error al eliminar el evento de la base de datos: ' + error.message)
         }
     }
 
-    static async deleteFotosGaleria(eventoId, fotosIds) {
-
-        // Comprobaciones
-        if (!eventoId) {
-            throw new Error('Se debe indicar el id del evento');
-        }
-        const existe = await this.existeEvento(eventoId);
-        if (!existe) {
-            throw new Error(`El evento con ID ${eventoId} no existe`);
-        }
+    static async deleteFotosGaleria(fotosIds) {
 
         if (!fotosIds || fotosIds.length === 0) {
             throw new Error('No se enviaron fotos para eliminar');
+        }
+
+        for (const fotoId of fotosIds) {
+            if (!await this.existeFoto(fotoId)) {
+                throw new Error(`La foto con ID ${fotoId} no existe`);
+            }
         }
 
         const connection = await pool.getConnection();
@@ -342,15 +440,15 @@ class FotosGaleria {
 
             // Eliminar múltiples fotos
             await connection.query(
-                'DELETE FROM fotosGaleria WHERE id_evento = ? AND id IN (?)',
-                [eventoId, fotosIds]
+                'DELETE FROM fotosGaleria WHERE id IN (?)',
+                [fotosIds]
             );
 
             await connection.commit();
 
             return {
                 success: true,
-                message: `Eliminadas ${fotosIds.length} fotos del evento ${eventoId}`
+                message: `Eliminadas ${fotosIds.length} fotos`
             };
         } catch (error) {
             await connection.rollback();
