@@ -67,7 +67,6 @@ class FotosGaleria {
             }
 
             // Insertar datos en las tablas
-            
             const eventoId = uuidv4();
 
             const insertQueryEvento = `
@@ -108,19 +107,24 @@ class FotosGaleria {
         }
     }
 
-    static async existeEvento(eventoId) {
-        if (!eventoId) {
-            throw new Error('No se ingresó el ID del evento');
+    // Para comprobar si existe una foto o evento en particular
+    static async existe(tipo, id) {
+        const tipos = {
+            'foto': 'fotosGaleria',
+            'evento': 'eventosGaleria'
+        };
+
+        if (!tipos[tipo] || !id) {
+            return false;
         }
 
+        let query = `SELECT EXISTS(SELECT 1 FROM ${tipos[tipo]} WHERE id = ?) as existe`;
+
         try {
-            const [rows] = await pool.query(
-                'SELECT EXISTS(SELECT 1 FROM eventosGaleria WHERE id = ?) as existe',
-                [eventoId]
-            );
+            const [rows] = await pool.query(query, [id]);
             return rows[0].existe === 1;
         } catch (error) {
-            throw new Error('Error al verificar existencia del evento: ' + error.message);
+            return false;
         }
     }
 
@@ -146,9 +150,9 @@ class FotosGaleria {
             throw new Error('Se encontraron URLs inválidas o vacías');
         }
 
-        const existe = await this.existeEvento(eventoId);
-        if (!existe) {
-            throw new Error(`El evento con ID ${eventoId} no existe`);
+        const existeEvento = await this.existe('evento', eventoId);
+        if (!existeEvento) {
+            throw new Error(`No se encontró el evento con ID ${eventoId}`);
         }
 
         if (!usuario) {
@@ -192,31 +196,15 @@ class FotosGaleria {
         }
     }
 
-    static async existeFoto(fotoId) {
-        if (!fotoId) {
-            throw new Error('No se ingresó el ID de la foto');
-        }
-
-        try {
-            const [rows] = await pool.query(
-                'SELECT EXISTS(SELECT 1 FROM fotosGaleria WHERE id = ?) as existe',
-                [fotoId]
-            );
-            return rows[0].existe === 1;
-        } catch (error) {
-            throw new Error('Error al verificar existencia de la foto: ' + error.message);
-        }
-    }
-
     static async agregarDescripcionAFoto(fotoId, descripcion) {
         // Comprobaciones
         if (!fotoId) {
             throw new Error('Debe ingresar el id de la foto para añadir descripción');
         }
 
-        const existe = await this.existeFoto(fotoId);
-        if (!existe) {
-            throw new Error(`La foto con ID ${fotoId} no existe`);
+        const existeFoto = await this.existe('foto', fotoId);
+        if (!existeFoto) {
+            throw new Error(`La foto con ID ${fotoId} no fue encontrada`);
         }
 
         if (!descripcion) {

@@ -117,26 +117,21 @@ const agregarFotos = async (req, res) => {
 }
 
 const agregarDescripcion = async (req, res) => {
-    let fotoId = '';
-    if (req.params.fotoId) {
-        fotoId = req.params.fotoId;
-    } else return res.status(400).json({
+    const { fotoId } = req.params;
+    const { descripcion } = req.body;
+
+    if (!fotoId) return res.status(400).json({
         error: "Se debe indicar el id de la foto a la que se desea añadir la descripción"
     });
 
-    if (!req.body.descripcion || req.body.descripcion === "") return res.status(400).json({
+    if (!descripcion) return res.status(400).json({
         error: "Se debe enviar una descripción para la foto"
     });
-
-    const descripcion = req.body.descripcion;
 
     try {
         const descripcionGuardada = await FotosGaleria.agregarDescripcionAFoto(fotoId, descripcion);
 
-        return res.status(200).json({
-            success: true,
-            ...descripcionGuardada
-        })
+        return res.status(200).json(descripcionGuardada);
 
     } catch (err) {
         return res.status(500).json({ error: err.message });

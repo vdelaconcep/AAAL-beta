@@ -10,9 +10,9 @@ import {
     eliminarFotos
 } from '../controllers/galeriaController.js';
 
-/* import { validacionMensajesComunidad } from '../helpers/mensajesComunidadHelper.js';
+import { validacionEventoGaleria } from '../helpers/galeriaHelper.js';
 
-import { validar } from '../middlewares/validator.js'; */
+import { validar } from '../middlewares/validator.js';
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ import multer from 'multer';
 const upload = multer({ dest: "uploads/temp/" });
 
 // Nuevo evento
-router.post('/eventoNuevo', upload.array('fotos', 20), /* validacionMensajesComunidad, validar, */ nuevoEventoGaleria);
+router.post('/eventoNuevo', upload.array('fotos', 20), validacionEventoGaleria, validar, nuevoEventoGaleria);
 
 // Agregar fotos a evento existente
 router.post('/agregarFotos/:eventoId', upload.array('fotos', 20), agregarFotos);
