@@ -5,19 +5,15 @@ class FotosGaleria {
     static async crearEventoGaleria(data) {
         // Máxima cantidad de fotos que se pueden enviar al mismo tiempo
         const MAX_FOTOS = 20;
+        const arrayFotos = data.fotos;
 
         // Comprobaciones
-        if (!data.fotos || data.fotos.length === 0) {
+        if (!arrayFotos || arrayFotos.length === 0) {
             throw new Error('Error: no se enviaron fotos');
         }
 
-        if (data.fotos.length > MAX_FOTOS) {
+        if (arrayFotos.length > MAX_FOTOS) {
             throw new Error(`No se pueden agregar más de ${MAX_FOTOS} fotos a la vez`);
-        }
-
-        const urlsInvalidas = data.fotos.filter(url => !url || typeof url !== 'string' || url.trim() === '');
-        if (urlsInvalidas.length > 0) {
-            throw new Error('Se encontraron URLs inválidas o vacías');
         }
 
         // Abrir conexión
@@ -38,7 +34,9 @@ class FotosGaleria {
                     fecha DATE NOT NULL,
                     descripcion VARCHAR(140),
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    created_by CHAR(36) NOT NULL
+                    created_by CHAR(36) NOT NULL,
+                    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    modified_by CHAR(36) NOT NULL
                 )`;
                 await connection.query(createQuery);
                 console.log("Tabla 'eventosGaleria' creada ✅");
@@ -58,6 +56,9 @@ class FotosGaleria {
                     orden INT DEFAULT 0,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     created_by CHAR(36) NOT NULL,
+                    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    modified_by CHAR(36) NOT NULL,
+                    cloudinary_public_id VARCHAR(255) NOT NULL,
                     FOREIGN KEY (id_evento) REFERENCES eventosGaleria(id) ON DELETE CASCADE,
                     INDEX idx_evento (id_evento),
                     INDEX idx_orden (id_evento, orden)
@@ -70,24 +71,26 @@ class FotosGaleria {
             const eventoId = uuidv4();
 
             const insertQueryEvento = `
-                INSERT INTO eventosGaleria (id, nombre, fecha, descripcion, created_by)
-                VALUES(?, ?, ?, ?, ?)
+                INSERT INTO eventosGaleria (id, nombre, fecha, descripcion, created_by, modified_by)
+                VALUES(?, ?, ?, ?, ?, ?)
             `;
             
-            const valuesEvento = [eventoId, data.nombre, data.fecha, data.descripcion, data.usuario];
+            const valuesEvento = [eventoId, data.nombre, data.fecha, data.descripcion, data.usuario, data.usuario];
             await connection.query(insertQueryEvento, valuesEvento);
 
             const insertQueryFotos = `
-                INSERT INTO fotosGaleria (id, id_evento, url, orden, created_by)
+                INSERT INTO fotosGaleria (id, id_evento, url, orden, created_by, modified_by, cloudinary_public_id)
                 VALUES ?
             `;
 
-            const valuesFotos = data.fotos.map((url, index) => [
+            const valuesFotos = arrayFotos.map((foto, index) => [
                 uuidv4(),
                 eventoId,
-                url,
+                foto.url,
                 index + 1,
-                data.usuario
+                data.usuario,
+                data.usuario,
+                foto.publicId
             ]);
 
             await connection.query(insertQueryFotos, [valuesFotos]);
@@ -96,7 +99,7 @@ class FotosGaleria {
 
             return {
                 success: true,
-                message: `Evento creado con ${data.fotos.length} fotos (id del evento: ${eventoId})`,
+                message: `Evento creado con ${arrayFotos.length} fotos (id del evento: ${eventoId})`,
             };
 
         } catch (error) {
@@ -128,6 +131,58 @@ class FotosGaleria {
         }
     }
 
+    static async setEvento(eventoId, nombre = null, fecha = null, descripcion = null, usuario) {
+        // Comprobaciones
+        if (!nombre && !fecha && !descripcion) {
+            throw new Error('No se han introducido modificaciones al evento');
+        }
+
+        if (!eventoId) {
+            throw new Error('Debe ingresar el id del evento a modificar');
+        }
+
+        const existeEvento = await this.existe('evento', eventoId);
+        if (!existeEvento) {
+            throw new Error(`No se encontró el evento con ID ${eventoId}`);
+        }
+
+        if (!usuario) {
+            throw new Error('Se debe indicar el usuario que modifica el evento');
+        }
+
+        const updates = [];
+        const values = [];
+
+        if (nombre) {
+            updates.push('nombre = ?');
+            values.push(nombre)
+        };
+
+        if (fecha) {
+            updates.push('fecha = ?');
+            values.push(fecha)
+        };
+
+        if (descripcion) {
+            updates.push('descripcion = ?');
+            values.push(descripcion)
+        }
+
+        const query = `UPDATE eventosGaleria ${updates.join(', ')} WHERE id = ?`
+
+        try {
+            const [result] = await pool.query(query, values);
+
+            return {
+                success: true,
+                message: `Agregadas modificaciones al evento con ID ${eventoId}`,
+                affectedRows: result.affectedRows
+            };
+        } catch (error) {
+            throw new Error(`Error al modificar evento: ${error.message}`)
+        }
+    };
+
     static async agregarFotosAEvento(eventoId, usuario, fotos) {
         // Máxima cantidad de fotos que se pueden enviar al mismo tiempo
         const MAX_FOTOS = 20;
@@ -143,11 +198,6 @@ class FotosGaleria {
 
         if (fotos.length > MAX_FOTOS) {
             throw new Error(`No se pueden agregar más de ${MAX_FOTOS} fotos a la vez`);
-        }
-
-        const urlsInvalidas = fotos.filter(url => !url || typeof url !== 'string' || url.trim() === '');
-        if (urlsInvalidas.length > 0) {
-            throw new Error('Se encontraron URLs inválidas o vacías');
         }
 
         const existeEvento = await this.existe('evento', eventoId);
@@ -167,19 +217,26 @@ class FotosGaleria {
 
             // Agregar fotos en tabla
             const insertQueryFotos = `
-                INSERT INTO fotosGaleria (id, id_evento, url, orden, created_by)
+                INSERT INTO fotosGaleria (id, id_evento, url, orden, created_by, modified_by, cloudinary_public_id)
                 VALUES ?
             `;
 
-            const valuesFotos = fotos.map((url, index) => [
+            const valuesFotos = fotos.map((foto, index) => [
                 uuidv4(),
                 eventoId,
-                url,
+                foto.url,
                 index + 1,
-                usuario
+                usuario,
+                usuario,
+                foto.publicId
             ]);
 
             await connection.query(insertQueryFotos, [valuesFotos]);
+
+            await connection.query(
+                'UPDATE eventosGaleria SET modified_by = ? WHERE id = ?',
+                [usuario, eventoId]
+            );
             
             await connection.commit();
 
@@ -196,7 +253,7 @@ class FotosGaleria {
         }
     }
 
-    static async agregarDescripcionAFoto(fotoId, descripcion) {
+    static async setDescripcionFoto(fotoId, usuario, descripcion) {
         // Comprobaciones
         if (!fotoId) {
             throw new Error('Debe ingresar el id de la foto para añadir descripción');
@@ -211,18 +268,22 @@ class FotosGaleria {
             throw new Error('Error: no se envió la descripción');
         }
 
-        try {
-            const query = 'UPDATE fotosGaleria SET descripcion = ? WHERE id = ?';
+        if (!usuario) {
+            throw new Error('Error: se debe indicar el usuario que agrega o modifica la descripción');
+        }
 
-            await pool.query(query, [descripcion, fotoId]);
+        try {
+            const query = 'UPDATE fotosGaleria SET descripcion = ?, modified_by = ? WHERE id = ?';
+
+            await pool.query(query, [descripcion, usuario, fotoId]);
 
             return {
                 success: true,
-                message: `Descripción añadida a la foto con id ${fotoId}: ${descripcion}`
+                message: `Descripción añadida por el usuario ${usuario} a la foto con id ${fotoId}: ${descripcion}`
             }
 
         } catch (error) {
-            throw new Error('Error al añadir la descripción: ' + error.message);
+            throw new Error('Error al guardar la descripción: ' + error.message);
         };
     }
 
@@ -262,6 +323,8 @@ class FotosGaleria {
                 f.orden,
                 f.created_by,
                 f.created_at,
+                f.modified_at,
+                f.modified_by,
                 f.id_evento,
                 e.nombre as evento,
                 e.fecha as fecha
@@ -306,25 +369,44 @@ class FotosGaleria {
         }
     }
 
+    static async getPublicIdFotos(fotosIds) {
+        if (!fotosIds || !Array.isArray(fotosIds) || fotosIds.length === 0) {
+            throw new Error('Se deben enviar los id de las fotos');
+        }
+
+        try {
+            const [rows] = await pool.query('SELECT cloudinary_public_id FROM fotosGaleria WHERE id IN (?)',
+                [fotosIds]
+            );
+
+            return rows
+                .map(row => row.cloudinary_public_id)
+                .filter(Boolean);
+
+        } catch (error) {
+            throw new Error(`Error al obtener cloudinary public id de las fotos: ${error.message}`)
+        }
+    }
+
     static async getEvento(eventoId) {
 
         // Comprobaciones
         if (!eventoId) {
             throw new Error('Se debe indicar el id del evento');
         }
-        const existe = await this.existeEvento(eventoId);
+        const existe = await this.existe('evento', eventoId);
         if (!existe) {
             throw new Error(`El evento con ID ${eventoId} no existe`);
         }
 
         try {
             const [rows] = await pool.query(
-                'SELECT id, url, descripcion, orden, created_by, created_at FROM fotosGaleria WHERE id_evento=?',
+                'SELECT id, url, descripcion, orden, created_by, created_at, modified_at, modified_by, cloudinary_public_id FROM fotosGaleria WHERE id_evento=?',
                 [eventoId]
             );
 
             const [evento] = await pool.query(
-                'SELECT id, nombre, fecha, descripcion, created_by, created_at FROM eventosGaleria WHERE id=?',
+                'SELECT id, nombre, fecha, descripcion, created_by, created_at, modified_at, modified_by FROM eventosGaleria WHERE id=?',
                 [eventoId]
             );
 
@@ -355,6 +437,8 @@ class FotosGaleria {
                 e.descripcion,
                 e.created_by,
                 e.created_at,
+                e.modified_by,
+                e.modified_at,
                 f.url as foto_url
             FROM eventosGaleria e
             LEFT JOIN fotosGaleria f ON e.id = f.id_evento AND f.orden = 1
@@ -392,17 +476,19 @@ class FotosGaleria {
         if (!eventoId) {
             throw new Error('Se debe indicar el id del evento');
         }
-        const existe = await this.existeEvento(eventoId);
+        const existe = await this.existeEvento('evento', eventoId);
         if (!existe) {
             throw new Error(`El evento con ID ${eventoId} no existe`);
         }
+
         try {
-            const query = 'DELETE FROM eventosGaleria WHERE id = ?'
-            await pool.query(query, [eventoId]);
+
+            const queryEvento = 'DELETE FROM eventosGaleria WHERE id = ?'
+            await pool.query(queryEvento, [eventoId]);
 
             return {
                 success: true,
-                message: 'El evento ha sido eliminado de la base de datos'
+                message: 'El evento y las fotos han sido eliminados de la base de datos'
             }
         } catch (error) {
             throw new Error('Error al eliminar el evento de la base de datos: ' + error.message)
@@ -415,35 +501,20 @@ class FotosGaleria {
             throw new Error('No se enviaron fotos para eliminar');
         }
 
-        for (const fotoId of fotosIds) {
-            if (!await this.existeFoto(fotoId)) {
-                throw new Error(`La foto con ID ${fotoId} no existe`);
-            }
-        }
-
-        const connection = await pool.getConnection();
-
         try {
-            await connection.beginTransaction();
-
             // Eliminar múltiples fotos
-            await connection.query(
+            await pool.query(
                 'DELETE FROM fotosGaleria WHERE id IN (?)',
                 [fotosIds]
             );
-
-            await connection.commit();
 
             return {
                 success: true,
                 message: `Eliminadas ${fotosIds.length} fotos`
             };
         } catch (error) {
-            await connection.rollback();
             throw new Error('Error al eliminar fotos: ' + error.message);
-        } finally {
-            connection.release();
-        }
+        };
     }
 };
 

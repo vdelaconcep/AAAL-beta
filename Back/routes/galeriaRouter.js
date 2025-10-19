@@ -2,6 +2,7 @@ import express from 'express';
 
 import {
     nuevoEventoGaleria,
+    modificarEvento,
     agregarFotos,
     agregarDescripcion,
     obtenerFotos,
@@ -20,13 +21,16 @@ import multer from 'multer';
 const upload = multer({ dest: "uploads/temp/" });
 
 // Nuevo evento
-router.post('/eventoNuevo', upload.array('fotos', 20), validacionEventoGaleria, validar, nuevoEventoGaleria);
+router.post('/eventos', upload.array('fotos', 20), validacionEventoGaleria, validar, nuevoEventoGaleria);
+
+// Modificar evento
+router.put('/eventos/:eventoId', modificarEvento);
 
 // Agregar fotos a evento existente
-router.post('/agregarFotos/:eventoId', upload.array('fotos', 20), agregarFotos);
+router.post('/eventos/:eventoId/fotos', upload.array('fotos', 20), agregarFotos);
 
-// Agregar descripción a foto existente
-router.post('/agregarDescripcion/:fotoId', agregarDescripcion);
+// Agregar o modificar descripción a foto existente
+router.post('/fotos/:fotoId/descripcion', agregarDescripcion);
 
 // Obtener 1 foto o todas las fotos de la galería (o filtradas por fecha con query params)
 router.get('/fotos', obtenerFotos)
@@ -37,9 +41,9 @@ router.get('/eventos', obtenerEventos);
 router.get('/eventos/:eventoId', obtenerEventos);
 
 // Eliminar evento
-router.delete('/eliminarEvento/:eventoId', eliminarEvento);
+router.delete('/eventos/:eventoId', eliminarEvento);
 
 // Eliminar fotos
-router.delete('/eliminarFotos', eliminarFotos);
+router.delete('/fotos', eliminarFotos);
 
 export default router;

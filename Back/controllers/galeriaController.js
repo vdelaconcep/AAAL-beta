@@ -21,7 +21,7 @@ const nuevoEventoGaleria = async (req, res) => {
         });
     }
 
-    let urlFotos = [];
+    let arrayFotos = [];
     // Subir imágenes a Cloudinary
     try {
         const uploadPromises = req.files.map(file =>
@@ -37,7 +37,10 @@ const nuevoEventoGaleria = async (req, res) => {
 
         const results = await Promise.all(uploadPromises);
 
-        urlFotos = results.map(result => result.secure_url);
+        arrayFotos = results.map(result => ({
+            url: result.secure_url,
+            publicId: result.public_id
+        }));
 
     } catch (err) {
         return res.status(500).json({ error: `Error al subir imágenes a Cloudinary: ${err.message}` });
@@ -49,7 +52,7 @@ const nuevoEventoGaleria = async (req, res) => {
         fecha,
         descripcion,
         usuario,
-        fotos: urlFotos
+        fotos: arrayFotos
     };
 
     try {
@@ -65,8 +68,30 @@ const nuevoEventoGaleria = async (req, res) => {
     }
 };
 
+const modificarEvento = async (req, res) => {
+
+    const { nombre, fecha, descripcion, usuario } = req.body;
+    const { eventoId } = req.params;
+
+    if (!eventoId) return res.status(400).json({ error: 'Se debe indicar el id del evento a modificar' });
+
+    if (!nombre && !fecha && !descripcion) return res.status(400).json({ error: 'No se enviaron modificaciones para realizar al evento' });
+
+    if (!usuario) return res.status(400).json({ error: 'Se debe indicar el id del usuario que introduce las modificaciones' });
+
+    try {
+        const eventoModificado = await FotosGaleria.setEvento(eventoId, nombre, fecha, descripcion, usuario);
+
+        return res.status(200).json(eventoModificado);
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 const agregarFotos = async (req, res) => {
+
     const { usuario } = req.body;
+    const { eventoId } = req.params;
 
     if (!req.files || req.files.length === 0) {
         return res.status(400).json({
@@ -74,14 +99,11 @@ const agregarFotos = async (req, res) => {
         });
     }
     
-    let eventoId = '';
-    if (req.params.eventoId) {
-        eventoId = req.params.eventoId;
-    } else return res.status(400).json({
-        error: "Se debe indicar el evento al que se desean añadir fotos"
-    });
+    if (!eventoId) return res.status(400).json({ error: "Se debe indicar el evento al que se desean añadir fotos" });
+    
+    if(!usuario) return res.status(400).json({error: 'Se debe ingresar el id del usuario que hará la modificación'})
 
-    let urlFotos = [];
+    let arrayFotos = [];
     // Subir imágenes a Cloudinary
     try {
         const uploadPromises = req.files.map(file =>
@@ -97,14 +119,17 @@ const agregarFotos = async (req, res) => {
 
         const results = await Promise.all(uploadPromises);
 
-        urlFotos = results.map(result => result.secure_url);
+        arrayFotos = results.map(result => ({
+            url: result.secure_url,
+            publicId: result.public_id
+        }));
 
     } catch (err) {
         return res.status(500).json({ error: `Error al subir imágenes a Cloudinary: ${err.message}` });
     }
 
     try {
-        const fotosGuardadas = await FotosGaleria.agregarFotosAEvento(eventoId, usuario, urlFotos);
+        const fotosGuardadas = await FotosGaleria.agregarFotosAEvento(eventoId, usuario, arrayFotos);
 
         return res.status(200).json({
             success: true,
@@ -118,10 +143,10 @@ const agregarFotos = async (req, res) => {
 
 const agregarDescripcion = async (req, res) => {
     const { fotoId } = req.params;
-    const { descripcion } = req.body;
+    const { descripcion, usuario } = req.body;
 
     if (!fotoId) return res.status(400).json({
-        error: "Se debe indicar el id de la foto a la que se desea añadir la descripción"
+        error: "Se debe indicar el id de la foto para la que se desea guardar la descripción"
     });
 
     if (!descripcion) return res.status(400).json({
@@ -129,14 +154,14 @@ const agregarDescripcion = async (req, res) => {
     });
 
     try {
-        const descripcionGuardada = await FotosGaleria.agregarDescripcionAFoto(fotoId, descripcion);
+        const descripcionGuardada = await FotosGaleria.setDescripcionFoto(fotoId, usuario, descripcion);
 
         return res.status(200).json(descripcionGuardada);
 
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
-}
+};
 
 const obtenerFotos = async (req, res) => {
     
@@ -195,12 +220,25 @@ const eliminarEvento = async (req, res) => {
     const { eventoId } = req.params;
 
     if (!eventoId) return res.status(400).json({
-        error: "Se debe indicar el id el evento que se desea eliminar de la base de datos"
+        error: "Se debe indicar el id el evento que se desea eliminar"
     });
 
     try {
+        const eventoAEliminar = await FotosGaleria.getEvento(eventoId);
+        const fotosAEliminar = eventoAEliminar.data.fotos || [];
+
         const eventoEliminado = await FotosGaleria.deleteEventoGaleria(eventoId);
-        return res.status(201).json(eventoEliminado)
+
+        if (fotosAEliminar.length > 0) {
+            const deletePromises = fotosAEliminar.map(foto => cloudinary.uploader.destroy(foto.cloudinary_public_id, {
+                resource_type: "image"
+            }).catch(err => null));
+
+            await Promise.all(deletePromises);
+        }
+
+        return res.status(200).json(eventoEliminado)
+
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
@@ -214,18 +252,31 @@ const eliminarFotos = async (req, res) => {
         return res.status(400).json({ error: 'No se ingresaron los id de las fotos a eliminar' });
     };
 
+    let publicIds = [];
+
     try {
+        publicIds = await FotosGaleria.getPublicIdFotos(fotos);
+
         const fotosEliminadas = await FotosGaleria.deleteFotosGaleria(fotos);
 
-        return res.status(201).json(fotosEliminadas);
+        if (publicIds.length > 0) {
+            const deletePromises = publicIds.map(publicId => cloudinary.uploader.destroy(publicId, {
+                resource_type: "image"
+            }));
+
+            await Promise.all(deletePromises);
+        }
+
+        return res.status(200).json(fotosEliminadas);
 
     } catch (err) {
         return res.status(500).json({ error: err.message });
-    };
+    }
 }
 
 export {
     nuevoEventoGaleria,
+    modificarEvento,
     agregarFotos,
     agregarDescripcion,
     obtenerFotos,
