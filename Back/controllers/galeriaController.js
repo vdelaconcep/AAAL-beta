@@ -227,8 +227,6 @@ const eliminarEvento = async (req, res) => {
         const eventoAEliminar = await FotosGaleria.getEvento(eventoId);
         const fotosAEliminar = eventoAEliminar.data.fotos || [];
 
-        const eventoEliminado = await FotosGaleria.deleteEventoGaleria(eventoId);
-
         if (fotosAEliminar.length > 0) {
             const deletePromises = fotosAEliminar.map(foto => cloudinary.uploader.destroy(foto.cloudinary_public_id, {
                 resource_type: "image"
@@ -236,6 +234,8 @@ const eliminarEvento = async (req, res) => {
 
             await Promise.all(deletePromises);
         }
+
+        const eventoEliminado = await FotosGaleria.deleteEventoGaleria(eventoId);
 
         return res.status(200).json(eventoEliminado)
 
@@ -253,21 +253,25 @@ const eliminarFotos = async (req, res) => {
     };
 
     let publicIds = [];
+    let cloudinaryResults = [];
 
     try {
         publicIds = await FotosGaleria.getPublicIdFotos(fotos);
-
-        const fotosEliminadas = await FotosGaleria.deleteFotosGaleria(fotos);
 
         if (publicIds.length > 0) {
             const deletePromises = publicIds.map(publicId => cloudinary.uploader.destroy(publicId, {
                 resource_type: "image"
             }));
 
-            await Promise.all(deletePromises);
+            cloudinaryResults = await Promise.all(deletePromises);
         }
 
-        return res.status(200).json(fotosEliminadas);
+        const fotosEliminadas = await FotosGaleria.deleteFotosGaleria(fotos);
+
+        return res.status(200).json({
+            ...fotosEliminadas,
+            cloudinary: cloudinaryResults
+        });
 
     } catch (err) {
         return res.status(500).json({ error: err.message });

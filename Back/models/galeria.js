@@ -168,7 +168,11 @@ class FotosGaleria {
             values.push(descripcion)
         }
 
-        const query = `UPDATE eventosGaleria ${updates.join(', ')} WHERE id = ?`
+        updates.push('modified_by = ?');
+        values.push(usuario);
+        values.push(eventoId);
+
+        const query = `UPDATE eventosGaleria SET ${updates.join(', ')} WHERE id = ?`
 
         try {
             const [result] = await pool.query(query, values);
@@ -221,11 +225,18 @@ class FotosGaleria {
                 VALUES ?
             `;
 
+            // Último número de orden de foto para ese evento
+            const [maxOrdenAnterior] = await connection.query(
+                'SELECT COALESCE(MAX(orden), 0) as maxOrden FROM fotosGaleria WHERE id_evento = ?',
+                [eventoId]);
+            
+            const ordenInicial = maxOrdenAnterior[0].maxOrden
+
             const valuesFotos = fotos.map((foto, index) => [
                 uuidv4(),
                 eventoId,
                 foto.url,
-                index + 1,
+                ordenInicial + index + 1,
                 usuario,
                 usuario,
                 foto.publicId
@@ -439,10 +450,20 @@ class FotosGaleria {
                 e.created_at,
                 e.modified_by,
                 e.modified_at,
-                f.url as foto_url
+                f.url as foto_url,
+                COALESCE(foto_count.total_fotos, 0) as total_fotos
             FROM eventosGaleria e
-            LEFT JOIN fotosGaleria f ON e.id = f.id_evento AND f.orden = 1
-            
+            LEFT JOIN fotosGaleria f ON e.id = f.id_evento
+                AND f.orden = (
+                    SELECT MIN(orden)
+                    FROM fotosGaleria
+                    WHERE id_evento = e.id
+                )
+            LEFT JOIN (
+                SELECT id_evento, COUNT(*) as total_fotos
+                FROM fotosGaleria
+                GROUP BY id_evento
+            ) foto_count ON e.id = foto_count.id_evento
         `;
             
             let params = [];
@@ -476,7 +497,7 @@ class FotosGaleria {
         if (!eventoId) {
             throw new Error('Se debe indicar el id del evento');
         }
-        const existe = await this.existeEvento('evento', eventoId);
+        const existe = await this.existe('evento', eventoId);
         if (!existe) {
             throw new Error(`El evento con ID ${eventoId} no existe`);
         }
@@ -503,10 +524,24 @@ class FotosGaleria {
 
         try {
             // Eliminar múltiples fotos
-            await pool.query(
+            const [result] = await pool.query(
                 'DELETE FROM fotosGaleria WHERE id IN (?)',
                 [fotosIds]
             );
+
+            if (result.affectedRows === 0) {
+                throw new Error('No se encontraron fotos con los IDs proporcionados');
+            }
+
+            if (result.affectedRows < fotosIds.length) {
+                return {
+                    success: true,
+                    message: `Eliminadas ${result.affectedRows} de ${fotosIds.length} solicitudes`,
+                    warning: 'Algunos IDs no existían en la base de datos',
+                    eliminadas: result.affectedRows,
+                    solicitadas: fotosIds.length
+                };
+            }
 
             return {
                 success: true,
