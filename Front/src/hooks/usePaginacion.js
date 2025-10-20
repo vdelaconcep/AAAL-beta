@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-export const usePaginacion = (fetchFunction, mostrarAlert, paginaInicial = 1) => {
+export const usePaginacion = (fetchFunction, mostrarAlert, paginaInicial = 1, limit = 20, dependencias = []) => {
 
     const [datos, setDatos] = useState([]);
     const [cacheDatos, setCacheDatos] = useState({});
@@ -10,6 +10,11 @@ export const usePaginacion = (fetchFunction, mostrarAlert, paginaInicial = 1) =>
     const [accion, setAccion] = useState(null);
     const cargandoRef = useRef(new Set());
 
+    useEffect(() => {
+        setCacheDatos({});
+        setPagina(1);
+    }, dependencias);
+
     const traerDatos = async (numPagina) => {
         if (cacheDatos[numPagina]) return;
         if (cargandoRef.current.has(numPagina)) return;
@@ -17,7 +22,7 @@ export const usePaginacion = (fetchFunction, mostrarAlert, paginaInicial = 1) =>
         cargandoRef.current.add(numPagina);
 
         try {
-            const res = await fetchFunction(numPagina);
+            const res = await fetchFunction(numPagina, limit);
 
             if (res.status !== 200) {
                 const mensajeAlert = `Error al obtener datos ${res.statusText}`;

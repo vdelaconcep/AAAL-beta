@@ -319,7 +319,11 @@ class FotosGaleria {
         return true;
     }
 
-    static async getFotos(fotoId = null, fechaDesde = null, fechaHasta = null) {
+    static async getFotos(fotoId = null, fechaDesde = null, fechaHasta = null, page, limit) {
+
+        if (!fotoId && (!page || !limit || page < 1 || limit < 1)) {
+            throw new Error('Se requieren parámetros válidos de paginación (page y limit)');
+        }
 
         if ((fechaDesde && !fechaHasta) || (!fechaDesde && fechaHasta)) {
             throw new Error('Debe ingresar ambas fechas (desde y hasta) para filtrar por rango');
@@ -360,20 +364,56 @@ class FotosGaleria {
 
             }
 
-            if (conditions.length > 0) query += ' WHERE ' + conditions.join('AND ');
+            if (conditions.length > 0) query += ' WHERE ' + conditions.join(' AND ');
 
-            query += ' ORDER BY e.fecha DESC';
+            let total = 0;
+            let totalPages = 0;
+
+            if (!fotoId) {
+                let queryTotal = 'SELECT COUNT(*) as total FROM fotosGaleria';
+
+                let paramsTotal = [];
+
+                if (conditions.length > 0) {
+                    queryTotal += ' WHERE ' + conditions.join(' AND ');
+
+                    if (fechaDesde && fechaHasta) {
+                        paramsTotal.push(fechaDesde, fechaHasta);
+                    }
+                }
+                const [totalResult] = await pool.query(queryTotal, paramsTotal);
+                total = totalResult[0].total;
+                totalPages = Math.ceil(total / limit);
+
+                query += ' ORDER BY e.fecha DESC LIMIT ? OFFSET ?';
+
+                const offset = (page - 1) * limit
+                params.push(limit, offset);
+            }
 
             const [rows] = await pool.query(query, params);
 
             if (fotoId && rows.length === 0) throw new Error('No se encontró una foto con el id ingresado')
             
             if (fechaDesde && fechaHasta && rows.length === 0) throw new Error('No se encontraron fotos para el rango de fechas ingresado')
-
-            return {
-                success: true,
-                data: fotoId ? rows[0] : rows
-            };
+            
+            if (fotoId) {
+                return {
+                    success: true,
+                    rows: rows[0]
+                };
+            } else {
+                return {
+                    success: true,
+                    rows,
+                    paginacion: {
+                        currentPage: page,
+                        totalPages,
+                        totalItems: total,
+                        itemsPerPage: limit
+                    }
+                };
+            }
 
         } catch (error) {
             throw new Error('Error al obtener foto(s): ' + error.message);

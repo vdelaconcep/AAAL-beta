@@ -6,7 +6,7 @@ const Navegacion = () => {
     const menu = [
         { nombre: "La asociación", submenu: ["Quiénes somos", "Historia", "Comisión directiva", "Mensajes de la comunidad"] },
         { nombre: "Novedades", submenu: ["Institucional", "Próximos eventos", "Clasificados"] },
-        { nombre: "Galería", submenu: ["Fotos", "Videos", "Nuestros vehículos", "Motores estacionarios"] },
+        { nombre: "Galería", submenu: ["Fotos", "Nuestros vehículos", "Motores estacionarios"] },
         { nombre: "Contacto", submenu: [] }
     ];
 

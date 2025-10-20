@@ -59,10 +59,14 @@ const obtenerMensajesComunidad = async (req, res) => {
 const obtenerMensajesAprobados = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
-        const limit = 4;
+        const limit = parseInt(req.query.limit) || 5;
 
         if (page < 1) {
             return res.status(400).json({ error: 'El número de página debe ser mayor a 0' });
+        }
+
+        if (limit < 1 || limit > 50) {
+            return res.status(400).json({ error: 'La cantidad de mensajes por página debe ser mayor a 0 y menor a 50' });
         }
 
         const paginaMensajesAprobados = await MensajesComunidad.getPaginaAprobados(page, limit);

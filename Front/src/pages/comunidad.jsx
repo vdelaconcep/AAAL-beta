@@ -24,7 +24,8 @@ const Comunidad = () => {
         totalPaginas,
         accion,
         setAccion
-    } = usePaginacion(obtenerMensajesAprobados, mostrarAlert)
+    } = usePaginacion((page) => obtenerMensajesAprobados(page, 4),
+        mostrarAlert)
 
     return (
         <main

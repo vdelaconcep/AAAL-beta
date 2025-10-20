@@ -170,15 +170,22 @@ const obtenerFotos = async (req, res) => {
         const { fotoId } = req.params;
 
         const { fechaDesde, fechaHasta } = req.query;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 21;
+
+        const maxLimit = 100;
+        const finalLimit = Math.min(limit, maxLimit);
+
+        const finalPage = Math.max(1, page);
 
         let resultado;
 
         try {
             if (fotoId) {
-                resultado = await FotosGaleria.getFotos(fotoId, null, null);
+                resultado = await FotosGaleria.getFotos(fotoId, null, null, null, null);
             } else if (fechaDesde || fechaHasta) {
-                resultado = await FotosGaleria.getFotos(null, fechaDesde, fechaHasta);
-            } else resultado = await FotosGaleria.getFotos();
+                resultado = await FotosGaleria.getFotos(null, fechaDesde, fechaHasta, page, limit);
+            } else resultado = await FotosGaleria.getFotos(null, null, null, page, limit);
 
             if (!resultado) return res.status(404).json({ error: 'No se encontró información de la/las foto/s solicitada/s' });
 
