@@ -35,7 +35,7 @@ const ListaFotos = ({ fechaDesde, fechaHasta }) => {
         <section>
             {cargando ? <h6>Cargando...</h6> : (datos.length > 0 ?
                     <motion.div
-                        className='flex flex-wrap gap-2 justify-center'
+                        className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-3 w-full justify-center'
                     key={pagina}
                     {... (accion === 'siguiente' ? {
                         initial: { x: 100, opacity: 0 },
@@ -51,18 +51,15 @@ const ListaFotos = ({ fechaDesde, fechaHasta }) => {
                         animate: { y: 0, opacity: 1 }
                     }))}>
                     {
-                            datos.map(dato => {
-                            console.log(dato.url)
-                            return(
-                                <div key={dato.id}>
-                                    <FotoCard
-                                        foto={dato.url}
-                                        evento={dato.evento}
-                                        fecha={dato.fecha} />
-                                </div>
-                            )
-                        }
-                        )}
+                        datos.map(dato => 
+                            <div key={dato.id}>
+                                <FotoCard
+                                    foto={dato.url}
+                                    evento={dato.evento}
+                                    fecha={dato.fecha} />
+                            </div>
+                        )
+                    }
                 </motion.div>
 
                 : <h6>No hay fotos para mostrar</h6>)}

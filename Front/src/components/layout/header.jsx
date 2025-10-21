@@ -11,7 +11,7 @@ const Header = () => {
     const alturaLogo = 'max-h-[90px] min-[370px]:max-h-[120px] sm:max-h-[170px] lg:max-h-[220px]'
 
     return (
-        <header className='bg-[#6E1538] pb-3'>
+        <header className='bg-gradient-to-b from-[#350a1b] to-[#8a1a47] pb-3'>
             <Login clase='pt-1 pr-4 md:pr-10'/>
             <div className='flex min-[420px]:gap-1 text-white justify-center items-center w-full'>
                 <article className=''>
