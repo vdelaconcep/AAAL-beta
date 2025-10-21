@@ -1,11 +1,9 @@
 import { motion } from 'framer-motion';
 import { useAlert } from '@/context/alertContext';
 import { usePaginacion } from '@/hooks/usePaginacion';
-import { getFotos, getFotosPorFecha } from '@/services/galeriaServices';
-import FotoCard from '@/components/galeria/fotoCard';
 import ControlPagina from '@/components/otros/controlPagina';
 
-const ListaFotos = ({ fechaDesde, fechaHasta }) => {
+const ListaElementos = ({ funcionGet, funcionGetPorFecha, fechaDesde, fechaHasta, limit, Card }) => {
 
     const { mostrarAlert } = useAlert();
     
@@ -20,13 +18,13 @@ const ListaFotos = ({ fechaDesde, fechaHasta }) => {
         } = usePaginacion(
         (page, limit) => {
             if (fechaDesde && fechaHasta) {
-                return getFotosPorFecha(fechaDesde, fechaHasta, page, 21);
+                return funcionGetPorFecha(fechaDesde, fechaHasta, page, limit);
             }
-            return getFotos(page, 21);
+            return funcionGet(page, limit);
         },
         mostrarAlert,
             1,
-            21,
+            limit,
         [fechaDesde, fechaHasta]
     );
     
@@ -35,7 +33,7 @@ const ListaFotos = ({ fechaDesde, fechaHasta }) => {
         <section>
             {cargando ? <h6>Cargando...</h6> : (datos.length > 0 ?
                     <motion.div
-                        className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-3 w-full justify-center'
+                        className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-3 w-full justify-center mb-3'
                     key={pagina}
                     {... (accion === 'siguiente' ? {
                         initial: { x: 100, opacity: 0 },
@@ -53,10 +51,7 @@ const ListaFotos = ({ fechaDesde, fechaHasta }) => {
                     {
                         datos.map(dato => 
                             <div key={dato.id}>
-                                <FotoCard
-                                    foto={dato.url}
-                                    evento={dato.evento}
-                                    fecha={dato.fecha} />
+                                <Card dato={dato} />
                             </div>
                         )
                     }
@@ -77,4 +72,4 @@ const ListaFotos = ({ fechaDesde, fechaHasta }) => {
     );
 };
 
-export default ListaFotos;
+export default ListaElementos;

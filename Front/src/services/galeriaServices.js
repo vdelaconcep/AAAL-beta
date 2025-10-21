@@ -1,22 +1,22 @@
 import { apiClient } from "@/services/apiClient";
 
-export const getEventos = () => {
-    return apiClient.get('/api/galeria/eventos');
+export const getEventos = (page = 1, limit = 11) => {
+    return apiClient.get(`/api/galeria/eventos?page=${page}&limit=${limit}`);
 };
 
-export const getEventosPorFecha = (desde, hasta) => {
-    return apiClient.get(`/api/galeria/eventos?fechaDesde=${desde}&fechaHasta=${hasta}`);
+export const getEventosPorFecha = (desde, hasta, page = 1, limit = 11) => {
+    return apiClient.get(`/api/galeria/eventos?fechaDesde=${desde}&fechaHasta=${hasta}&page=${page}&limit=${limit}`);
 };
 
 export const getEventoPorId = (eventoId) => {
     return apiClient.get(`/api/galeria/eventos/${eventoId}`);
 }
 
-export const getFotos = (page, limit) => {
+export const getFotos = (page = 1, limit = 21) => {
     return apiClient.get(`/api/galeria/fotos?page=${page}&limit=${limit}`);
 };
 
-export const getFotosPorFecha = (desde, hasta, page, limit) => {
+export const getFotosPorFecha = (desde, hasta, page = 1, limit = 21) => {
     return apiClient.get(`/api/galeria/fotos?fechaDesde=${desde}&fechaHasta=${hasta}&page=${page}&limit=${limit}`);
 };
 

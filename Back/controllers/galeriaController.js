@@ -204,6 +204,8 @@ const obtenerEventos = async (req, res) => {
     const { eventoId } = req.params;
 
     const { fechaDesde, fechaHasta } = req.query;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 11;
 
     let resultado;
 
@@ -211,8 +213,8 @@ const obtenerEventos = async (req, res) => {
         if (eventoId) {
             resultado = await FotosGaleria.getEvento(eventoId);
         } else if (fechaDesde || fechaHasta) {
-            resultado = await FotosGaleria.getEventos(fechaDesde, fechaHasta);
-        } else resultado = await FotosGaleria.getEventos();
+            resultado = await FotosGaleria.getEventos(fechaDesde, fechaHasta, page, limit);
+        } else resultado = await FotosGaleria.getEventos(null, null, page, limit);
 
         if (!resultado) return res.status(404).json({ error: 'No se encontró información de el/los evento/s solicitado/s' });
 
@@ -221,7 +223,7 @@ const obtenerEventos = async (req, res) => {
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
-}
+};
 
 const eliminarEvento = async (req, res) => {
     const { eventoId } = req.params;

@@ -473,7 +473,11 @@ class FotosGaleria {
         }
     }
 
-    static async getEventos(fechaDesde = null, fechaHasta = null) {
+    static async getEventos(fechaDesde = null, fechaHasta = null, page = 1, limit = 11) {
+
+        if (!page || !limit || page < 1 || limit < 1) {
+            throw new Error('Se requieren parámetros válidos de paginación (page y limit)');
+        }
 
         if ((fechaDesde && !fechaHasta) || (!fechaDesde && fechaHasta)) {
             throw new Error('Debe ingresar ambas fechas (desde y hasta) para filtrar por rango');
@@ -518,13 +522,40 @@ class FotosGaleria {
                 if (conditions.length > 0) query += ' WHERE ' + conditions;
             }
 
-            query += ' ORDER BY e.fecha DESC';
+            const offset = (page - 1) * limit;
+            params.push(limit, offset);
+
+            query += ' ORDER BY e.fecha DESC LIMIT ? OFFSET ?';
+
+            // Armado de query para datos de paginación
+
+            let queryTotal = 'SELECT COUNT(*) as total FROM eventosGaleria e';
+
+            let paramsTotal = [];
+
+            if (conditions.length > 0) {
+                queryTotal += ' WHERE ' + conditions;
+
+                if (fechaDesde && fechaHasta) {
+                    paramsTotal.push(fechaDesde, fechaHasta);
+                }
+            }
+
+            const [totalResult] = await pool.query(queryTotal, paramsTotal);
+            const total = totalResult[0].total;
+            const totalPages = Math.ceil(total / limit);
 
             const [rows] = await pool.query(query, params);
             
             return {
                 success: true,
-                data: rows
+                rows,
+                paginacion: {
+                    currentPage: page,
+                    totalPages,
+                    totalItems: total,
+                    itemsPerPage: limit
+                }
             };
 
         } catch (error) {

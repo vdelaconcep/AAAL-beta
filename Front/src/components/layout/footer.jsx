@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-        <footer className="bg-black px-4 pt-6 md:pt-8 pb-2 md:text-center">
+        <footer className="bg-black px-4 pt-6 md:pt-8 pb-2 min-[450px]:text-center">
             <p className="text-gray-400 text-[14px] font-bold">Club Asociación de Automóviles Antiguos de Lanús</p>
             <p className="text-gray-400 text-[14px] mb-5 md:mb-7">Viamonte 2615, Lanús, Pcia. de Buenos Aires</p>
 
