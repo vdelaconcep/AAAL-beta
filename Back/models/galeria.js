@@ -463,10 +463,8 @@ class FotosGaleria {
 
             return {
                 success: true,
-                data: {
-                    ...evento[0],
-                    fotos: rows
-                }
+                ...evento[0],
+                fotos: rows
             }
         } catch (error) {
             throw new Error('Error al obtener información del evento desde la base de datos: '+ error.message)

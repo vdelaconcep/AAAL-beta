@@ -1,17 +1,11 @@
-import { useEffect, useState } from "react";
-import { getFotos, getFotosPorFecha, getEventos } from '@/services/galeriaServices';
+import { useState } from "react";
 import ListaElementos from "@/components/galeria/listaElementos";
-import EventoCard from "@/components/galeria/eventoCard";
-import FotoCard from "@/components/galeria/fotoCard";
 import Selector from "@/components/botones/selector"
 
 
 const Fotos = () => {
 
     const [show, setShow] = useState('todas');
-
-    const funcionGet = show === 'evento' ? getEventos : getFotos;
-    const Card = show === 'evento' ? EventoCard : FotoCard;
 
     const [fechaDesde, setFechaDesde] = useState('');
     const [fechaHasta, setFechaHasta] = useState('');
@@ -39,12 +33,9 @@ const Fotos = () => {
             {(show === 'todas' || show === 'evento' || (show === 'buscar' && fechaDesde && fechaHasta)) ?
                 <ListaElementos
                     key={show}
-                    funcionGet={funcionGet}
-                    funcionGetPorFecha={getFotosPorFecha}
+                    tipo={show}
                     fechaDesde={show === 'buscar'? fechaDesde : null}
-                    fechaHasta={show === 'buscar' ? fechaHasta : null}
-                    limit={show === 'evento' ? 11 : 21}
-                    Card={Card} /> : ''}
+                    fechaHasta={show === 'buscar' ? fechaHasta : null} /> : ''}
         </main>
     );
 };

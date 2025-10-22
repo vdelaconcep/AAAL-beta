@@ -42,6 +42,7 @@ export const usePaginacion = (fetchFunction, mostrarAlert, paginaInicial = 1, li
             return;
         } finally {
             cargandoRef.current.delete(numPagina);
+            setCargando(false);
         }
     };
 
