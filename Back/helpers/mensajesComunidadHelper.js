@@ -31,8 +31,8 @@ export const validacionMensajesComunidad = [
                 throw new Error("Debe subir una imagen en formato .jpg, .jpeg, .png o .webp");
             };
 
-            if (req.file.size > 2 * 1024 * 1024) {
-                throw new Error("La imagen no debe superar 2 Mb");
+            if (req.file.size > 10 * 1024 * 1024) {
+                throw new Error("La imagen no debe superar 10 Mb");
             };
 
             return true;

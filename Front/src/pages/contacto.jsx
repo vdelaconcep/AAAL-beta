@@ -140,7 +140,7 @@ const Contacto = () => {
                     <BotonSecundario
                         tipo='reset'
                         texto='Cancelar'
-                        clase='w-1/2'
+                        clase='w-1/2 rounded-xl'
                         accion={() => reset()}/>
                     <BotonPrimario
                         tipo='submit'

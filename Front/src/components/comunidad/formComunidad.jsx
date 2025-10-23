@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { enviarMensajeComunidad } from "@/services/comunidadService";
 import InputError from '@/components/otros/inputError';
-import BotonTransparente from "@/components/botones/transparente";
 import { useAlert } from '@/context/alertContext';
+import { X } from 'lucide-react';
 
 const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
 
@@ -40,10 +40,10 @@ const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
             .required("El mensaje no puede quedar vacío"),
         foto: Yup.mixed()
             .nullable()
-            .test("fileSize", "La imagen es demasiado grande (máx. 2 MB)",
+            .test("fileSize", "La imagen es demasiado grande (máx. 10 MB)",
                 value => {
                     if (!value?.[0]) return true;
-                    return value[0].size <= 2 * 1024 * 1024;
+                    return value[0].size <= 10 * 1024 * 1024;
                 })
             .test("fileFormat", "Formato no admitido (solo JPG, PNG, WEBP)",
                 value => {
@@ -104,7 +104,7 @@ const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
         setPreview(null);
     }, [fotoSeleccionada]);
 
-    // Detector de clicks fuera del modal
+    // Cerrar modal al presionar "esc"
     useEffect(() => {
         
         const cerrarModal = (evento) => {
@@ -126,16 +126,16 @@ const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
     return (
         <>
             <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex flex-col justify-start overflow-y-auto scrollbar-hide px-4'>
-                <div className="flex justify-end my-1 w-full max-w-[400px] md:max-w-md mx-auto">
-                    <BotonTransparente
-                        tipo='button'
-                        texto='X'
-                        clase='text-white'
-                        accion={() => {setMostrarFormulario(false)}} />
-            </div>
+                <button
+                    onClick={()=> setMostrarFormulario(false)}
+                    className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-20 bg-black bg-opacity-50 rounded-full p-2"
+                    aria-label="Cerrar"
+                >
+                    <X size={32} />
+                </button>
 
             <motion.div
-                className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 rounded-lg shadow-md shadow-gray-500 w-full max-w-[400px] md:max-w-md mx-auto relative text-gray-900 mb-4"
+                className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 rounded-lg shadow-md shadow-gray-500 w-full max-w-[400px] md:max-w-md mx-auto relative text-gray-900 my-4"
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1, transition: { duration: 0.4 } }}
             >
@@ -216,7 +216,7 @@ const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
                         <BotonSecundario
                             tipo='button'
                             texto='Cancelar'
-                            clase='w-1/2'
+                            clase='w-1/2 rounded-xl'
                             accion={() => {
                                 reset();
                                 setMostrarFormulario(false)

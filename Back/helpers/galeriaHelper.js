@@ -36,7 +36,7 @@ export const validacionEventoGaleria = [
             };
 
             const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-            const maxSize = 2 * 1024 * 1024;
+            const maxSize = 10 * 1024 * 1024;
 
             for (const file of req.files) {
                 // Validar tipo de archivo
@@ -46,7 +46,7 @@ export const validacionEventoGaleria = [
 
                 // Validar tamaño
                 if (file.size > maxSize) {
-                    throw new Error(`Las imágenes no deben superar cada una los 2 MB`);
+                    throw new Error(`Las imágenes no deben superar cada una los 10 MB`);
                 }
             }
 
@@ -106,7 +106,7 @@ export const validacionFotosGaleria = [
             };
 
             const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-            const maxSize = 2 * 1024 * 1024;
+            const maxSize = 10 * 1024 * 1024;
 
             for (const file of req.files) {
                 // Validar tipo de archivo
@@ -116,7 +116,7 @@ export const validacionFotosGaleria = [
 
                 // Validar tamaño
                 if (file.size > maxSize) {
-                    throw new Error(`Las imágenes no deben superar cada una los 2 MB`);
+                    throw new Error(`Las imágenes no deben superar cada una los 10 MB`);
                 }
             }
 

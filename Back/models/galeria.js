@@ -370,24 +370,32 @@ class FotosGaleria {
             let totalPages = 0;
 
             if (!fotoId) {
-                let queryTotal = 'SELECT COUNT(*) as total FROM fotosGaleria';
+                let queryTotal = `
+                    SELECT COUNT(*) as total 
+                    FROM fotosGaleria f
+                    INNER JOIN eventosGaleria e ON f.id_evento = e.id
+                `;
 
                 let paramsTotal = [];
+                let conditionsTotal = [];
 
-                if (conditions.length > 0) {
-                    queryTotal += ' WHERE ' + conditions.join(' AND ');
-
-                    if (fechaDesde && fechaHasta) {
-                        paramsTotal.push(fechaDesde, fechaHasta);
-                    }
+                if (fechaDesde && fechaHasta) {
+                    conditionsTotal.push('e.fecha >= ?');
+                    conditionsTotal.push('e.fecha <= ?');
+                    paramsTotal.push(fechaDesde, fechaHasta);
                 }
+
+                if (conditionsTotal.length > 0) {
+                    queryTotal += ' WHERE ' + conditionsTotal.join(' AND ');
+                }
+
                 const [totalResult] = await pool.query(queryTotal, paramsTotal);
                 total = totalResult[0].total;
                 totalPages = Math.ceil(total / limit);
 
                 query += ' ORDER BY e.fecha DESC LIMIT ? OFFSET ?';
 
-                const offset = (page - 1) * limit
+                const offset = (page - 1) * limit;
                 params.push(limit, offset);
             }
 
