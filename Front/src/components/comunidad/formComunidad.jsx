@@ -128,14 +128,14 @@ const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
             <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex flex-col justify-start overflow-y-auto scrollbar-hide px-4'>
                 <button
                     onClick={()=> setMostrarFormulario(false)}
-                    className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-20 bg-black bg-opacity-50 rounded-full p-2"
+                    className="absolute top-2 md:top-4 right-2 md:right-4 text-white hover:text-gray-300 transition-colors z-20 bg-black bg-opacity-50 rounded-full p-2"
                     aria-label="Cerrar"
                 >
                     <X size={32} />
                 </button>
 
             <motion.div
-                className="bg-[#DECBA0] border-2 border-[#6E1538] p-4 rounded-lg shadow-md shadow-gray-500 w-full max-w-[400px] md:max-w-md mx-auto relative text-gray-900 my-4"
+                className="bg-gray-300 border-2 border-[#6E1538] p-4 rounded-lg shadow-md shadow-gray-500 w-full max-w-[400px] md:max-w-md mx-auto relative text-gray-900 my-4"
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1, transition: { duration: 0.4 } }}
             >
@@ -216,7 +216,7 @@ const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
                         <BotonSecundario
                             tipo='button'
                             texto='Cancelar'
-                            clase='w-1/2 rounded-xl'
+                            clase='w-1/2 rounded-lg'
                             accion={() => {
                                 reset();
                                 setMostrarFormulario(false)
@@ -224,7 +224,7 @@ const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
                         <BotonPrimario
                             tipo='submit'
                             texto={enviando ? <><span>Enviando </span><i className="fa-solid fa-spinner fa-spin"></i></> : 'Enviar'}
-                            clase='w-1/2'
+                            clase='w-1/2 rounded-lg'
                             deshabilitado={enviando ? true : false} />
                     </article>
                 </form>

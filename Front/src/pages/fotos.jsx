@@ -23,8 +23,8 @@ const Fotos = () => {
 
     return (
         <main className="h-full bg-white py-5 md:py-6 flex flex-col items-center px-4">
-            <h1 className="font-bold italic text-xl md:text-2xl mb-3">Galería de Fotos</h1>
-            <section className="mb-4 w-full flex gap-1">
+            <h1 className="font-bold italic text-xl md:text-2xl md:mt-5 md:mb-9">Galería de Fotos</h1>
+            <section className="mb-4 md:mb-7 w-full flex gap-1">
                 <Selector
                     clase='flex-1 text-sm md:text-md lg:text-lg'
                     texto='ver todas'

@@ -21,12 +21,14 @@ const MensajeComunidad = ({ mensaje }) => {
             <h6 className='md:hidden mb-2'>Enviado: {fecha}</h6>
             
             <div className='md:flex md:gap-5'>
-                
                 {mensaje.foto &&
-                    <img
-                    className='md:flex-1 w-full h-auto rounded-lg shadow-xs shadow-gray-800 mb-2 md:mb-0'
-                    src={mensaje.foto}
-                    alt={`Imagen de "${mensaje.titulo}"`} />
+                    <div className='md:flex-1 w-full h-auto md:max-h-[80vh] rounded-lg shadow-xs shadow-gray-800 mb-2 md:mb-0 overflow-hidden bg-gray-800'>
+                        <img
+                            className='w-full h-full object-contain'
+                            src={mensaje.foto}
+                            alt={`Imagen de "${mensaje.titulo}"`} />
+                    
+                    </div>
                 }
                 <p className='hidden md:block flex-1'>{mensaje.mensaje}</p>
                 <div className='md:hidden'>

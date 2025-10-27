@@ -80,8 +80,9 @@ const Navegacion = () => {
                 </motion.button>
             </div>
 
+            {/* Desplegable principal mobile */}
             <ul
-                className={`flex-col md:flex md:flex-row justify-end md:space-x-2 transition-all duration-300 ${menuAbierto ? "absolute top-full left-0 w-full bg-[#DECBA0] border-b-[3px] border-b-[#bdad89] md:border-none shadow-lg shadow-gray-800 z-20 md:static md:bg-transparent md:w-auto md:z-auto flex" : "md:flex hidden"}`}
+                className={`flex-col md:flex md:flex-row justify-end md:space-x-2 transition-all duration-300 ${menuAbierto ? "absolute top-full left-0 w-full bg-gray-200 border-b-[3px] border-b-gray-400 md:border-none shadow-lg shadow-gray-800 z-20 md:static md:bg-transparent md:w-auto md:z-auto flex" : "md:flex hidden"}`}
             >
                 {menu.map((item) => (
                     <li
@@ -112,11 +113,12 @@ const Navegacion = () => {
                             {item.submenu.length > 0 ? item.nombre : 
                             <Link to={`/${item.nombre.toLowerCase()}`}>{item.nombre}</Link>}
                         </button>
-
+                        
+                        {/* Desplegable desktop */}
                         {item.submenu.length > 0 && (
                             <>
                                 <ul
-                                    className={`hidden md:block md:absolute md:bg-[#DECBA0] md:text-lg md:rounded md:border md:border-[#5b807e] md:shadow-xl md:shadow-black md:w-40 md:transform md:transition-all md:duration-300 md:origin-top md:z-20 ${desplegado === item.nombre ? "md:opacity-100 md:scale-y-100" : "md:opacity-0 md:scale-y-0 md:pointer-events-none"}`}
+                                    className={`hidden md:block md:absolute md:bg-gray-300 md:text-lg md:rounded md:shadow-xl md:shadow-black md:w-40 md:transform md:transition-all md:duration-300 md:origin-top md:z-20 ${desplegado === item.nombre ? "md:opacity-100 md:scale-y-100" : "md:opacity-0 md:scale-y-0 md:pointer-events-none"}`}
                                 >
                                     {item.submenu.map((i, index) => (
                                         <li
@@ -127,10 +129,11 @@ const Navegacion = () => {
                                         </li>
                                     ))}
                                 </ul>
-
+                                
+                                {/* Desplegable secundario mobile */}
                                 <ul
                                     ref={(el) => (submenuRefs.current[item.nombre] = el)}
-                                    className="flex flex-col md:hidden overflow-hidden transition-[height,opacity] duration-300 bg-[#bdad89] active:bg-[#6E1538] active:text-white"
+                                    className="flex flex-col md:hidden overflow-hidden transition-[height,opacity] duration-300 bg-gray-300"
                                     style={{
                                         height:
                                             desplegado === item.nombre

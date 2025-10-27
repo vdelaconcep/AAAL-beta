@@ -41,7 +41,7 @@ const Comision = () => {
     return (
         <main className="h-full bg-white py-5 md:py-6 flex flex-col items-center px-4">
             <div className="text-gray-900 text-center font-bold italic pb-5">
-                <h1 className="text-xl md:text-2xl">Comisión directiva</h1>
+                <h1 className="text-xl md:text-2xl md:my-5">Comisión directiva</h1>
                 {(Object.keys(comision).length > 0) && <h3 className="text-s md:text-lg">{`Período ${comision.periodo} - ${comision.periodo + 1}`}</h3>}
             </div>
             

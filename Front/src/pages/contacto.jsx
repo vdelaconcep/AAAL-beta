@@ -76,7 +76,7 @@ const Contacto = () => {
         <main className="h-full flex flex-col items-center bg-white py-5 md:py-6 px-4 text-gray-900">
 
             <div className="flex flex-col items-center mb-4">
-                <h1 className="text-xl md:text-2xl font-bold italic">Contacto</h1>
+                <h1 className="text-xl md:text-2xl font-bold italic mb-2">Contacto</h1>
                 <h6 className="text-md md:text-lg">Escribinos un mensaje y te responderemos a la brevedad</h6>
             </div>
 
@@ -140,12 +140,12 @@ const Contacto = () => {
                     <BotonSecundario
                         tipo='reset'
                         texto='Cancelar'
-                        clase='w-1/2 rounded-xl'
+                        clase='w-1/2 rounded-lg'
                         accion={() => reset()}/>
                     <BotonPrimario
                         tipo='submit'
                         texto={enviando ? <><span>Enviando </span><i className="fa-solid fa-spinner fa-spin"></i></> : 'Enviar'}
-                        clase='w-1/2'
+                        clase='w-1/2 rounded-lg'
                         deshabilitado={enviando ? true : false} />
                 </article>
             </motion.form>

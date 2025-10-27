@@ -31,7 +31,7 @@ const Comunidad = () => {
         <main
             ref={mainRef}
             className="relative h-full bg-white py-5 md:py-6 px-4 md:px-10 flex flex-col items-center text-gray-900 overflow-x-hidden">
-            <h1 className="font-bold italic text-xl md:text-2xl mb-3">Mensajes de la Comunidad</h1>
+            <h1 className="font-bold italic text-xl md:text-2xl mb-3 md:mt-5 md:mb-9">Mensajes de la Comunidad</h1>
             <section className='mb-2 md:mb-3'>
                 {cargando ? <h6>Cargando...</h6> : (mensajes.length > 0 ?
                     <motion.div
@@ -53,8 +53,9 @@ const Comunidad = () => {
                             mensajes.map(mensaje =>
                                 <article
                                     key={mensaje.id}
-                                    className='bg-[#A0AB94] shadow-md shadow-gray-800 px-4 py-5 flex flex-col justify-between rounded-xl w-full mb-3'>
-                                    <MensajeComunidad mensaje={mensaje} />
+                                    className='bg-[#A0AB94] shadow-md shadow-gray-800 px-4 py-5 flex flex-col justify-between rounded-xl w-full mb-3 md:mb-5'>
+                                    <MensajeComunidad
+                                        mensaje={mensaje} />
                                 </article>
                             )}
                     </motion.div>
@@ -63,7 +64,7 @@ const Comunidad = () => {
             </section>
 
             {!cargando && mensajes.length > 1 && 
-                <div className='pb-12 md:pb-2'>
+                <div className='pb-12 md:pb-4'>
                     <ControlPagina
                         pagina={pagina}
                         setPagina={setPagina}

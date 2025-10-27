@@ -47,7 +47,7 @@ const Whatsapp = () => {
                     onClick={() => setMostrarContactos(false)}>
                     <button
                         onClick={() => setMostrarContactos(false)}
-                        className="absolute top-2 right-2 text-white hover:text-gray-300 transition-colors z-20 bg-black bg-opacity-50 rounded-full p-2"
+                        className="absolute top-2 md:top-4 right-2 md:right-4 text-white hover:text-gray-300 transition-colors z-20 bg-black bg-opacity-50 rounded-full p-2"
                         aria-label="Cerrar"
                     >
                         <X size={32} />
