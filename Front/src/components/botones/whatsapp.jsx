@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import BotonTransparente from "@/components/botones/transparente";
+import { X } from 'lucide-react';
 
 const Whatsapp = () => {
 
@@ -16,48 +16,48 @@ const Whatsapp = () => {
     const btnRef = useRef();
 
     useEffect(() => {
-
-        const refs = [modalRef, btnRef];
-
-        const cerrarModal = (evento) => {
-            if (mostrarContactos && !refs.some(ref => ref.current?.contains(evento.target))
-            ) setMostrarContactos(false);
-        };
-
         const cerrarModalEsc = (evento) => {
             if (mostrarContactos && evento.key === "Escape") setMostrarContactos(false);
         };
 
-        document.addEventListener('click', cerrarModal);
         document.addEventListener('keydown', cerrarModalEsc);
 
         return () => {
-            document.removeEventListener('click', cerrarModal);
             document.removeEventListener('keydown', cerrarModalEsc);
         };
 
     }, [mostrarContactos, setMostrarContactos]);
 
     return (
+        <>
         <section className="sticky bottom-0 w-full pointer-events-none z-40">
             <div className="flex justify-end pr-5 pointer-events-auto">
                 <button
                     className="absolute bottom-5 right-5 bg-[#36BB68] text-white px-3 pt-[10px] pb-[7px] rounded-full shadow-md shadow-gray-900 z-40 cursor-pointer transition-transform duration-300 ease-in-out hover:scale-108"
                     title="Contactar por whatsapp"
-                    ref={btnRef}
                     onClick={() => setMostrarContactos(true)}>
                     <i className="fa-brands fa-whatsapp text-4xl"></i>
                 </button>
-            </div>
+                </div>
+            </section>
             
             {mostrarContactos &&
-                <div className='fixed inset-0 bg-black/70 backdrop-blur-sm z-60 flex items-center justify-center'>
+                <div
+                    className='fixed inset-0 bg-black/70 backdrop-blur-sm z-60 flex items-center justify-center px-2'
+                    onClick={() => setMostrarContactos(false)}>
+                    <button
+                        onClick={() => setMostrarContactos(false)}
+                        className="absolute top-2 right-2 text-white hover:text-gray-300 transition-colors z-20 bg-black bg-opacity-50 rounded-full p-2"
+                        aria-label="Cerrar"
+                    >
+                        <X size={32} />
+                    </button>
                     <motion.div
-                        className="bg-[#DECBA0] border-2 border-[#6E1538] px-2 md:px-6 rounded-lg shadow-md shadow-gray-500 max-w-[300px] md:max-w-md mx-auto relative"
-                        ref={modalRef}
+                        className="bg-gray-300 border-2 border-[#6E1538] px-2 md:px-6 py-2 rounded-lg shadow-md shadow-gray-500 w-full sm:max-w-sm mx-auto relative"
+                        onClick={(e)=>e.stopPropagation()}
                         initial={{ scale: 0.8 }}
                         animate={{ scale: 1, transition: { duration: 0.4 } }}>
-                        <h3 className="text-center text-gray-900 pt-4 mb-3 text-lg font-bold break-words">
+                        <h3 className="text-center text-gray-900 mb-3 text-lg font-bold break-words">
                             Comunicate por whatsapp <i className="fa-brands fa-whatsapp text-2xl ml-2"></i>
                         </h3>
                         <div>
@@ -81,16 +81,11 @@ const Whatsapp = () => {
                             </article>
                             )}
                         </div>
-                        <div className="flex justify-center my-1">
-                            <BotonTransparente
-                                texto={<><i className="fa-solid fa-arrow-left"></i> <span className="ml-1">volver</span></>}
-                                clase='px-4 text-[#6E1538] cursor-pointer'
-                                accion={() => setMostrarContactos(false)} />
-                        </div>
                     </motion.div>
                 </div>
             }
-        </section>
+            
+        </>
     )
 };
 
