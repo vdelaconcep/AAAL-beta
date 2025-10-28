@@ -12,7 +12,9 @@ export const usePaginacion = (fetchFunction, mostrarAlert, paginaInicial = 1, li
 
     useEffect(() => {
         setCacheDatos({});
+        setDatos([]);
         setPagina(1);
+        setCargando(true);
     }, dependencias);
 
     const traerDatos = async (numPagina) => {
@@ -27,6 +29,7 @@ export const usePaginacion = (fetchFunction, mostrarAlert, paginaInicial = 1, li
             if (res.status !== 200) {
                 const mensajeAlert = `Error al obtener datos ${res.statusText}`;
                 mostrarAlert(mensajeAlert);
+                setCargando(false);
                 return;
             };
 
@@ -39,10 +42,10 @@ export const usePaginacion = (fetchFunction, mostrarAlert, paginaInicial = 1, li
         } catch (err) {
             const mensajeAlert = `Error al obtener datos: ${err.response?.data?.error || err.message || 'Error desconocido'}`;
             mostrarAlert(mensajeAlert);
+            setCargando(false);
             return;
         } finally {
             cargandoRef.current.delete(numPagina);
-            setCargando(false);
         }
     };
 

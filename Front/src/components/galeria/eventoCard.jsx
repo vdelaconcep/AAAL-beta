@@ -10,12 +10,16 @@ const EventoCard = ({ dato, onClick }) => {
             
             className="w-full h-full bg-white overflow-hidden rounded-xl shadow-sm shadow-gray-800 hover:shadow-md group flex flex-col justify-between">
             <div>
-                <div className="bg-gray-800 w-full overflow-hidden group">
-                    <img
-                        className="w-full h-full object-contain aspect-[536/354] group-hover:brightness-105 transition-all duration-300 ease-in-out"
-                        src={dato.foto_url}
-                        alt={dato.nombre} />
-                </div>
+                {dato.foto_url ?
+                    <div className="bg-gray-800 w-full overflow-hidden group">
+                        <img
+                            className="w-full h-full object-contain aspect-[536/354] group-hover:brightness-105 transition-all duration-300 ease-in-out"
+                            src={dato.foto_url}
+                            alt={dato.nombre} />
+                    </div> :
+                    <div className="w-full h-full aspect-[536/354] animate-pulse bg-gray-200"></div>
+                }
+                
                 <h1 className="px-3 pt-2 font-bold">{dato.nombre}</h1>
                 <h4 className="text-gray-700 leading-5 px-3 pb-3">{dato.descripcion}</h4>
             </div>
