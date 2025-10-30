@@ -60,9 +60,9 @@ const Login = ({clase}) => {
                 </button>
             </article>
             {abrirModal &&
-                <section className='fixed inset-0 bg-black/70 backdrop-blur-sm z-60 flex items-center justify-center'>
+                <section className='fixed inset-0 bg-black/70 backdrop-blur-sm z-60 flex items-center justify-center px-2'>
                     <motion.div
-                        className="bg-gray-300 p-4 rounded-lg shadow-md shadow-gray-500 max-w-[300px] border-2 border-[#6E1538] w-full sm:max-w-sm mx-auto relative"
+                        className="bg-gray-300 p-4 rounded-lg shadow-md shadow-gray-500 border-2 border-[#6E1538] w-full sm:max-w-sm mx-auto relative"
                         ref={modalRef}
                         initial={{ scale: 0.8 }}
                         animate={{ scale: 1, transition: { duration: 0.4 } }}>
