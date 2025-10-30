@@ -1,5 +1,4 @@
 import logo from '@/assets/img/logo-asociacion-automoviles-antiguos-lanus-e1536856848852-transformed.png';
-import Login from '@/components/layout/login';
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -11,8 +10,7 @@ const Header = () => {
     const alturaLogo = 'max-h-[90px] min-[370px]:max-h-[120px] sm:max-h-[170px] lg:max-h-[220px]'
 
     return (
-        <header className='bg-gradient-to-b from-[#350a1b] to-[#8a1a47] pb-3'>
-            <Login clase='pt-1 pr-4 md:pr-10'/>
+        <header className='bg-gradient-to-b from-[#350a1b] to-[#8a1a47] py-3'>
             <div className='flex min-[420px]:gap-1 text-white justify-center items-center w-full'>
                 <article className=''>
                     <Link to="/">

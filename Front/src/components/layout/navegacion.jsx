@@ -81,8 +81,14 @@ const Navegacion = () => {
             </div>
 
             {/* Desplegable principal mobile */}
-            <ul
-                className={`flex-col md:flex md:flex-row justify-end md:space-x-2 transition-all duration-300 ${menuAbierto ? "absolute top-full left-0 w-full bg-gray-200 border-b-[3px] border-b-gray-400 md:border-none shadow-lg shadow-gray-800 z-20 md:static md:bg-transparent md:w-auto md:z-auto flex" : "md:flex hidden"}`}
+            <motion.ul
+                className={`flex-col md:flex md:flex-row justify-end md:space-x-2 overflow-hidden md:overflow-visible md:!h-auto md:!opacity-100 ${menuAbierto ? "absolute top-full left-0 w-full bg-gray-200 border-b-[3px] border-b-gray-400 md:border-none shadow-lg shadow-gray-800 z-70 md:static md:bg-transparent md:w-auto md:z-auto flex" : "md:flex hidden"}`}
+                initial={false}
+                animate={{
+                    height: menuAbierto ? "auto" : 0,
+                    opacity: menuAbierto ? 1 : 0
+                }}
+                transition={{ duration: 0.3 }}
             >
                 {menu.map((item) => (
                     <li
@@ -118,7 +124,7 @@ const Navegacion = () => {
                         {item.submenu.length > 0 && (
                             <>
                                 <ul
-                                    className={`hidden md:block md:absolute md:bg-gray-300 md:text-lg md:rounded md:shadow-xl md:shadow-black md:w-40 md:transform md:transition-all md:duration-300 md:origin-top md:z-20 ${desplegado === item.nombre ? "md:opacity-100 md:scale-y-100" : "md:opacity-0 md:scale-y-0 md:pointer-events-none"}`}
+                                    className={`hidden md:block md:absolute md:bg-gray-300 md:text-lg md:rounded md:shadow-xl md:shadow-black md:w-40 md:transform md:transition-all md:duration-300 md:origin-top md:z-70 ${desplegado === item.nombre ? "md:opacity-100 md:scale-y-100" : "md:opacity-0 md:scale-y-0 md:pointer-events-none"}`}
                                 >
                                     {item.submenu.map((i, index) => (
                                         <li
@@ -158,7 +164,7 @@ const Navegacion = () => {
                         )}
                     </li>
                 ))}
-            </ul>
+            </motion.ul>
         </nav>
     );
 };

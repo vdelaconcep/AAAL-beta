@@ -30,8 +30,8 @@ const Comunidad = () => {
     return (
         <main
             ref={mainRef}
-            className="relative h-full bg-white py-5 md:py-6 px-4 md:px-10 flex flex-col items-center text-gray-900 overflow-x-hidden">
-            <h1 className="font-bold italic text-xl md:text-2xl mb-3 md:mt-5 md:mb-9">Mensajes de la Comunidad</h1>
+            className="relative h-full bg-white py-7 md:py-10 px-4 md:px-10 flex flex-col items-center text-gray-900 overflow-x-hidden">
+            <h1 className="font-bold italic text-xl md:text-2xl mb-5 md:mb-9">Mensajes de la Comunidad</h1>
             <section className='mb-2 md:mb-3'>
                 {cargando ? <h6>Cargando...</h6> : (mensajes.length > 0 ?
                     <motion.div
@@ -53,7 +53,7 @@ const Comunidad = () => {
                             mensajes.map(mensaje =>
                                 <article
                                     key={mensaje.id}
-                                    className='bg-[#A0AB94] shadow-md shadow-gray-800 px-4 py-5 flex flex-col justify-between rounded-xl w-full mb-3 md:mb-5'>
+                                    className='bg-[#A0AB94] shadow-md shadow-gray-800 px-4 py-5 flex flex-col justify-between rounded-xl w-full mb-5 md:mb-6'>
                                     <MensajeComunidad
                                         mensaje={mensaje} />
                                 </article>
@@ -78,7 +78,7 @@ const Comunidad = () => {
                 tipo='button'
                 texto={<><span>Compartí tu historia </span><i className="fa-solid fa-feather"></i></>}
                 accion={() => setMostrarFormulario(true)}
-                clase={`w-[210px] md:w-[300px] md:mt-4 text-shadow-xs text-shadow-gray-800 left-5 z-40 ${footerVisible ? 'absolute bottom-3 w-[calc(100%-2rem)]' : 'fixed bottom-6'} md:relative md:bottom-auto md:left-auto md:z-auto`}
+                clase={`w-[210px] md:w-[300px] md:mt-4 text-shadow-xs text-shadow-gray-800 left-5 z-40 ${footerVisible ? 'absolute bottom-5 w-[calc(100%-2rem)]' : 'fixed bottom-6'} md:relative md:bottom-auto md:left-auto md:z-auto`}
             />
             {mostrarFormulario && <FormComunidad mostrarFormulario={mostrarFormulario} setMostrarFormulario={setMostrarFormulario}/>}
         </main>

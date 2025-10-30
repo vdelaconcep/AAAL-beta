@@ -99,7 +99,7 @@ const ModalFoto = ({ galeria }) => {
                                             className="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl"
                                         />
                                     </article>
-                                    <article className="mt-3 text-center text-sm text-gray-500">
+                                    <article className="hidden md:block mt-3 text-center text-sm text-gray-500">
                                         Foto {currentIndex + 1} de {totalFotos}
                                     </article>
 
@@ -127,7 +127,7 @@ const ModalFoto = ({ galeria }) => {
                                         <button
                                             onClick={anterior}
                                             disabled={!hasPrevious}
-                                            className="text-white bg-black bg-opacity-50 rounded-full p-3 disabled:opacity-30"
+                                            className="text-white bg-black bg-opacity-50 rounded-full px-3 disabled:opacity-30"
                                             aria-label="Anterior"
                                         >
                                             <ChevronLeft size={28} />
@@ -140,7 +140,7 @@ const ModalFoto = ({ galeria }) => {
                                         <button
                                             onClick={siguiente}
                                             disabled={!hasNext}
-                                            className="text-white bg-black bg-opacity-50 rounded-full p-3 disabled:opacity-30"
+                                            className="text-white bg-black bg-opacity-50 rounded-full px-3 disabled:opacity-30"
                                             aria-label="Siguiente"
                                         >
                                             <ChevronRight size={28} />

@@ -73,7 +73,7 @@ const ListaElementos = ({ tipo, fechaDesde = null, fechaHasta = null}) => {
         <section>
             {cargando ? <h6>Cargando...</h6> : (datos.length > 0 ?
                     <motion.div
-                        className={`grid ${limit > 15 ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'} gap-2 md:gap-3 w-full justify-center mb-3`}
+                        className={`grid ${limit > 15 ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'} gap-3 md:gap-4 w-full justify-center mb-3`}
                     key={pagina}
                     {... (accion === 'siguiente' ? {
                         initial: { x: 100, opacity: 0 },

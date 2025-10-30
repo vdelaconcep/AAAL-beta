@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const NovedadesPrincipal = () => {
     return (
-        <section className="bg-[#DECBA0] border-b-[2px] border-b-[#bdad89] md:bg-[#A0AB94] md:border-b-[#858f7b] w-full p-4 md:px-10 md:py-6">
+        <section className="bg-gray-300 border-b-[2px] border-b-gray-400 md:bg-[#A0AB94] md:border-b-[#858f7b] w-full p-4 md:px-10 md:py-6">
 
             <h1 className="mb-2 md:mb-5 font-bold text-lg md:text-xl italic text-gray-900">Novedades</h1>
             <article className="flex flex-col items-center">

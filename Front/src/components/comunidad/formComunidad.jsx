@@ -127,8 +127,9 @@ const FormComunidad = ({mostrarFormulario, setMostrarFormulario}) => {
         <>
             <article className='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex flex-col justify-start overflow-y-auto scrollbar-hide px-4'>
                 <button
-                    onClick={()=> setMostrarFormulario(false)}
-                    className="absolute top-2 md:top-4 right-2 md:right-4 text-white hover:text-gray-300 transition-colors z-20 bg-black bg-opacity-50 rounded-full p-2"
+                    onClick={() => setMostrarFormulario(false)}
+                    title="Cerrar"
+                    className="absolute top-2 md:top-4 right-2 md:right-4 text-gray-300 hover:text-white transition-colors z-20 bg-black bg-opacity-50 rounded-full p-2 cursor-pointer"
                     aria-label="Cerrar"
                 >
                     <X size={32} />

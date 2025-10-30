@@ -17,8 +17,8 @@ const FotoCard = ({ dato, onClick }) => {
                 <div className="w-full overflow-hidden rounded-xl aspect-[536/354] mb-2 animate-pulse bg-gray-200"></div>
             }
             
-            <h1 className="leading-none text-md md:text-lg">de: <span className="font-semibold">{dato.evento}</span></h1>
-            <h5 className="text-xs md:text-md text-gray-500">{fechaCorta}</h5>
+            <h1 className="leading-none text-sm md:text-md">de: <span className="font-semibold">{dato.evento}</span></h1>
+            <h5 className="text-xs md:text-sm text-gray-500">{fechaCorta}</h5>
         </article>
     );
 };

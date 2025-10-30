@@ -73,9 +73,9 @@ const Contacto = () => {
     };
 
     return (
-        <main className="h-full flex flex-col items-center bg-white py-5 md:py-6 px-4 text-gray-900">
+        <main className="h-full flex flex-col items-center bg-white py-7 md:py-10 px-4 text-gray-900">
 
-            <div className="flex flex-col items-center mb-4">
+            <div className="flex flex-col items-center mb-5">
                 <h1 className="text-xl md:text-2xl font-bold italic mb-2">Contacto</h1>
                 <h6 className="text-md md:text-lg">Escribinos un mensaje y te responderemos a la brevedad</h6>
             </div>
