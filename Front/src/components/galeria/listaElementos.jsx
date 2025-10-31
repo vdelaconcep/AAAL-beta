@@ -73,7 +73,7 @@ const ListaElementos = ({ tipo, fechaDesde = null, fechaHasta = null}) => {
         <>
         <section>
                 {cargando ? 
-                    <article className='flex flex-col items-center'>
+                    <article className='flex flex-col items-center justify-center h-full'>
                         <Oval
                             height={80}
                             width={80}
@@ -81,9 +81,9 @@ const ListaElementos = ({ tipo, fechaDesde = null, fechaHasta = null}) => {
                             visible={true}
                             ariaLabel="oval-loading"
                             secondaryColor="#704858"
-                            strokeWidth={2}
-                            strokeWidthSecondary={2} />
-                        <h6>Cargando...</h6>
+                            strokeWidth={4}
+                            strokeWidthSecondary={4} />
+                        <h6 className='mt-2'>Cargando...</h6>
                     </article> : (datos.length > 0 ?
                     <motion.div
                         className={`grid ${limit > 15 ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'} gap-3 md:gap-4 w-full justify-center mb-3`}

@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
 import InputError from "@/components/otros/inputError";
-import BotonSecundario from '@/components/botones/secundario';
+import BotonPrimario from '@/components/botones/primario';
 
 const Busqueda = ({onBuscar, clase}) => {
 
@@ -53,9 +53,9 @@ const Busqueda = ({onBuscar, clase}) => {
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className={`border-2 rounded-md border-gray-400 px-4 pt-2 pb-3 w-full sm:max-w-sm shadow-sm shadow-gray-700 ${clase && clase}`}>
+            className={`rounded-md px-4 pt-2 pb-4 w-full sm:max-w-sm shadow-sm shadow-gray-600 ${clase && clase}`}>
             <h1 className="text-center font-bold mb-1">Buscar fotos por fecha</h1>
-                <div className="flex sm:gap-2 mb-2">
+                <div className="flex sm:gap-2 mb-5">
                     <article className="flex flex-col w-1/2 pr-1 sm:pr-0">
                         <label
                             className="text-gray-500"
@@ -77,7 +77,7 @@ const Busqueda = ({onBuscar, clase}) => {
                         {errors.fechaHasta && <InputError mensaje={errors.fechaHasta.message} />}
                     </article>
                 </div>
-                    <BotonSecundario
+                    <BotonPrimario
                         tipo='submit'
                         texto='Buscar'
                         clase='rounded-md w-full py-1' />
