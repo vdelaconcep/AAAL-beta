@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import ListaElementos from "@/components/galeria/listaElementos";
 import Busqueda from "@/components/galeria/busqueda";
 import Selector from "@/components/botones/selector";
-import * as ToggleGroup from '@radix-ui/react-toggle-group';
 
 
 const Fotos = () => {
@@ -11,9 +10,7 @@ const Fotos = () => {
 
     const [fechaDesde, setFechaDesde] = useState('');
     const [fechaHasta, setFechaHasta] = useState('');
-
-    const toggleItemClass = 'py-2 rounded-md text-sm font-medium transition-colors data-[state=on]:bg-white data-[state=on]:text-gray-900 data-[state=on]:shadow-sm data-[state=off]:text-gray-600 data-[state=off]:hover:text-gray-900 focus:outline-none w-full cursor-pointer focus:cursor-default focus:border-2 focus:border-[#6B9795]'
-
+    
     const handleBusqueda = (desde, hasta) => {
         setFechaDesde(desde);
         setFechaHasta(hasta);
@@ -27,17 +24,24 @@ const Fotos = () => {
     return (
         <main className="h-full bg-white py-7 md:py-10 flex flex-col items-center px-4">
             <h1 className="font-bold italic text-xl md:text-2xl mb-5 md:mb-9">Galería de Fotos</h1>
-            <ToggleGroup.Root
-                type="single"
-                value={show}
-                onValueChange={(value) => {
-                    if (value) setShow(value)
-                }}
-                className="inline-flex rounded-lg bg-gray-200 p-1 gap-1 w-full mb-4 md:mb-7">
-                <ToggleGroup.Item value="todas" className={toggleItemClass}>Ver todas</ToggleGroup.Item>
-                <ToggleGroup.Item value="evento" className={toggleItemClass}>Por evento</ToggleGroup.Item>
-                <ToggleGroup.Item value="buscar" className={toggleItemClass}>Por fecha</ToggleGroup.Item>
-            </ToggleGroup.Root>
+
+            <section className="mb-4 md:mb-7 w-full flex gap-1">
+                <Selector
+                    clase='flex-1 text-sm md:text-md lg:text-lg'
+                    texto='ver todas'
+                    seleccionado={show === 'todas'}
+                    accion={() => setShow('todas')} />
+                <Selector
+                    clase='flex-1 text-sm md:text-md lg:text-lg'
+                    texto='por evento'
+                    seleccionado={show === 'evento'}
+                    accion={() => setShow('evento')} />
+                <Selector
+                    clase='flex-1 text-sm md:text-md lg:text-lg'
+                    texto='buscar'
+                    seleccionado={show === 'buscar'}
+                    accion={() => setShow('buscar')} />
+            </section>
 
             {show === 'buscar' &&
                 <Busqueda
