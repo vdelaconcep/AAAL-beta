@@ -34,9 +34,13 @@ class FotosGaleria {
                     fecha DATE NOT NULL,
                     descripcion VARCHAR(140),
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    created_by CHAR(36) NOT NULL,
-                    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                    modified_by CHAR(36) NOT NULL
+                    created_by CHAR(36) DEFAULT NULL,
+                    modified_at TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+                    modified_by CHAR(36) DEFAULT NULL,
+                    CONSTRAINT fk_eventos_created_by
+                    FOREIGN KEY (created_by) REFERENCES usuarios(id) ON DELETE SET NULL,
+                    CONSTRAINT fk_eventos_modified_by
+                    FOREIGN KEY (modified_by) REFERENCES usuarios(id) ON DELETE SET NULL
                 )`;
                 await connection.query(createQuery);
                 console.log("Tabla 'eventosGaleria' creada ✅");
@@ -55,11 +59,16 @@ class FotosGaleria {
                     descripcion VARCHAR(140),
                     orden INT DEFAULT 0,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    created_by CHAR(36) NOT NULL,
-                    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                    modified_by CHAR(36) NOT NULL,
+                    created_by CHAR(36) DEFAULT NULL,
+                    modified_at TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+                    modified_by CHAR(36) DEFAULT NULL,
                     cloudinary_public_id VARCHAR(255) NOT NULL,
+                    CONSTRAINT fk_fotos_evento
                     FOREIGN KEY (id_evento) REFERENCES eventosGaleria(id) ON DELETE CASCADE,
+                    CONSTRAINT fk_fotos_created_by
+                    FOREIGN KEY (created_by) REFERENCES usuarios(id) ON DELETE SET NULL,
+                    CONSTRAINT fk_fotos_modified_by
+                    FOREIGN KEY (modified_by) REFERENCES usuarios(id) ON DELETE SET NULL,
                     INDEX idx_evento (id_evento),
                     INDEX idx_orden (id_evento, orden)
                 )`;
@@ -71,15 +80,15 @@ class FotosGaleria {
             const eventoId = uuidv4();
 
             const insertQueryEvento = `
-                INSERT INTO eventosGaleria (id, nombre, fecha, descripcion, created_by, modified_by)
-                VALUES(?, ?, ?, ?, ?, ?)
+                INSERT INTO eventosGaleria (id, nombre, fecha, descripcion, created_by)
+                VALUES(?, ?, ?, ?, ?)
             `;
             
-            const valuesEvento = [eventoId, data.nombre, data.fecha, data.descripcion, data.usuario, data.usuario];
+            const valuesEvento = [eventoId, data.nombre, data.fecha, data.descripcion, data.usuario];
             await connection.query(insertQueryEvento, valuesEvento);
 
             const insertQueryFotos = `
-                INSERT INTO fotosGaleria (id, id_evento, url, orden, created_by, modified_by, cloudinary_public_id)
+                INSERT INTO fotosGaleria (id, id_evento, url, orden, created_by, cloudinary_public_id)
                 VALUES ?
             `;
 
@@ -88,7 +97,6 @@ class FotosGaleria {
                 eventoId,
                 foto.url,
                 index + 1,
-                data.usuario,
                 data.usuario,
                 foto.publicId
             ]);
@@ -210,7 +218,7 @@ class FotosGaleria {
         }
 
         if (!usuario) {
-            throw new Error('Se debe indicar el usuario que ingresa las fotos nuevas')
+            throw new Error('Se debe indicar el id del usuario que ingresa las fotos nuevas')
         }
 
         // Abrir conexión
@@ -221,7 +229,7 @@ class FotosGaleria {
 
             // Agregar fotos en tabla
             const insertQueryFotos = `
-                INSERT INTO fotosGaleria (id, id_evento, url, orden, created_by, modified_by, cloudinary_public_id)
+                INSERT INTO fotosGaleria (id, id_evento, url, orden, created_by, cloudinary_public_id)
                 VALUES ?
             `;
 
@@ -237,7 +245,6 @@ class FotosGaleria {
                 eventoId,
                 foto.url,
                 ordenInicial + index + 1,
-                usuario,
                 usuario,
                 foto.publicId
             ]);

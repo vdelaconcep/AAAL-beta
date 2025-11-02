@@ -16,10 +16,17 @@ class Vehiculos {
                     marca VARCHAR(50) NOT NULL,
                     modelo VARCHAR(50) NOT NULL,
                     anio YEAR NOT NULL,
-                    descripcion VARCHAR(100) NOT NULL,
+                    descripcion VARCHAR(140) NOT NULL,
                     foto VARCHAR(1000) NOT NULL,
-                    created_by CHAR(36) NOT NULL,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    created_by CHAR(36) DEFAULT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    modified_by CHAR(36) DEFAULT NULL,
+                    modified_at TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+                    CONSTRAINT fk_vehiculos_created_by
+                    FOREIGN KEY (created_by) REFERENCES usuarios(id) ON DELETE SET NULL,
+                    CONSTRAINT fk_vehiculos_modified_by
+                    FOREIGN KEY (modified_by) REFERENCES usuarios(id) ON DELETE SET NULL
+
                 )`;
                 await pool.query(createQuery);
                 console.log("Tabla 'vehiculos' creada ✅");

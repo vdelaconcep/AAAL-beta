@@ -16,7 +16,7 @@ class Usuarios {
                     id CHAR(36) NOT NULL PRIMARY KEY,
                     nombre VARCHAR(50) NOT NULL,
                     email VARCHAR(50) NOT NULL UNIQUE,
-                    password VARCHAR(15) NOT NULL,
+                    password VARCHAR(255) NOT NULL,
                     ultima_sesion TIMESTAMP NULL DEFAULT NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )`;
@@ -38,7 +38,7 @@ class Usuarios {
 
             return {
                 success: true,
-                message: 'Usuario registrado'
+                message: `Usuario registrado: ${data.email}, id=${uuid}`
             };
 
         } catch (error) {
@@ -77,16 +77,25 @@ class Usuarios {
 
     static async getAll() {
         try {
-            const [rows] = await pool.query('SELECT id, nombre, email, password FROM usuarios ORDER BY created_at DESC');
-            return rows;
+            const [rows] = await pool.query('SELECT id, nombre, email FROM usuarios ORDER BY created_at DESC');
+            return {
+                success: true,
+                rows: rows
+            }
         } catch (error) {
             throw new Error('Error al obtener usuarios: ' + error.message);
         }
     };
 
-    static async getUserByEmail(email) {
+    static async emailExistInTable(email) {
         try {
-            const [rows] = await pool.query('SELECT id, nombre, email, password FROM usuarios WHERE email = ? LIMIT 1', [email]);
+            // Verificar si existe la tabla
+            const [table] = await pool.query("SHOW TABLES LIKE 'usuarios'");
+
+            if (!table || table.length === 0) return null;
+
+            // Verificar si el e-mail está registrado
+            const [rows] = await pool.query('SELECT id, nombre, email FROM usuarios WHERE email = ? LIMIT 1', [email]);
             
             const usuario = rows[0];
             
@@ -96,7 +105,7 @@ class Usuarios {
 
         } catch (error) {
             throw new Error('Error al buscar e-mail del usuario' + error.message)
-        }
+        };
     };
 
 };

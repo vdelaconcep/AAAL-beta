@@ -8,7 +8,7 @@ const usuarioNuevo = async (req, res) => {
 
     try {
 
-        const existe = await Usuarios.getUserByEmail(email);
+        const existe = await Usuarios.emailExistInTable(email);
 
         if (existe) return res.status(400).json({ error: 'El e-mail ya se encuentra registrado' });
         
@@ -20,10 +20,7 @@ const usuarioNuevo = async (req, res) => {
 
         const usuarioGuardado = await Usuarios.registrarUsuario(usuarioNuevo);
 
-        return res.status(200).json({
-            success: true,
-            usuarioGuardado
-        });
+        return res.status(200).json(usuarioGuardado);
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
@@ -43,7 +40,7 @@ const loginUsuario = async (req, res) => {
             { expiresIn: '24h' }
         );
 
-        return res.satus(200).json({
+        return res.status(200).json({
             success: true,
             token,
             usuario
@@ -54,8 +51,13 @@ const loginUsuario = async (req, res) => {
     }
 };
 
-const obtenerUsuarios = (req, res) => {
-
+const obtenerUsuarios = async (req, res) => {
+    try {
+        const todos = await Usuarios.getAll();
+        return res.status(200).json(todos)
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
 };
 
 export {
