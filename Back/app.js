@@ -8,6 +8,7 @@ import comunidadRouter from './routes/comunidadRouter.js';
 import galeriaRouter from './routes/galeriaRouter.js';
 import vehiculosRouter from './routes/vehiculosRouter.js';
 import usuariosRouter from './routes/usuariosRouter.js';
+import clasificadosRouter from './routes/clasificadosRouter.js';
 
 // Servidor
 const app = express();
@@ -28,6 +29,7 @@ app.use('/api/comunidad', comunidadRouter);
 app.use('/api/galeria', galeriaRouter);
 app.use('/api/vehiculos', vehiculosRouter);
 app.use('/api/usuarios', usuariosRouter);
+app.use('/api/clasificados', clasificadosRouter);
 
 export default app;
 

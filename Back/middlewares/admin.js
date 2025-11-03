@@ -8,8 +8,6 @@ const admin = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        console.log(decoded);
-
         next();
     } catch (err) {
         return res.status(401).json({ error: `Token inválido o expirado (${err.message})` });

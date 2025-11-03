@@ -22,6 +22,7 @@ class Vehiculos {
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     modified_by CHAR(36) DEFAULT NULL,
                     modified_at TIMESTAMP DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+                    cloudinary_public_id VARCHAR(255),
                     CONSTRAINT fk_vehiculos_created_by
                     FOREIGN KEY (created_by) REFERENCES usuarios(id) ON DELETE SET NULL,
                     CONSTRAINT fk_vehiculos_modified_by
@@ -36,11 +37,11 @@ class Vehiculos {
             const uuid = uuidv4();
 
             const insertQuery = `
-                INSERT INTO vehiculos (id, marca, modelo, anio, descripcion, foto, created_by)
-                VALUES(?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO vehiculos (id, marca, modelo, anio, descripcion, foto, created_by, cloudinary_public_id)
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?)
             `;
 
-            const values = [uuid, data.marca, data.modelo, data.anio, data.descripcion, data.foto, data.usuario];
+            const values = [uuid, data.marca, data.modelo, data.anio, data.descripcion, data.foto, data.usuario, data.publicId];
             await pool.query(insertQuery, values);
 
             return {
@@ -53,31 +54,121 @@ class Vehiculos {
         }
     }
 
-    static async getAll() {
+    static async actualizarVehiculo(data) {
+        
+        const { id, marca, modelo, anio, descripcion, foto, usuario, publicId } = data;
+
+        if (!id && (!marca || !modelo || !anio || !descripcion || !foto)) throw new Error('Se debe indicar el id del vehículo a modificar y enviar al menos una modificación');
+
+        if (!usuario) throw new Error('Se debe indicar el id del usuario que introduce la modificación');
+
         try {
-            const [rows] = await pool.query('SELECT id, marca, modelo, anio, descripcion, foto FROM vehiculos ORDER BY created_at DESC');
-            return rows;
+            // Chequear que exista el vehículo
+            let queryExiste = `SELECT EXISTS(SELECT 1 FROM vehiculos WHERE id = ?) as existe`;
+            const [vehiculo] = await pool.query(queryExiste, [id]);
+            const existe = vehiculo[0].existe === 1;
+
+            if (!existe) throw new Error('El vehículo indicado no está registrado en la base de datos');
+
+            // modificar el registro
+            const campos = { marca, modelo, anio, descripcion, foto, modified_by: usuario, cloudinary_public_id: publicId };
+
+            const entries = Object.entries(campos).filter(([_, value]) => value !== undefined);
+            const updates = entries.map(([key]) => `${key} = ?`).join(', ');
+            const values = [...entries.map(([_, value]) => value), id];
+
+            const query = `UPDATE vehiculos SET ${updates} WHERE id = ?`;
+
+            const [result] = await pool.query(query, values);
+
+            return {
+                success: true,
+                message: `Agregadas modificaciones al vehículo con ID ${id}`,
+                affectedRows: result.affectedRows
+            };
+
+        } catch (error) {
+            throw new Error('Error al modificar datos del vehículo: ' + error.message);
+        }
+    }
+
+    static async getAll(page, limit) {
+
+        page = parseInt(page);
+        limit = parseInt(limit);
+
+        const MAX_LIMIT = 100;
+
+        if (isNaN(page) || isNaN(limit) || page < 1 || limit < 1) {
+            throw new Error('Se requieren parámetros válidos de paginación (page y limit)');
+        };
+
+        if (limit > MAX_LIMIT) limit = MAX_LIMIT;
+
+        try {
+            const queryTotal = 'SELECT COUNT(*) as total FROM vehiculos';
+
+            const [totalResult] = await pool.query(queryTotal);
+            const total = totalResult[0].total;
+            const totalPages = Math.ceil(total / limit);
+
+            const offset = (page - 1) * limit;
+
+            const values = [limit, offset]
+
+            const [rows] = await pool.query('SELECT id, marca, modelo, anio, descripcion, foto FROM vehiculos ORDER BY created_at DESC LIMIT ? OFFSET ?', values);
+
+            return {
+                success: true,
+                rows,
+                paginacion: {
+                    currentPage: page,
+                    totalPages: totalPages || 0,
+                    totalItems: total,
+                    itemsPerPage: limit,
+                    hasNextPage: page < totalPages,
+                    hasPrevPage: page > 1
+                }
+            }
         } catch (error) {
             throw new Error('Error al obtener vehículos: ' + error.message);
         }
     };
 
-    static async getConFiltro(marca, modelo, desde, hasta) {
-        if (!marca && !modelo && !desde && !hasta) throw new Error('No se ingresaron parámetros de búsqueda');
+    static async getConFiltro(marca, modelo, desde, hasta, page, limit) {
+
+        if (!marca?.trim() && !modelo?.trim() && !desde && !hasta) throw new Error('No se ingresaron parámetros de búsqueda');
+
+        if (desde && hasta && parseInt(desde) > parseInt(hasta)) {
+            throw new Error('El año "desde" no puede ser mayor que "hasta"');
+        }
+
+        page = parseInt(page);
+        limit = parseInt(limit);
+
+        const MAX_LIMIT = 100;
+
+        if (isNaN(page) || isNaN(limit) || page < 1 || limit < 1) {
+            throw new Error('Se requieren parámetros válidos de paginación (page y limit)');
+        };
+
+        if (limit > MAX_LIMIT) limit = MAX_LIMIT;
         
-        let query = 'SELECT marca, modelo, anio, descripcion, foto FROM vehiculos WHERE ';
+        let query = 'SELECT id, marca, modelo, anio, descripcion, foto FROM vehiculos WHERE ';
 
         const params = [];
-        const queryAdd = []
+        const queryAdd = [];
+
+        const escapeLike = (str) => str.replace(/[%_]/g, '\\$&');
 
         if (marca) {
-            params.push(marca);
-            queryAdd.push('marca = ?')
+            params.push(`%${escapeLike(marca)}%`);
+            queryAdd.push('marca LIKE ?')
         };
 
         if (modelo) {
-            params.push(modelo);
-            queryAdd.push('modelo = ?')
+            params.push(`%${escapeLike(modelo)}%`);
+            queryAdd.push('modelo LIKE ?')
         };
 
         if (desde) {
@@ -90,13 +181,32 @@ class Vehiculos {
             queryAdd.push('anio <= ?')
         };
 
-        query = query + queryAdd.join(' AND ');
+        query = query + queryAdd.join(' AND ') + ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
 
         try {
+            const queryTotal = 'SELECT COUNT(*) as total FROM vehiculos WHERE ' + queryAdd.join(' AND ');
+
+            const [totalResult] = await pool.query(queryTotal, [...params]);
+            const total = totalResult[0].total;
+            const totalPages = Math.ceil(total / limit);
+
+            const offset = (page - 1) * limit;
+
+            params.push(limit, offset);
+
             const [rows] = await pool.query(query, params);
+
             return {
                 success: true,
-                rows: rows
+                rows,
+                paginacion: {
+                    currentPage: page,
+                    totalPages: totalPages || 0,
+                    totalItems: total,
+                    itemsPerPage: limit,
+                    hasNextPage: page < totalPages,
+                    hasPrevPage: page > 1
+                }
             }
         } catch (error) {
             throw new Error('Error al obtener vehículos: ' + error.message);
