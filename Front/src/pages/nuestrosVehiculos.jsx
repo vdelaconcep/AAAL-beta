@@ -31,7 +31,7 @@ const NuestrosVehiculos = () => {
             />
             {filtrar &&
                 <form
-                    className='border-2 border-gray-500 rounded-xl my-5 overflow-hidden'>
+                    className='border-2 border-gray-500 rounded-xl my-5 overflow-hidden w-full md:w-auto'>
                     <div className='flex flex-col md:flex-row gap-2 mb-2 bg-gray-200 p-2'>
                         <article className="flex flex-col mb-2 w-full">
                             <label
