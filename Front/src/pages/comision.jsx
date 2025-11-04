@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { useAlert } from "@/context/alertContext";
 import MiembroComision from "@/components/comision/miembroComision";
+import Cargando from "@/components/otros/cargando";
 
 const Comision = () => {
 
@@ -46,7 +47,7 @@ const Comision = () => {
             </div>
             
 
-            {cargando && <p>Cargando...</p>}
+            {cargando && <Cargando />}
 
             {(Object.keys(comision).length > 0) ? (
                 

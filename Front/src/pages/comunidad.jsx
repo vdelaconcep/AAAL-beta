@@ -8,6 +8,7 @@ import MensajeComunidad from '@/components/comunidad/mensajeComunidad';
 import BotonPrimario from '@/components/botones/primario';
 import FormComunidad from '@/components/comunidad/formComunidad';
 import ControlPagina from '@/components/otros/controlPagina';
+import Cargando from '@/components/otros/cargando';
 
 const Comunidad = () => {
 
@@ -33,7 +34,9 @@ const Comunidad = () => {
             className="relative h-full bg-white py-7 md:py-10 px-4 md:px-10 flex flex-col items-center text-gray-900 overflow-x-hidden">
             <h1 className="font-bold italic text-xl md:text-2xl mb-5 md:mb-9">Mensajes de la Comunidad</h1>
             <section className='mb-2 md:mb-3'>
-                {cargando ? <h6>Cargando...</h6> : (mensajes.length > 0 ?
+                {cargando ?
+                    <Cargando />
+                    : (mensajes.length > 0 ?
                     <motion.div
                         key={pagina}
                         {... (accion === 'siguiente' ? {
