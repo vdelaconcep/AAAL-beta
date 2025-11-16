@@ -4,7 +4,8 @@ import {
     vehiculoNuevo,
     modificarVehiculo,
     obtenerVehiculos,
-    buscarVehiculos
+    buscarVehiculos,
+    sugerenciasMarcaVehiculos
 } from '../controllers/vehiculosController.js';
 
 import {
@@ -32,6 +33,9 @@ router.get('/todos', obtenerVehiculos);
 
 // FIltrar por query params
 router.get('/buscar', buscarVehiculos);
+
+// Sugerencias de búsqueda de marcas
+router.get('/marca', sugerenciasMarcaVehiculos);
 
 
 export default router;

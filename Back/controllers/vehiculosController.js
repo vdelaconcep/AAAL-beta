@@ -128,9 +128,23 @@ const buscarVehiculos = async (req, res) => {
     }
 };
 
+const sugerenciasMarcaVehiculos = async (req, res) => {
+
+    const { input } = req.query;
+
+    try {
+        const suggestions = await Vehiculos.getSuggestionMarcas(input);
+
+        return res.status(200).json(suggestions);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
 export {
     vehiculoNuevo,
     modificarVehiculo,
     obtenerVehiculos,
-    buscarVehiculos
+    buscarVehiculos,
+    sugerenciasMarcaVehiculos
 };

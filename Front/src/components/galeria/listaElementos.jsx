@@ -26,7 +26,7 @@ const ListaElementos = ({ tipo, fechaDesde = null, fechaHasta = null}) => {
         totalPaginas,
         accion,
         setAccion
-        } = usePaginacion(
+    } = usePaginacion(
         (page, limit) => {
             if (fechaDesde && fechaHasta) {
                 return funcionGetPorFecha(fechaDesde, fechaHasta, page, 21);
@@ -34,10 +34,10 @@ const ListaElementos = ({ tipo, fechaDesde = null, fechaHasta = null}) => {
             return funcionGet(page, limit);
         },
         mostrarAlert,
-            1,
-            limit,
+        1,
+        limit,
         [fechaDesde, fechaHasta]
-        );
+    );
     
     const galeria = useGaleriaModal();
 

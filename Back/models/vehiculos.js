@@ -212,6 +212,41 @@ class Vehiculos {
             throw new Error('Error al obtener vehículos: ' + error.message);
         }
     }
+
+    static async getSuggestionMarcas(input, limit=10) {
+        if (!input?.trim()) {
+            return {
+                success: true,
+                rows:[]
+            }
+        }
+
+        const MAX_LIMIT = 20;
+        if (limit > MAX_LIMIT) limit = MAX_LIMIT;
+
+        const escapeLike = (str) => str.replace(/[%_]/g, '\\$&');
+        const searchTerm = `${escapeLike(input.trim())}%`;
+
+        try {
+            const query = `
+                SELECT marca, COUNT(*) as cantidad
+                FROM vehiculos
+                WHERE marca LIKE ?
+                GROUP BY marca
+                ORDER BY cantidad DESC, marca ASC
+                LIMIT ?
+            `;
+
+            const [rows] = await pool.query(query, [searchTerm, limit]);
+
+            return {
+                success: true,
+                rows: rows.map(row => row.marca)
+            };
+        } catch (error) {
+            throw new Error('Error al obtener sugerencias: ' + error.message)
+        };
+    }
 };
 
 export default Vehiculos;

@@ -9,16 +9,21 @@ export const usePaginacion = (fetchFunction, mostrarAlert, paginaInicial = 1, li
     const [totalPaginas, setTotalPaginas] = useState(0);
     const [accion, setAccion] = useState(null);
     const cargandoRef = useRef(new Set());
+    const forceReload = useRef(0);
 
     useEffect(() => {
         setCacheDatos({});
         setDatos([]);
         setPagina(1);
         setCargando(true);
+        cargandoRef.current.clear();
+        forceReload.current++;
     }, dependencias);
 
     const traerDatos = async (numPagina) => {
+
         if (cacheDatos[numPagina]) return;
+
         if (cargandoRef.current.has(numPagina)) return;
 
         cargandoRef.current.add(numPagina);
@@ -39,6 +44,11 @@ export const usePaginacion = (fetchFunction, mostrarAlert, paginaInicial = 1, li
                 [numPagina]: res.data.rows
             }));
 
+            if (numPagina === pagina) {
+                setDatos(res.data.rows);
+                setCargando(false);
+            }
+
         } catch (err) {
             const mensajeAlert = `Error al obtener datos: ${err.response?.data?.error || err.message || 'Error desconocido'}`;
             mostrarAlert(mensajeAlert);
@@ -57,6 +67,7 @@ export const usePaginacion = (fetchFunction, mostrarAlert, paginaInicial = 1, li
     }, [pagina, cacheDatos]);
 
     useEffect(() => {
+
         const cargarPaginas = async () => {
             if (!cacheDatos[pagina]) {
                 setCargando(true);
@@ -74,7 +85,7 @@ export const usePaginacion = (fetchFunction, mostrarAlert, paginaInicial = 1, li
         };
 
         cargarPaginas();
-    }, [pagina, totalPaginas]);
+    }, [pagina, totalPaginas, forceReload.current]);
 
     useEffect(() => {
         const paginasAMantener = new Set([
