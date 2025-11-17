@@ -6,7 +6,7 @@ import InputError from "@/components/otros/inputError";
 import BotonPrimario from '@/components/botones/primario';
 import { getSuggestions } from '@/services/vehiculoServices';
 
-const BuscarVehiculos = ({ onBuscar, clase }) => {
+const BuscarVehiculos = ({ onBuscar, clase, valoresIniciales = {} }) => {
     const anios = Array.from({ length: 2025 - 1880 + 1 }, (_, i) => 1880 + i).reverse();
     
     const validationSchema = Yup.object({
@@ -17,8 +17,21 @@ const BuscarVehiculos = ({ onBuscar, clase }) => {
     });
 
     const { register, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm({
-        resolver: yupResolver(validationSchema)
+        resolver: yupResolver(validationSchema),
+        defaultValues: {
+            marca: '',
+            modelo: '',
+            desde: '',
+            hasta: ''
+        }
     });
+
+    useEffect(() => {
+        setValue('marca', valoresIniciales.marca || '');
+        setValue('modelo', valoresIniciales.modelo || '');
+        setValue('desde', valoresIniciales.desde || '');
+        setValue('hasta', valoresIniciales.hasta || '');
+    }, [valoresIniciales.marca, valoresIniciales.modelo, valoresIniciales.desde, valoresIniciales.hasta, setValue]);
 
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -27,6 +40,8 @@ const BuscarVehiculos = ({ onBuscar, clase }) => {
     const inputRef = useRef(null);
     const suggestionsRef = useRef(null);
     const debounceTimer = useRef(null);
+
+    const marcaValue = watch('marca');
 
     const fetchSuggestions = async (query) => {
         if (!query || query.trim().length < 2) {
@@ -65,6 +80,9 @@ const BuscarVehiculos = ({ onBuscar, clase }) => {
         setValue('marca', suggestion, { shouldValidate: true });
         setShowSuggestions(false);
         setSelectedIndex(-1);
+        if (inputRef.current) {
+            inputRef.current.value = suggestion;
+        }
     };
 
     const handleKeyDown = (e) => {
@@ -94,37 +112,47 @@ const BuscarVehiculos = ({ onBuscar, clase }) => {
         }
     };
 
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        setValue('marca', value, { shouldValidate: true });
+
+        if (debounceTimer.current) {
+            clearTimeout(debounceTimer.current);
+        }
+
+        debounceTimer.current = setTimeout(() => {
+            fetchSuggestions(value);
+        }, 300);
+    };
+
     const onSubmit = (data) => {
-        onBuscar(data.marca, data.modelo, data.desde, data.hasta);
+        console.log('Datos enviados:', data);
+        onBuscar(data.marca || '', data.modelo || '', data.desde || '', data.hasta || '');
     };
 
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className={`border-2 border-gray-500 rounded-xl my-5 overflow-hidden w-full md:w-auto ${clase && clase}`}>
+            className={`border-2 border-gray-500 rounded-xl overflow-hidden ${clase && clase}`}>
             <div className='flex flex-col md:flex-row gap-2 mb-2 bg-gray-200 p-2'>
                 <article className="flex flex-col mb-2 w-full relative">
                     <label
                         className="font-medium"
                         htmlFor="marca">Marca:</label>
                     <input
-                        {...register("marca", {
-                            onChange: (e) => {
-                                const value = e.target.value;
-
-                                if (debounceTimer.current) {
-                                    clearTimeout(debounceTimer.current);
-                                }
-
-                                debounceTimer.current = setTimeout(() => {
-                                    fetchSuggestions(value);
-                                }, 300);
+                        {...register("marca")}
+                        ref={(e) => {
+                            register("marca").ref(e);
+                            inputRef.current = e;
+                        }}
+                        onChange={handleInputChange}
+                        onFocus={() => {
+                            if (marcaValue && marcaValue.length >= 2) {
+                                setShowSuggestions(true);
                             }
-                        })}
-                        ref={inputRef}
-                        onFocus={() => setShowSuggestions(true)}
+                        }}
                         onKeyDown={handleKeyDown}
-                        className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.marca ? 'border-red-600' : 'border-[#858f7b]'}`}
+                        className={`bg-[#bac7ad] focus:bg-amber-50  border rounded-md px-2 py-1 ${errors.marca ? 'border-red-600' : 'border-[#858f7b]'}`}
                         type="text"
                         autoComplete="off"/>
                     {errors.marca && <InputError mensaje={errors.marca.message} />}
@@ -156,12 +184,12 @@ const BuscarVehiculos = ({ onBuscar, clase }) => {
                         htmlFor="modelo">Modelo:</label>
                     <input
                         {...register("modelo")}
-                        className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.modelo ? 'border-red-600' : 'border-[#858f7b]'}`}
+                        className={`bg-[#bac7ad] focus:bg-amber-50  border rounded-md px-2 py-1 ${errors.modelo ? 'border-red-600' : 'border-[#858f7b]'}`}
                         type="text" />
                     {errors.modelo && <InputError mensaje={errors.modelo.message} />}
                 </article>
             </div>
-            <p className='px-2 text-center'>Buscar por año</p>
+            <p className='px-2'>Buscar por año</p>
             <div className='flex gap-2 p-2'>
                 <article className="flex flex-col mb-2 w-full">
                     <label
@@ -169,7 +197,7 @@ const BuscarVehiculos = ({ onBuscar, clase }) => {
                         htmlFor="desde">Desde:</label>
                     <select
                         {...register("desde")}
-                        className="bg-[#bac7ad] focus:bg-amber-50 border-[1px] rounded-md px-2 py-1 border-[#858f7b]"
+                        className="bg-[#bac7ad] focus:bg-amber-50 border rounded-md px-2 py-1 border-[#858f7b]"
                     >
                         <option value="">Desde:</option>
                         {anios.map(anio => (
@@ -183,7 +211,7 @@ const BuscarVehiculos = ({ onBuscar, clase }) => {
                         htmlFor="hasta">Hasta:</label>
                     <select
                         {...register("hasta")}
-                        className="bg-[#bac7ad] focus:bg-amber-50 border-[1px] rounded-md px-2 py-1 border-[#858f7b]"
+                        className="bg-[#bac7ad] focus:bg-amber-50 border rounded-md px-2 py-1 border-[#858f7b]"
                     >
                         <option value="">Hasta:</option>
                         {anios.map(anio => (
@@ -192,10 +220,12 @@ const BuscarVehiculos = ({ onBuscar, clase }) => {
                     </select>
                 </article>
             </div>
-            <BotonPrimario
-                tipo='submit'
-                texto='Buscar'
-                clase='rounded-md w-full py-1' />
+            <div className="p-2">
+                <BotonPrimario
+                    tipo='submit'
+                    texto='Buscar'
+                    clase='rounded-md w-full py-1' />
+            </div>
 
         </form>
     );

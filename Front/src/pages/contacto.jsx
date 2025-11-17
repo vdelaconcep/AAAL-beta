@@ -76,7 +76,7 @@ const Contacto = () => {
         <main className="h-full flex flex-col items-center bg-white py-7 md:py-10 px-4 text-gray-900">
 
             <div className="flex flex-col items-center mb-5">
-                <h1 className="text-xl md:text-2xl font-bold italic mb-2">Contacto</h1>
+                <h1 className="text-2xl md:text-3xl font-bold italic mb-2">Contacto</h1>
                 <h6 className="text-md md:text-lg">Escribinos un mensaje y te responderemos a la brevedad</h6>
             </div>
 
@@ -93,7 +93,7 @@ const Contacto = () => {
                         htmlFor="nombre">Nombre:</label>
                     <input
                         {...register("nombre")}
-                        className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.nombre ? 'border-red-600' : 'border-[#858f7b]'}`}
+                        className={`bg-[#bac7ad] focus:bg-amber-50  border rounded-md px-2 py-1 ${errors.nombre ? 'border-red-600' : 'border-[#858f7b]'}`}
                         type="text" />
                     {errors.nombre && <InputError mensaje={errors.nombre.message} />}
                 </article>
@@ -103,7 +103,7 @@ const Contacto = () => {
                         htmlFor="email">E-mail:</label>
                     <input
                         {...register("email")}
-                        className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.email ? 'border-red-600' : 'border-[#858f7b]'}`}
+                        className={`bg-[#bac7ad] focus:bg-amber-50  border rounded-md px-2 py-1 ${errors.email ? 'border-red-600' : 'border-[#858f7b]'}`}
                         type="email" />
                     {errors.email && <InputError mensaje={errors.email.message} />}
                 </article>
@@ -113,7 +113,7 @@ const Contacto = () => {
                         htmlFor="telefono">Teléfono (opcional):</label>
                     <input
                         {...register("telefono")}
-                        className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.telefono ? 'border-red-600' : 'border-[#858f7b]'}`}
+                        className={`bg-[#bac7ad] focus:bg-amber-50  border rounded-md px-2 py-1 ${errors.telefono ? 'border-red-600' : 'border-[#858f7b]'}`}
                         type="tel" />
                     {errors.telefono && <InputError mensaje={errors.telefono.message} />}
                 </article>
@@ -123,7 +123,7 @@ const Contacto = () => {
                         htmlFor="asunto">Asunto:</label>
                     <input
                         {...register("asunto")}
-                        className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 ${errors.asunto ? 'border-red-600' : 'border-[#858f7b]'}`}
+                        className={`bg-[#bac7ad] focus:bg-amber-50  border rounded-md px-2 py-1 ${errors.asunto ? 'border-red-600' : 'border-[#858f7b]'}`}
                         type="text" />
                     {errors.asunto && <InputError mensaje={errors.asunto.message} />}
                 </article>
@@ -133,7 +133,7 @@ const Contacto = () => {
                         htmlFor="mensaje">Mensaje:</label>
                     <textarea
                         {...register("mensaje")}
-                        className={`bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 h-[120px] ${errors.mensaje ? 'border-red-600' : 'border-[#858f7b]'}`} />
+                        className={`bg-[#bac7ad] focus:bg-amber-50  border rounded-md px-2 py-1 h-[120px] ${errors.mensaje ? 'border-red-600' : 'border-[#858f7b]'}`} />
                     {errors.mensaje && <InputError mensaje={errors.mensaje.message} />}
                 </article>
                 <article className="flex gap-2">

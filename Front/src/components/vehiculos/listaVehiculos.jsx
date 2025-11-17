@@ -29,7 +29,7 @@ const ListaVehiculos = ({ filter, marca, modelo, desde, hasta }) => {
         mostrarAlert,
         1,
         limit,
-        [marca, modelo, desde, hasta]
+        [filter, marca, modelo, desde, hasta]
     );
     
     return (
