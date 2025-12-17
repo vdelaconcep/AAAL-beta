@@ -18,7 +18,7 @@ const Header = () => {
                     </Link>
                 </article>
                 
-                <article className='flex-col items-center justify-center text-center mr-2'>
+                <article className='flex-col items-center justify-center text-center mx-2'>
                     <h2 className={`${fontSizeTitulo} font-medium mrAlex text-shadow-lg text-shadow-black leading-none ${anchoTitulo}`}>
                         <span className={primeraLetraTitulo}>A</span>SOCIACION DE <span className={primeraLetraTitulo}>A</span>UTOMOVILES <span className={primeraLetraTitulo}>A</span>NTIGUOS DE <span className={primeraLetraTitulo}>L</span>ANUS
                     </h2>
