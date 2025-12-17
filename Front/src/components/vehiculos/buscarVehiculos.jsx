@@ -141,7 +141,7 @@ const BuscarVehiculos = ({ onBuscar, clase, valoresIniciales}) => {
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className={`bg-gradient-to-bl from-[#6B9795] to-[#8fc9c5] p-2 pb-3 border-2 border-gray-500 rounded-xl overflow-hidden ${clase && clase} shadow-sm shadow-gray-500`}>
+            className={`bg-gradient-to-bl from-[#6B9795] to-[#8fc9c5] p-2 pb-3 border-2 border-gray-500 rounded-xl overflow-hidden ${clase && clase} shadow-sm shadow-gray-500 mb-2`}>
             <div className='flex flex-col md:flex-row gap-2'>
                 <article className="flex flex-col mb-2 w-full relative">
                     <label
@@ -199,7 +199,7 @@ const BuscarVehiculos = ({ onBuscar, clase, valoresIniciales}) => {
                     {errors.modelo && <InputError mensaje={errors.modelo.message} />}
                 </article>
             </div>
-            <div className='flex gap-2 mb-4'>
+            <div className='flex gap-2 mb-5'>
                 <article className="flex flex-col w-full">
                     <label
                         className="text-black ml-1 mb-1"
@@ -232,7 +232,7 @@ const BuscarVehiculos = ({ onBuscar, clase, valoresIniciales}) => {
             <BotonPrimario
                 tipo='submit'
                 texto='Buscar'
-                clase='rounded-md w-full py-1' />
+                clase='rounded-md w-full py-2 text-lg' />
 
         </form>
     );

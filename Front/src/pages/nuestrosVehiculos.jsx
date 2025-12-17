@@ -26,7 +26,7 @@ const NuestrosVehiculos = () => {
         <main className="h-full bg-white py-7 md:py-10 flex flex-col items-center px-4">
             <h1 className="font-bold italic text-2xl md:text-3xl mb-5 md:mb-9">Nuestros Vehículos</h1>
 
-            <section className="mb-4 md:mb-7 w-full flex gap-1">
+            <section className="mb-5 md:mb-7 w-full flex gap-1">
                 <Selector
                     clase='flex-1 text-md md:text-lg'
                     texto='Ver todos'

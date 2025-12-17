@@ -81,7 +81,7 @@ const Busqueda = ({onBuscar, clase}) => {
                     <BotonPrimario
                         tipo='submit'
                         texto='Buscar'
-                        clase='rounded-md w-full py-1' />
+                        clase='rounded-md w-full py-2 text-lg' />
         </form>
 )
 };
