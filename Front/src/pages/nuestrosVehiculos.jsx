@@ -2,23 +2,21 @@ import { useState } from 'react';
 import BuscarVehiculos from '@/components/vehiculos/buscarVehiculos';
 import ListaVehiculos from '@/components/vehiculos/listaVehiculos';
 import Selector from '@/components/botones/selector';
-import { motion } from "framer-motion";
 
 const NuestrosVehiculos = () => {
 
     const [filtrar, setFiltrar] = useState(false);
     const [busqueda, setBusqueda] = useState(false);
 
-    const [marca, setMarca] = useState('');
-    const [modelo, setModelo] = useState('');
-    const [desde, setDesde] = useState('');
-    const [hasta, setHasta] = useState('');
+    const [parametros, setParametros] = useState({
+        marca: "",
+        modelo: "",
+        desde: "",
+        hasta: ""
+    })
 
-    const handleBusqueda = (marca, modelo, desde, hasta) => {
-        setMarca(marca);
-        setModelo(modelo);
-        setDesde(desde);
-        setHasta(hasta);
+    const handleBusqueda = (parametrosBusqueda) => {
+        setParametros(parametrosBusqueda)
         setBusqueda(true);
     };
 
@@ -44,17 +42,14 @@ const NuestrosVehiculos = () => {
             {filtrar &&
                 <BuscarVehiculos
                 onBuscar={handleBusqueda}
-                valoresIniciales={{ marca, modelo, desde, hasta }}
+                valoresIniciales={parametros}
                 clase='w-full max-w-[500px]'/>
             }
 
             {mostrarLista && 
                 <ListaVehiculos
-                    filter={filtrar}
-                    marca={marca}
-                    modelo={modelo}
-                    desde={desde}
-                    hasta={hasta} />
+                filter={filtrar}
+                parametros={parametros} />
             }
             
         </main>

@@ -77,7 +77,7 @@ const Contacto = () => {
 
             <div className="flex flex-col items-center mb-5">
                 <h1 className="text-2xl md:text-3xl font-bold italic mb-2">Contacto</h1>
-                <h6 className="text-md md:text-lg">Escribinos un mensaje y te responderemos a la brevedad</h6>
+                <h6 className="text-md md:text-lg text-center md:text-left">Escribinos un mensaje y te responderemos a la brevedad</h6>
             </div>
 
             <motion.form
@@ -86,10 +86,10 @@ const Contacto = () => {
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true, amount: 0.2 }}
                 onSubmit={handleSubmit(onSubmit)}
-                className="bg-[#A0AB94] px-3 py-3 rounded-xl shadow-md shadow-gray-800 text-md w-full md:max-w-[400px]">
+                className="bg-gradient-to-tr from-[#A0AB94] to-[#8b9582] px-3 py-3 rounded-xl shadow-md shadow-gray-800 text-md w-full md:max-w-[400px] mb-4">
                 <article className="flex flex-col mb-2">
                     <label
-                        className="font-medium"
+                        className="text-white ml-1 mb-1"
                         htmlFor="nombre">Nombre:</label>
                     <input
                         {...register("nombre")}
@@ -99,7 +99,7 @@ const Contacto = () => {
                 </article>
                 <article className="flex flex-col mb-2">
                     <label
-                        className="font-medium"
+                        className="text-white ml-1 mb-1"
                         htmlFor="email">E-mail:</label>
                     <input
                         {...register("email")}
@@ -109,7 +109,7 @@ const Contacto = () => {
                 </article>
                 <article className="flex flex-col mb-2">
                     <label
-                        className="font-medium"
+                        className="text-white ml-1 mb-1"
                         htmlFor="telefono">Teléfono (opcional):</label>
                     <input
                         {...register("telefono")}
@@ -119,7 +119,7 @@ const Contacto = () => {
                 </article>
                 <article className="flex flex-col mb-2">
                     <label
-                        className="font-medium"
+                        className="text-white ml-1 mb-1"
                         htmlFor="asunto">Asunto:</label>
                     <input
                         {...register("asunto")}
@@ -129,7 +129,7 @@ const Contacto = () => {
                 </article>
                 <article className="flex flex-col mb-4">
                     <label
-                        className="font-medium"
+                        className="text-white ml-1 mb-1"
                         htmlFor="mensaje">Mensaje:</label>
                     <textarea
                         {...register("mensaje")}

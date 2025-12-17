@@ -53,27 +53,28 @@ const Busqueda = ({onBuscar, clase}) => {
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className={`rounded-md px-4 pt-2 pb-4 w-full sm:max-w-sm shadow-sm shadow-gray-600 ${clase && clase}`}>
-            <h1 className="text-center font-bold mb-1">Buscar fotos por fecha</h1>
+            className={`w-full sm:max-w-sm bg-gradient-to-bl from-[#6B9795] to-[#8fc9c5] p-2 pb-3 border-2 border-gray-500 rounded-xl overflow-hidden ${clase && clase} shadow-sm shadow-gray-500`}>
                 <div className="flex sm:gap-2 mb-5">
                     <article className="flex flex-col w-1/2 pr-1 sm:pr-0">
                         <label
-                            className="text-gray-500"
+                            className="text-black ml-1 mb-1"
                             htmlFor="fechaDesde">Desde:</label>
                         <input
                             {...register("fechaDesde")}
-                        className={`block bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 text-sm w-full ${errors.fechaDesde ? 'border-red-600' : 'border-[#858f7b]'}`}
-                            type="date" />
+                            className={`block bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 text-sm w-full ${errors.fechaDesde ? 'border-red-600' : 'border-[#858f7b]'}`}
+                        type="date"
+                        placeholder="Fecha"/>
                         {errors.fechaDesde && <InputError mensaje={errors.fechaDesde.message} />}
                     </article>
                     <article className="flex flex-col w-1/2 pl-1 sm:pl-0">
                         <label
-                        className="text-gray-500"
+                        className="text-black ml-1 mb-1"
                             htmlFor="fechaHasta">Hasta:</label>
                         <input
                             {...register("fechaHasta")}
-                        className={`block bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 text-sm w-full ${errors.fechaHasta ? 'border-red-600' : 'border-[#858f7b]'}`}
-                            type="date" />
+                            className={`block bg-[#bac7ad] focus:bg-amber-50  border-[1px] rounded-md px-2 py-1 text-sm w-full ${errors.fechaHasta ? 'border-red-600' : 'border-[#858f7b]'}`}
+                            type="date"
+                            placeholder="Fecha"/>
                         {errors.fechaHasta && <InputError mensaje={errors.fechaHasta.message} />}
                     </article>
                 </div>

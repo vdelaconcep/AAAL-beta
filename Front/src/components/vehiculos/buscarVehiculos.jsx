@@ -6,7 +6,10 @@ import InputError from "@/components/otros/inputError";
 import BotonPrimario from '@/components/botones/primario';
 import { getSuggestions } from '@/services/vehiculoServices';
 
-const BuscarVehiculos = ({ onBuscar, clase, valoresIniciales = {} }) => {
+const BuscarVehiculos = ({ onBuscar, clase, valoresIniciales}) => {
+
+    let {marca, modelo, desde, hasta} = valoresIniciales
+
     const anios = Array.from({ length: 2025 - 1880 + 1 }, (_, i) => 1880 + i).reverse();
     
     const validationSchema = Yup.object({
@@ -27,11 +30,11 @@ const BuscarVehiculos = ({ onBuscar, clase, valoresIniciales = {} }) => {
     });
 
     useEffect(() => {
-        setValue('marca', valoresIniciales.marca || '');
-        setValue('modelo', valoresIniciales.modelo || '');
-        setValue('desde', valoresIniciales.desde || '');
-        setValue('hasta', valoresIniciales.hasta || '');
-    }, [valoresIniciales.marca, valoresIniciales.modelo, valoresIniciales.desde, valoresIniciales.hasta, setValue]);
+        setValue('marca', marca || '');
+        setValue('modelo', modelo || '');
+        setValue('desde', desde || '');
+        setValue('hasta', hasta || '');
+    }, [valoresIniciales, setValue]);
 
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -127,17 +130,22 @@ const BuscarVehiculos = ({ onBuscar, clase, valoresIniciales = {} }) => {
 
     const onSubmit = (data) => {
         console.log('Datos enviados:', data);
-        onBuscar(data.marca || '', data.modelo || '', data.desde || '', data.hasta || '');
+        onBuscar({
+            marca: data.marca || '',
+            modelo: data.modelo || '',
+            desde: data.desde || '',
+            hasta: data.hasta || ''
+        });
     };
 
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className={`border-2 border-gray-500 rounded-xl overflow-hidden ${clase && clase}`}>
-            <div className='flex flex-col md:flex-row gap-2 mb-2 bg-gray-200 p-2'>
+            className={`bg-gradient-to-bl from-[#6B9795] to-[#8fc9c5] p-2 pb-3 border-2 border-gray-500 rounded-xl overflow-hidden ${clase && clase} shadow-sm shadow-gray-500`}>
+            <div className='flex flex-col md:flex-row gap-2'>
                 <article className="flex flex-col mb-2 w-full relative">
                     <label
-                        className="font-medium"
+                        className="text-black ml-1 mb-1"
                         htmlFor="marca">Marca:</label>
                     <input
                         {...register("marca")}
@@ -152,9 +160,10 @@ const BuscarVehiculos = ({ onBuscar, clase, valoresIniciales = {} }) => {
                             }
                         }}
                         onKeyDown={handleKeyDown}
-                        className={`bg-[#bac7ad] focus:bg-amber-50  border rounded-md px-2 py-1 ${errors.marca ? 'border-red-600' : 'border-[#858f7b]'}`}
+                        className={`bg-[#bac7ad] focus:bg-amber-50  border rounded-md px-2 py-1 ${errors.marca ? 'border-red-600' : 'border-gray-400'}`}
                         type="text"
-                        autoComplete="off"/>
+                        autoComplete="off"
+                        placeholder="Ej. Ford"/>
                     {errors.marca && <InputError mensaje={errors.marca.message} />}
                     {showSuggestions && suggestions.length > 0 && (
                         <ul
@@ -180,52 +189,50 @@ const BuscarVehiculos = ({ onBuscar, clase, valoresIniciales = {} }) => {
                 </article>
                 <article className="flex flex-col mb-2 w-full">
                     <label
-                        className="font-medium"
+                        className="text-black ml-1 mb-1"
                         htmlFor="modelo">Modelo:</label>
                     <input
                         {...register("modelo")}
-                        className={`bg-[#bac7ad] focus:bg-amber-50  border rounded-md px-2 py-1 ${errors.modelo ? 'border-red-600' : 'border-[#858f7b]'}`}
-                        type="text" />
+                        className={`bg-[#bac7ad] focus:bg-amber-50  border rounded-md px-2 py-1 ${errors.modelo ? 'border-red-600' : 'border-gray-400'}`}
+                        type="text"
+                        placeholder="Ej. Mustang"/>
                     {errors.modelo && <InputError mensaje={errors.modelo.message} />}
                 </article>
             </div>
-            <p className='px-2'>Buscar por año</p>
-            <div className='flex gap-2 p-2'>
-                <article className="flex flex-col mb-2 w-full">
+            <div className='flex gap-2 mb-4'>
+                <article className="flex flex-col w-full">
                     <label
-                        className="font-medium"
+                        className="text-black ml-1 mb-1"
                         htmlFor="desde">Desde:</label>
                     <select
                         {...register("desde")}
-                        className="bg-[#bac7ad] focus:bg-amber-50 border rounded-md px-2 py-1 border-[#858f7b]"
+                        className="bg-[#bac7ad] focus:bg-amber-50 border rounded-md px-2 py-1 border-gray-400"
                     >
-                        <option value="">Desde:</option>
+                        <option value="">Año</option>
                         {anios.map(anio => (
                             <option key={anio} value={anio}>{anio}</option>
                         ))}
                     </select>
                 </article>
-                <article className="flex flex-col mb-2 w-full">
+                <article className="flex flex-col w-full">
                     <label
-                        className="font-medium"
+                        className="text-black ml-1 mb-1"
                         htmlFor="hasta">Hasta:</label>
                     <select
                         {...register("hasta")}
-                        className="bg-[#bac7ad] focus:bg-amber-50 border rounded-md px-2 py-1 border-[#858f7b]"
+                        className="bg-[#bac7ad] focus:bg-amber-50 border rounded-md px-2 py-1 border-gray-400"
                     >
-                        <option value="">Hasta:</option>
+                        <option value="">Año</option>
                         {anios.map(anio => (
                             <option key={anio} value={anio}>{anio}</option>
                         ))}
                     </select>
                 </article>
             </div>
-            <div className="p-2">
-                <BotonPrimario
-                    tipo='submit'
-                    texto='Buscar'
-                    clase='rounded-md w-full py-1' />
-            </div>
+            <BotonPrimario
+                tipo='submit'
+                texto='Buscar'
+                clase='rounded-md w-full py-1' />
 
         </form>
     );

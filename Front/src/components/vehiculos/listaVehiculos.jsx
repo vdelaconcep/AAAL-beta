@@ -4,8 +4,11 @@ import { getAll, getFiltered } from '@/services/vehiculoServices';
 import ControlPagina from '@/components/otros/controlPagina';
 import Cargando from '@/components/otros/cargando';
 import { motion } from 'framer-motion';
+import ListaCard from '@/components/vehiculos/listaCard';
 
-const ListaVehiculos = ({ filter, marca, modelo, desde, hasta }) => {
+const ListaVehiculos = ({ filter, parametros }) => {
+
+    const { marca, modelo, desde, hasta } = parametros
 
     const { mostrarAlert } = useAlert();
 
@@ -54,12 +57,13 @@ const ListaVehiculos = ({ filter, marca, modelo, desde, hasta }) => {
                                 animate: { y: 0, opacity: 1 }
                             }))}>
                             {
-                                datos.map((dato, index) =>
-                                    <div key={dato.id}>
-                                        {dato.marca + dato.modelo + dato.anio}
-                                    </div>
+                                datos.map(dato =>
+                                    <ListaCard
+                                        key={dato.id}
+                                        vehiculo={dato} />
                                 )
                             }
+
                         </motion.div>
 
                         : <h6>No hay vehículos para mostrar</h6>)}

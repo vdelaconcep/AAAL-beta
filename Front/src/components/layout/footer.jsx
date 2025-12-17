@@ -11,7 +11,7 @@ const Footer = () => {
             <div className="sm:flex items-center mt-7 md:mt-10 gap-2 min-[450px]:justify-center">
                 <Login clase='mb-3 sm:mb-0' />
                 <span className="text-gray-600 text-[14px] md:text-lg hidden sm:block"> - </span>
-                <p className="text-gray-600 text-[14px] md:text-lg">Sitio web desarrollado por <span className="font-bold">DLC</span> <i className="fa-solid fa-crow"></i></p>
+                <p className="text-gray-600 text-[14px] md:text-lg">Sitio web desarrollado por <a href="https://portfolio-dlc.vercel.app/" title='Ir a portfolio de la desarrolladora' target="_blank" rel="noopener noreferrer"><span className="font-bold">DLC</span> <i className="fa-solid fa-crow"></i></a></p>
             </div>
             
         </footer>

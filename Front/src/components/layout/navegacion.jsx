@@ -44,7 +44,7 @@ const Navegacion = () => {
     return (
         <nav
             ref={navRef}
-            className="bg-[#6B9795] border-b-[2px] border-b-[#5b807e] md:text-[#d3fffd] md:text-xl relative md:pr-6"
+            className="bg-[#78a7a5] border-b-[2px] border-b-[#5b807e] md:text-[#d3fffd] md:text-xl relative md:pr-6"
         >
             <div className="flex justify-end md:hidden py-1 pr-4">
                 <motion.button
@@ -83,10 +83,10 @@ const Navegacion = () => {
             {/* Desplegable principal mobile */}
             <motion.ul
                 className={`flex-col md:flex md:flex-row justify-end md:space-x-2 overflow-hidden md:overflow-visible md:!h-auto md:!opacity-100 ${menuAbierto ? "absolute top-full left-0 w-full bg-gray-200 border-b-[3px] border-b-gray-400 md:border-none shadow-lg shadow-gray-800 z-70 md:static md:bg-transparent md:w-auto md:z-auto flex" : "md:flex hidden"}`}
+                style={{ opacity: `${menuAbierto ? 1 : 0}`}}
                 initial={false}
                 animate={{
-                    height: menuAbierto ? "auto" : 0,
-                    opacity: menuAbierto ? 1 : 0
+                    height: menuAbierto ? "auto" : 0
                 }}
                 transition={{ duration: 0.3 }}
             >
