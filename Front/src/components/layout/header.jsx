@@ -18,8 +18,8 @@ const Header = () => {
                     </Link>
                 </article>
                 
-                <article className='flex-col items-center justify-center text-center mx-2'>
-                    <h2 className={`${fontSizeTitulo} font-medium mrAlex text-shadow-lg text-shadow-black leading-none ${anchoTitulo}`}>
+                <article className='flex-col items-center justify-center text-center'>
+                    <h2 className={`${fontSizeTitulo} font-medium mrAlex text-shadow-lg text-shadow-black leading-none mx-2 ${anchoTitulo}`}>
                         <span className={primeraLetraTitulo}>A</span>SOCIACION DE <span className={primeraLetraTitulo}>A</span>UTOMOVILES <span className={primeraLetraTitulo}>A</span>NTIGUOS DE <span className={primeraLetraTitulo}>L</span>ANUS
                     </h2>
                     <h5 className='text-center italic text-sm sm:text-sm md:text-lg lg:text-xl sm:mt-1 text-[#ddc7d0] md:mt-2'>Fundada el 24 de septiembre del 2000</h5>
