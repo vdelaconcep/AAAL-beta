@@ -7,14 +7,15 @@ const Header = () => {
     const fontSizeTitulo = 'text-[1.6rem] min-[400px]:text-[2rem] min-[500px]:text-[2.2rem] sm:text-5xl lg:text-6xl'
     const anchoTitulo = 'max-w-[320px] min-[400px]:max-w-[370px] min-[500px]:max-w-[350px] sm:max-w-[500px] lg:max-w-[750px]'
     const primeraLetraTitulo = 'text-[2rem] min-[400px]:text-[2.2rem] min-[500px]:text-[2.6rem] sm:text-[3.3rem] lg:text-[4.2rem]'
-    const alturaLogo = 'max-h-[120px] sm:max-h-[170px] lg:max-h-[220px]'
+    const alturaLogo = 'h-[120px] min-[400px]:h-[150px] sm:h-auto sm:max-h-[170px] lg:max-h-[220px]'
 
     return (
-        <header className='bg-linear-to-b from-[#350a1b] to-[#8a1a47] py-3 px-2'>
+        <header className='bg-gradient-to-b from-[#350a1b] to-[#8a1a47] py-3 px-2'>
             <div className='flex min-[420px]:gap-1 text-white justify-center items-center w-full flex-col sm:flex-row'>
                 <article className='min-h-[120px]'>
                     <Link to="/">
-                        <img className={`aspect-ratio:1/1 ${alturaLogo} mb-2 sm:mb:0`} src={logo} alt="Logo Asociacion Automoviles Antiguos de Lanus" />
+                        <img className={`aspect-ratio:1/1 ${alturaLogo} mb-2 sm:mb-0`} src={logo} alt="Logo Asociacion Automoviles Antiguos de Lanus"
+                        loading='eager'/>
                     </Link>
                 </article>
                 
