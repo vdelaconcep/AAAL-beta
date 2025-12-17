@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 const Header = () => {
 
     // Responsive
-    const fontSizeTitulo = 'text-2xl min-[350px]:text-[1.5rem] min-[400px]:text-[1.6rem] min-[500px]:text-[2.2rem] sm:text-5xl lg:text-6xl'
+    const fontSizeTitulo = 'text-3xl min-[350px]:text-[1.5rem] min-[400px]:text-[1.6rem] min-[500px]:text-[2.2rem] sm:text-5xl lg:text-6xl'
     const anchoTitulo = 'max-w-[220px] min-[350px]:max-w-[240px] min-[400px]:max-w-[270px] min-[500px]:max-w-[350px] sm:max-w-[500px] lg:max-w-[750px]'
-    const primeraLetraTitulo = 'text-3xl min-[400px]:text-[2rem] min-[500px]:text-[2.6rem] sm:text-[3.3rem] lg:text-[4.2rem]'
+    const primeraLetraTitulo = 'text-4xl min-[400px]:text-[2rem] min-[500px]:text-[2.6rem] sm:text-[3.3rem] lg:text-[4.2rem]'
     const alturaLogo = 'max-h-[90px] min-[370px]:max-h-[120px] sm:max-h-[170px] lg:max-h-[220px]'
 
     return (
