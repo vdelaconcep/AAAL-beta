@@ -12,7 +12,7 @@ const Header = () => {
     return (
         <header className='bg-linear-to-b from-[#350a1b] to-[#8a1a47] py-3 px-2'>
             <div className='flex min-[420px]:gap-1 text-white justify-center items-center w-full flex-col sm:flex-row'>
-                <article>
+                <article className='min-h-[120px]'>
                     <Link to="/">
                         <img className={`aspect-ratio:1/1 ${alturaLogo} mb-2 sm:mb:0`} src={logo} alt="Logo Asociacion Automoviles Antiguos de Lanus" />
                     </Link>
