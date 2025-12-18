@@ -1,4 +1,4 @@
-import MensajesContacto from "../models/mensajesContacto.js";
+import MensajesContacto from "../models/contactoModel.js";
 
 const enviarMensajeContacto = async (req, res) => {
 

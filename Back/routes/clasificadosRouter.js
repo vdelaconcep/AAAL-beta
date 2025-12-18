@@ -2,14 +2,16 @@ import express from 'express';
 
 import {
     avisoNuevo,
+    aprobarAviso,
+    eliminarAviso,
     modificarAviso,
     obtenerAvisos
+
 } from '../controllers/clasificadosController.js';
 
-/* import {
-    validacionVehiculos,
-    validacionModificacionVehiculos
-} from '../helpers/vehiculosHelper.js'; */
+import {
+    validacionClasificados
+} from '../helpers/clasificadosHelper.js';
 
 import { validar } from '../middlewares/validator.js';
 
@@ -21,12 +23,18 @@ import multer from 'multer';
 const upload = multer({ dest: "uploads/" });
 
 // Ingresar aviso nuevo
-router.post('/nuevo', admin, upload.single('foto')/* , validacionVehiculos, validar */, avisoNuevo);
+router.post('/ingresar_nuevo', upload.single('foto'), validacionClasificados, validar, avisoNuevo);
+
+// Autorizar aviso
+router.put('/auth/:id', aprobarAviso);
+
+// Eliminar aviso
+router.delete('/eliminar/:id', eliminarAviso);
 
 // Modificar aviso
 router.put('/modificar', admin, upload.single('foto')/* , validacionModificacionVehiculos, validar */, modificarAviso);
 
-// Obtener todos los avisos (por página)
-router.get('/todos', obtenerAvisos);
+// Obtener avisos (por página)
+router.get('/:filter', obtenerAvisos);
 
 export default router;

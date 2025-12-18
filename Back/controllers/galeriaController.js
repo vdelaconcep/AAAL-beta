@@ -1,4 +1,4 @@
-import FotosGaleria from "../models/galeria.js";
+import FotosGaleria from "../models/galeriaModel.js";
 import dotenv from 'dotenv';
 dotenv.config();
 

@@ -1,4 +1,4 @@
-import MensajesComunidad from "../models/mensajesComunidad.js";
+import MensajesComunidad from "../models/comunidadModel.js";
 import dotenv from 'dotenv';
 dotenv.config();
 

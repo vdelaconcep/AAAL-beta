@@ -1,4 +1,4 @@
-import Vehiculos from "../models/vehiculos.js";
+import Vehiculos from "../models/vehiculosModel.js";
 import dotenv from 'dotenv';
 dotenv.config();
 

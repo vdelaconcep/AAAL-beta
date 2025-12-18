@@ -23,7 +23,7 @@ const Header = () => {
                     <h2 className={`${fontSizeTitulo} font-medium mrAlex text-shadow-lg text-shadow-black leading-none ${anchoTitulo}`}>
                         <span className={primeraLetraTitulo}>A</span>SOCIACION DE <span className={primeraLetraTitulo}>A</span>UTOMOVILES <span className={primeraLetraTitulo}>A</span>NTIGUOS DE <span className={primeraLetraTitulo}>L</span>ANUS
                     </h2>
-                    <h5 className='text-center italic text-sm sm:text-sm md:text-lg lg:text-xl sm:mt-1 text-[#ddc7d0] md:mt-2'>Fundada el 24 de septiembre del 2000</h5>
+                    <h5 className='text-center italic text-sm sm:text-sm md:text-lg lg:text-xl mt-1 text-[#ddc7d0] md:mt-2'>Fundada el 24 de septiembre del 2000</h5>
                 </article>
             </div>
         </header>

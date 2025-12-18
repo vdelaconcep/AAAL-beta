@@ -1,4 +1,4 @@
-import Comision from "../models/comisionDirectiva.js";
+import Comision from "../models/comisionModel.js";
 
 export const obtenerComision = async (req, res) => {
     try {
